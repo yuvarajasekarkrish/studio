@@ -11,7 +11,7 @@ export default function Products() {
           <div className="rounded-lg overflow-hidden shadow-2xl">
             <Image
               src="https://placehold.co/600x600.png"
-              alt="80% off fireworks sale"
+              alt="Assortment of colorful fireworks"
               width={600}
               height={600}
               className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-500"

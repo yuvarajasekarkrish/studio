@@ -10,14 +10,13 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const heroImages = [
   { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "vibrant fireworks" },
   { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "colorful explosion" },
   { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "night celebration" },
 ];
-
-const saleImageUrl = "https://storage.googleapis.com/maker-studio-5f296.appspot.com/user-hc0q0z2g0ywdjkkr942b0k7c/projects/clx20y0sx000b3b6u98w3h4h2/images/84729f2d-8854-469b-8f37-d2c69d82136e.png";
 
 export default function Hero() {
   return (
@@ -49,16 +48,17 @@ export default function Hero() {
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 text-white border-white bg-black/20 hover:bg-primary/80 hover:text-white" />
         </div>
       </Carousel>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-        <Link href="/products" className="w-full max-w-4xl px-4">
-            <Image
-              src={saleImageUrl}
-              alt="Diwali Sale up to 80% off on all crackers"
-              width={1031}
-              height={396}
-              className="w-full h-auto rounded-md shadow-2xl"
-              priority
-            />
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-10 text-white">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold drop-shadow-2xl mb-4 text-primary-foreground bg-black/30 px-6 py-2 rounded-lg">
+          Diwali Fireworks Sale
+        </h1>
+        <p className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 drop-shadow-lg text-accent animate-pulse">
+            UP TO 80% OFF!
+        </p>
+        <Link href="/products">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg shadow-lg">
+            Shop Now & Light Up Your Celebration!
+          </Button>
         </Link>
       </div>
     </section>
