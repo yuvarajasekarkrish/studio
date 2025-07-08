@@ -11,7 +11,7 @@ import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download, ShoppingCart } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download, ShoppingCart, Trash2 } from "lucide-react";
 
 const productData = [
   {
@@ -224,7 +224,7 @@ const productData = [
 export default function ProductsPage() {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-    const [checkoutStep, setCheckoutStep] = useState<'details' | 'review'>('details');
+    const [checkoutStep, setCheckoutStep] = useState<'cart' | 'details' | 'review'>('cart');
     const orderSummaryRef = useRef<HTMLDivElement>(null);
     const [customerName, setCustomerName] = useState('');
     const [customerPhone, setCustomerPhone] = useState('');
@@ -263,7 +263,7 @@ export default function ProductsPage() {
 
     const handleCheckout = () => {
         if (itemsInCart.length > 0) {
-            setCheckoutStep('details');
+            setCheckoutStep('cart');
             setIsCheckoutOpen(true);
         } else {
             alert("Your cart is empty. Please add some products before checking out.");
@@ -274,7 +274,6 @@ export default function ProductsPage() {
         if (isAddressFormValid) {
             setCheckoutStep('review');
         } else {
-            // This case should ideally not be hit if button is disabled, but as a fallback.
             alert("Please fill in all required delivery details.");
         }
     }
@@ -283,7 +282,6 @@ export default function ProductsPage() {
     const handleDownload = () => {
         const input = orderSummaryRef.current;
         if (input) {
-            // Use the scrollHeight to make sure html2canvas captures everything
             html2canvas(input, { scale: 2, useCORS: true, windowHeight: input.scrollHeight }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
@@ -295,13 +293,11 @@ export default function ProductsPage() {
                 let heightLeft = imgHeight;
                 let position = 0;
                 
-                // Add the first page
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
                 heightLeft -= pdfPageHeight;
                 
-                // Add new pages if the content is long
                 while (heightLeft > 0) {
-                    position -= pdfPageHeight; // Move the image "up" on the next page
+                    position -= pdfPageHeight;
                     pdf.addPage();
                     pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
                     heightLeft -= pdfPageHeight;
@@ -381,7 +377,7 @@ export default function ProductsPage() {
                     <div className="flex justify-end mt-8">
                         <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg" onClick={handleCheckout}>
                             <ShoppingCart className="mr-2 h-5 w-5" />
-                            Proceed to Checkout
+                            View Cart & Checkout
                             {itemsInCart.length > 0 && <span className="ml-2 bg-primary-foreground text-primary rounded-full px-2 py-0.5 text-xs font-bold">{itemsInCart.length}</span>}
                         </Button>
                     </div>
@@ -389,11 +385,80 @@ export default function ProductsPage() {
 
                 <Dialog open={isCheckoutOpen} onOpenChange={(open) => {
                     if (!open) {
-                        setCheckoutStep('details');
+                        setCheckoutStep('cart');
                     }
                     setIsCheckoutOpen(open);
                 }}>
                     <DialogContent className="sm:max-w-3xl bg-card">
+                       {checkoutStep === 'cart' && (
+                           <>
+                                <DialogHeader>
+                                    <DialogTitle className="text-primary font-headline">Your Shopping Cart</DialogTitle>
+                                    <DialogDescription>
+                                        Review and edit your items before proceeding to checkout.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="max-h-[60vh] overflow-y-auto p-1">
+                                    {itemsInCart.length > 0 ? (
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>Product</TableHead>
+                                                    <TableHead className="w-28 text-center">Quantity</TableHead>
+                                                    <TableHead className="text-right">Total</TableHead>
+                                                    <TableHead className="w-12"></TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {itemsInCart.map(product => (
+                                                    <TableRow key={product.title}>
+                                                        <TableCell className="font-medium">
+                                                            {product.title}
+                                                            <p className="text-sm text-muted-foreground">@ ₹{product.offerPrice} each</p>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Input
+                                                                type="number"
+                                                                min="1"
+                                                                value={quantities[product.title] || ''}
+                                                                onChange={(e) => handleQuantityChange(product.title, parseInt(e.target.value))}
+                                                                className="w-20 h-9 text-center mx-auto bg-input"
+                                                            />
+                                                        </TableCell>
+                                                        <TableCell className="text-right font-bold">
+                                                            ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(product.title, 0)}>
+                                                                <Trash2 className="h-4 w-4 text-destructive" />
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                            <TableFooter>
+                                                <TableRow className="bg-secondary hover:bg-secondary text-lg">
+                                                    <TableCell colSpan={2} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
+                                                    <TableCell className="text-right font-bold text-xl text-primary" colSpan={2}>₹{calculateGrandTotal()}</TableCell>
+                                                </TableRow>
+                                            </TableFooter>
+                                        </Table>
+                                    ) : (
+                                        <p className="text-center text-muted-foreground py-8">Your cart is empty.</p>
+                                    )}
+                                </div>
+                                <DialogFooter className="mt-4">
+                                    <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Continue Shopping</Button>
+                                    <Button
+                                        onClick={() => setCheckoutStep('details')}
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                                        disabled={itemsInCart.length === 0}
+                                    >
+                                        Proceed to Delivery Details
+                                    </Button>
+                                </DialogFooter>
+                           </>
+                       )}
                        {checkoutStep === 'details' && (
                             <>
                                 <DialogHeader>
@@ -471,7 +536,7 @@ export default function ProductsPage() {
                                     </div>
                                 </div>
                                 <DialogFooter className="mt-4">
-                                    <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Cancel</Button>
+                                    <Button variant="outline" onClick={() => setCheckoutStep('cart')}>Back to Cart</Button>
                                     <Button
                                         onClick={handleReviewOrder}
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary/50"
