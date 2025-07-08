@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Menu, X, Phone, Mail } from 'lucide-react';
+import { Sparkles, Menu, X, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { href: '/#about', label: 'About Us' },
   { href: '/products', label: 'Products' },
-  { href: '/#gallery', label: 'Gallery' },
-  { href: '/#contact', label: 'Contact' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 const WhatsAppBrandIcon = (props: React.SVGProps<SVGSVGElement>) => (
