@@ -9,7 +9,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const heroImages = [
@@ -17,6 +16,8 @@ const heroImages = [
   { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "colorful explosion" },
   { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "night celebration" },
 ];
+
+const saleImageUrl = "https://storage.googleapis.com/maker-studio-5f296.appspot.com/user-hc0q0z2g0ywdjkkr942b0k7c/projects/clx20y0sx000b3b6u98w3h4h2/images/84729f2d-8854-469b-8f37-d2c69d82136e.png";
 
 export default function Hero() {
   return (
@@ -48,17 +49,16 @@ export default function Hero() {
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 text-white border-white bg-black/20 hover:bg-primary/80 hover:text-white" />
         </div>
       </Carousel>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-        <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold drop-shadow-2xl">
-          Huge 80% Off Firework Sale!
-        </h1>
-        <p className="mt-4 max-w-3xl text-lg md:text-xl font-body drop-shadow-lg">
-          Light up the sky with incredible deals! Get a massive 80% discount on all our premium fireworks. Don't miss out on our biggest sale of the year!
-        </p>
-         <Link href="/products">
-          <Button size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary-foreground/20 hover:border-primary-foreground font-bold text-lg">
-            Shop the 80% Off Sale!
-          </Button>
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+        <Link href="/products" className="w-full max-w-4xl px-4">
+            <Image
+              src={saleImageUrl}
+              alt="Diwali Sale up to 80% off on all crackers"
+              width={1031}
+              height={396}
+              className="w-full h-auto rounded-md shadow-2xl"
+              priority
+            />
         </Link>
       </div>
     </section>
