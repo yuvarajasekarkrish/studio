@@ -55,7 +55,11 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold text-lg font-headline">Our Location</h3>
-                <p className="text-muted-foreground">123 Pyro Avenue, Celebration City, FL 12345</p>
+                <p className="text-muted-foreground">
+                  S.No: 172 /1, D.NO : 1/372 A,<br />
+                  Keelathiruthangal,<br />
+                  Virudhunagar road, Sivakasi - 626 123.
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -64,7 +68,7 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold text-lg font-headline">Call Us</h3>
-                <p className="text-muted-foreground">(123) 456-7890</p>
+                <p className="text-muted-foreground">(+91) 9843529357</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -73,7 +77,7 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold text-lg font-headline">Email Us</h3>
-                <p className="text-muted-foreground">contact@maharajpyro.com</p>
+                <p className="text-muted-foreground">maharajpyropark@gmail.com</p>
               </div>
             </div>
           </div>
