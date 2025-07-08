@@ -12,8 +12,8 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <Hero />
-        <About />
         <Products />
+        <About />
         <Gallery />
         <Contact />
       </main>

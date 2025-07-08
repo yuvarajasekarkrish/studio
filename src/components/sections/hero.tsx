@@ -20,7 +20,7 @@ const heroImages = [
 
 export default function Hero() {
   return (
-    <section id="home" className="relative w-full h-[80vh] min-h-[500px] max-h-[700px]">
+    <section id="home" className="relative w-full h-[60vh] min-h-[400px] max-h-[600px]">
       <Carousel
         className="w-full h-full"
         plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
@@ -52,7 +52,7 @@ export default function Hero() {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold drop-shadow-2xl mb-4 text-foreground bg-black/30 px-6 py-2 rounded-lg">
           Diwali Fireworks Sale
         </h1>
-        <p className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 drop-shadow-lg text-accent animate-pulse">
+        <p className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 drop-shadow-lg text-accent animate-pulse">
             UP TO 80% OFF!
         </p>
         <Link href="/products">
@@ -60,6 +60,9 @@ export default function Hero() {
             Shop Now & Light Up Your Celebration!
           </Button>
         </Link>
+        <p className="mt-4 text-lg font-semibold bg-black/40 px-4 py-1 rounded-md">
+            Delivery available all over INDIA
+        </p>
       </div>
     </section>
   );
