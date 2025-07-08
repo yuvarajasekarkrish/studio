@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
-import { Rocket, Sparkles, Star, Zap } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets } from "lucide-react";
 
 const productData = [
   {
@@ -55,6 +55,82 @@ const productData = [
     icon: <Zap />,
     items: [
       { title: "Bullet Bomb", actualPrice: "155", offerPrice: "31" },
+      { title: "Atom Bomb", actualPrice: "295", offerPrice: "59" },
+      { title: "Hydro Bomb", actualPrice: "395", offerPrice: "79" },
+      { title: "King Bomb", actualPrice: "490", offerPrice: "98" },
+      { title: "Classic Bomb", actualPrice: "735", offerPrice: "147" },
+      { title: "Paper Bomb 1/4 kg Small", actualPrice: "300", offerPrice: "60" },
+      { title: "Paper Bomb 1/2 kg (Big)", actualPrice: "600", offerPrice: "120" },
+      { title: "Paper Bomb 1Kg (Big)", actualPrice: "1200", offerPrice: "240" },
+      { title: "Digital Bomb", actualPrice: "1300", offerPrice: "260" },
+    ],
+  },
+  {
+    category: "Pencil",
+    icon: <Pencil />,
+    items: [
+      { title: "Ultra pencil", actualPrice: "460", offerPrice: "92" },
+      { title: "Selfi Stick (Enjoy)", actualPrice: "260", offerPrice: "52" },
+    ],
+  },
+  {
+    category: "Twinkling Star",
+    icon: <Sparkles />,
+    items: [
+      { title: "1 1/2\" Twinkling Star", actualPrice: "175", offerPrice: "35" },
+      { title: "4\" Twinkling Star", actualPrice: "470", offerPrice: "94" },
+    ],
+  },
+  {
+    category: "Rocket",
+    icon: <Rocket />,
+    items: [
+      { title: "Baby Rocket", actualPrice: "245", offerPrice: "49" },
+      { title: "Rocket Bomb", actualPrice: "435", offerPrice: "87" },
+      { title: "2 Sound Rocket", actualPrice: "900", offerPrice: "180" },
+      { title: "Lunick Rocket", actualPrice: "850", offerPrice: "170" },
+    ],
+  },
+  {
+    category: "Fancy",
+    icon: <Gift />,
+    items: [
+      { title: "Tri Colour", actualPrice: "1800", offerPrice: "360" },
+      { title: "Peacock Small", actualPrice: "900", offerPrice: "180" },
+      { title: "Peacock Bada", actualPrice: "3000", offerPrice: "600" },
+      { title: "Peacock Feather", actualPrice: "525", offerPrice: "105" },
+    ],
+  },
+  {
+    category: "Shower",
+    icon: <CloudDrizzle />,
+    items: [
+      { title: "Cocktail", actualPrice: "785", offerPrice: "157" },
+      { title: "Chotta Bheam (5pcs)", actualPrice: "920", offerPrice: "184" },
+      { title: "Ashrafi Shower (5pcs)", actualPrice: "525", offerPrice: "105" },
+    ],
+  },
+  {
+    category: "Fancy Novelties",
+    icon: <ToyBrick />,
+    items: [
+      { title: "Helicopter", actualPrice: "575", offerPrice: "115" },
+      { title: "Drone", actualPrice: "1160", offerPrice: "232" },
+      { title: "Butterfly", actualPrice: "425", offerPrice: "85" },
+      { title: "Bambaram & Googly Red", actualPrice: "680", offerPrice: "136" },
+      { title: "Photo Flash", actualPrice: "770", offerPrice: "154" },
+      { title: "Photo Flash Red", actualPrice: "825", offerPrice: "165" },
+      { title: "Photo Flash Silver", actualPrice: "300", offerPrice: "60" },
+      { title: "Siren Mega (2 Pcs)", actualPrice: "1330", offerPrice: "266" },
+      { title: "Smoke", actualPrice: "1155", offerPrice: "231" },
+    ],
+  },
+  {
+    category: "Fountain",
+    icon: <Droplets />,
+    items: [
+      { title: "Four Square", actualPrice: "2020", offerPrice: "404" },
+      { title: "20x20 King Of Hitler", actualPrice: "750", offerPrice: "150" },
     ],
   },
 ];
