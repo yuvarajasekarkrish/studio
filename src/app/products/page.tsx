@@ -10,7 +10,7 @@ import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download, ShoppingCart } from "lucide-react";
 
 const productData = [
   {
@@ -223,6 +223,7 @@ const productData = [
 export default function ProductsPage() {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const [checkoutStep, setCheckoutStep] = useState<'details' | 'review'>('details');
     const orderSummaryRef = useRef<HTMLDivElement>(null);
     const [customerName, setCustomerName] = useState('');
     const [customerPhone, setCustomerPhone] = useState('');
@@ -257,13 +258,26 @@ export default function ProductsPage() {
         .flatMap(c => c.items)
         .filter(p => (quantities[p.title] || 0) > 0);
 
+    const isAddressFormValid = !!(customerName && customerPhone && customerAddress1 && customerCity && customerPincode);
+
     const handleCheckout = () => {
         if (itemsInCart.length > 0) {
+            setCheckoutStep('details');
             setIsCheckoutOpen(true);
         } else {
             alert("Your cart is empty. Please add some products before checking out.");
         }
     }
+    
+    const handleReviewOrder = () => {
+        if (isAddressFormValid) {
+            setCheckoutStep('review');
+        } else {
+            // This case should ideally not be hit if button is disabled, but as a fallback.
+            alert("Please fill in all required delivery details.");
+        }
+    }
+
 
     const handleDownload = () => {
         const elementToCapture = orderSummaryRef.current;
@@ -348,149 +362,177 @@ export default function ProductsPage() {
                     </Table>
                     <div className="flex justify-end mt-8">
                         <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg" onClick={handleCheckout}>
+                            <ShoppingCart className="mr-2 h-5 w-5" />
                             Proceed to Checkout
+                            {itemsInCart.length > 0 && <span className="ml-2 bg-primary-foreground text-primary rounded-full px-2 py-0.5 text-xs font-bold">{itemsInCart.length}</span>}
                         </Button>
                     </div>
                 </div>
 
-                <Dialog open={isCheckoutOpen} onOpenChange={setIsCheckoutOpen}>
+                <Dialog open={isCheckoutOpen} onOpenChange={(open) => {
+                    if (!open) {
+                        setCheckoutStep('details');
+                    }
+                    setIsCheckoutOpen(open);
+                }}>
                     <DialogContent className="sm:max-w-3xl bg-card">
-                        <DialogHeader>
-                            <DialogTitle className="text-primary font-headline">Checkout</DialogTitle>
-                            <DialogDescription>
-                                Please provide your delivery details and review your order.
-                            </DialogDescription>
-                        </DialogHeader>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="customer-name">Full Name</Label>
-                                <Input
-                                    id="customer-name"
-                                    value={customerName}
-                                    onChange={(e) => setCustomerName(e.target.value)}
-                                    placeholder="John Doe"
-                                    className="bg-input"
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="customer-phone">Phone Number</Label>
-                                <Input
-                                    id="customer-phone"
-                                    type="tel"
-                                    value={customerPhone}
-                                    onChange={(e) => setCustomerPhone(e.target.value)}
-                                    placeholder="(+91) 98765 43210"
-                                    className="bg-input"
-                                    required
-                                />
-                            </div>
-                            <div className="md:col-span-2 space-y-2">
-                                <Label htmlFor="address-line1">Address Line 1</Label>
-                                <Input
-                                    id="address-line1"
-                                    value={customerAddress1}
-                                    onChange={(e) => setCustomerAddress1(e.target.value)}
-                                    placeholder="House No, Street Name"
-                                    className="bg-input"
-                                    required
-                                />
-                            </div>
-                            <div className="md:col-span-2 space-y-2">
-                                <Label htmlFor="address-line2">Address Line 2 (Optional)</Label>
-                                <Input
-                                    id="address-line2"
-                                    value={customerAddress2}
-                                    onChange={(e) => setCustomerAddress2(e.target.value)}
-                                    placeholder="Apartment, suite, etc."
-                                    className="bg-input"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="city">City</Label>
-                                <Input
-                                    id="city"
-                                    value={customerCity}
-                                    onChange={(e) => setCustomerCity(e.target.value)}
-                                    placeholder="Sivakasi"
-                                    className="bg-input"
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="pincode">Pincode</Label>
-                                <Input
-                                    id="pincode"
-                                    value={customerPincode}
-                                    onChange={(e) => setCustomerPincode(e.target.value)}
-                                    placeholder="626123"
-                                    className="bg-input"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div ref={orderSummaryRef} className="p-6 bg-background rounded-md border">
-                            <div className="flex justify-between items-center mb-6 pb-4 border-b">
-                                <div className="flex items-center gap-3">
-                                    <Sparkles className="h-8 w-8 text-primary" />
-                                    <span className="font-bold text-2xl font-headline text-primary">Maharaj Pyropark</span>
+                       {checkoutStep === 'details' && (
+                            <>
+                                <DialogHeader>
+                                    <DialogTitle className="text-primary font-headline">Delivery Details</DialogTitle>
+                                    <DialogDescription>
+                                        Please provide your delivery address and contact information.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="customer-name">Full Name</Label>
+                                        <Input
+                                            id="customer-name"
+                                            value={customerName}
+                                            onChange={(e) => setCustomerName(e.target.value)}
+                                            placeholder="John Doe"
+                                            className="bg-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="customer-phone">Phone Number</Label>
+                                        <Input
+                                            id="customer-phone"
+                                            type="tel"
+                                            value={customerPhone}
+                                            onChange={(e) => setCustomerPhone(e.target.value)}
+                                            placeholder="(+91) 98765 43210"
+                                            className="bg-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <Label htmlFor="address-line1">Address Line 1</Label>
+                                        <Input
+                                            id="address-line1"
+                                            value={customerAddress1}
+                                            onChange={(e) => setCustomerAddress1(e.target.value)}
+                                            placeholder="House No, Street Name"
+                                            className="bg-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <Label htmlFor="address-line2">Address Line 2 (Optional)</Label>
+                                        <Input
+                                            id="address-line2"
+                                            value={customerAddress2}
+                                            onChange={(e) => setCustomerAddress2(e.target.value)}
+                                            placeholder="Apartment, suite, etc."
+                                            className="bg-input"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="city">City</Label>
+                                        <Input
+                                            id="city"
+                                            value={customerCity}
+                                            onChange={(e) => setCustomerCity(e.target.value)}
+                                            placeholder="Sivakasi"
+                                            className="bg-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="pincode">Pincode</Label>
+                                        <Input
+                                            id="pincode"
+                                            value={customerPincode}
+                                            onChange={(e) => setCustomerPincode(e.target.value)}
+                                            placeholder="626123"
+                                            className="bg-input"
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-GB')}</p>
-                            </div>
-                            
-                            <div className="mb-6">
-                                <h3 className="font-bold text-lg font-headline mb-2 text-primary">Delivery Details</h3>
-                                <div className="text-sm space-y-1 text-foreground">
-                                    <p><span className="font-semibold">Name:</span> {customerName || ' '}</p>
-                                    <p><span className="font-semibold">Phone:</span> {customerPhone || ' '}</p>
-                                    <p className="font-semibold">Address:</p>
-                                    <p>{customerAddress1 || ' '}</p>
-                                    {customerAddress2 && <p>{customerAddress2}</p>}
-                                    {(customerCity || customerPincode) && (
-                                        <p>{customerCity}{customerCity && customerPincode ? ', ' : ''}{customerPincode}</p>
-                                    )}
-                                </div>
-                            </div>
+                                <DialogFooter className="mt-4">
+                                    <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Cancel</Button>
+                                    <Button
+                                        onClick={handleReviewOrder}
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary/50"
+                                        disabled={!isAddressFormValid}
+                                    >
+                                        Review Order
+                                    </Button>
+                                </DialogFooter>
+                            </>
+                       )}
+                       {checkoutStep === 'review' && (
+                            <>
+                                <DialogHeader>
+                                    <DialogTitle className="text-primary font-headline">Review Your Order</DialogTitle>
+                                    <DialogDescription>
+                                        Please check your order and delivery details before confirming.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div ref={orderSummaryRef} className="p-6 bg-background rounded-md border my-4 max-h-[50vh] overflow-y-auto">
+                                    <div className="flex justify-between items-center mb-6 pb-4 border-b">
+                                        <div className="flex items-center gap-3">
+                                            <Sparkles className="h-8 w-8 text-primary" />
+                                            <span className="font-bold text-2xl font-headline text-primary">Maharaj Pyropark</span>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-GB')}</p>
+                                    </div>
+                                    
+                                    <div className="mb-6">
+                                        <h3 className="font-bold text-lg font-headline mb-2 text-primary">Delivery Details</h3>
+                                        <div className="text-sm space-y-1 text-foreground">
+                                            <p><span className="font-semibold">Name:</span> {customerName || ' '}</p>
+                                            <p><span className="font-semibold">Phone:</span> {customerPhone || ' '}</p>
+                                            <p className="font-semibold">Address:</p>
+                                            <p>{customerAddress1 || ' '}</p>
+                                            {customerAddress2 && <p>{customerAddress2}</p>}
+                                            {(customerCity || customerPincode) && (
+                                                <p>{customerCity}{customerCity && customerPincode ? ', ' : ''}{customerPincode}</p>
+                                            )}
+                                        </div>
+                                    </div>
 
-                            <Table>
-                                <TableHeader>
-                                    <TableRow className="hover:bg-transparent border-b-primary/20">
-                                        <TableHead className="w-3/5">Product</TableHead>
-                                        <TableHead className="text-center">Qty</TableHead>
-                                        <TableHead className="text-right">Price</TableHead>
-                                        <TableHead className="text-right">Total</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {itemsInCart.map(product => (
-                                        <TableRow key={product.title} className="hover:bg-secondary/30">
-                                            <TableCell className="font-medium">{product.title}</TableCell>
-                                            <TableCell className="text-center">{quantities[product.title]}</TableCell>
-                                            <TableCell className="text-right">₹{product.offerPrice}</TableCell>
-                                            <TableCell className="text-right font-bold">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                                <TableFooter>
-                                    <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
-                                        <TableCell colSpan={3} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                        <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
-                                    </TableRow>
-                                </TableFooter>
-                            </Table>
-                        </div>
-                        <DialogFooter className="mt-4">
-                            <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Continue Shopping</Button>
-                            <Button 
-                                onClick={handleDownload} 
-                                className="bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary/50"
-                                disabled={!customerName || !customerPhone || !customerAddress1 || !customerCity || !customerPincode}
-                            >
-                                <Download className="mr-2 h-4 w-4" /> Download as Image
-                            </Button>
-                        </DialogFooter>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="hover:bg-transparent border-b-primary/20">
+                                                <TableHead className="w-3/5">Product</TableHead>
+                                                <TableHead className="text-center">Qty</TableHead>
+                                                <TableHead className="text-right">Price</TableHead>
+                                                <TableHead className="text-right">Total</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {itemsInCart.map(product => (
+                                                <TableRow key={product.title} className="hover:bg-secondary/30">
+                                                    <TableCell className="font-medium">{product.title}</TableCell>
+                                                    <TableCell className="text-center">{quantities[product.title]}</TableCell>
+                                                    <TableCell className="text-right">₹{product.offerPrice}</TableCell>
+                                                    <TableCell className="text-right font-bold">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                        <TableFooter>
+                                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
+                                                <TableCell colSpan={3} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
+                                                <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                            </TableRow>
+                                        </TableFooter>
+                                    </Table>
+                                </div>
+                                <DialogFooter className="mt-4">
+                                    <Button variant="outline" onClick={() => setCheckoutStep('details')}>Back to Details</Button>
+                                    <Button 
+                                        onClick={handleDownload} 
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                                    >
+                                        <Download className="mr-2 h-4 w-4" /> Confirm & Download Order
+                                    </Button>
+                                </DialogFooter>
+                            </>
+                       )}
                     </DialogContent>
                 </Dialog>
 
