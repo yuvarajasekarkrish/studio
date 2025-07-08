@@ -187,6 +187,32 @@ const productData = [
       { title: "50 cm Colour Sparklers", actualPrice: "950", offerPrice: "190" },
       { title: "50 cm Royal Mix Sparklers", actualPrice: "1200", offerPrice: "240" },
     ]
+  },
+  {
+    category: "Chorsa",
+    icon: <Flame />,
+    items: [
+      { title: "Red Bijli (100 pcs)", actualPrice: "300", offerPrice: "60" },
+      { title: "Stripped Bijli (100 pcs)", actualPrice: "325", offerPrice: "65" },
+      { title: "Red Bijli (50 pcs)", actualPrice: "210", offerPrice: "42" },
+    ]
+  },
+  {
+    category: "2024 New Varieties",
+    icon: <Gift />,
+    items: [
+      { title: "90 Walts", actualPrice: "750", offerPrice: "150" },
+      { title: "Shin Chan", actualPrice: "475", offerPrice: "95" },
+      { title: "Top Gun", actualPrice: "900", offerPrice: "180" },
+      { title: "12 Shot Rider (Long)", actualPrice: "700", offerPrice: "140" },
+      { title: "25 Shot Rider", actualPrice: "1100", offerPrice: "220" },
+      { title: "50 Shot Rider", actualPrice: "2200", offerPrice: "440" },
+      { title: "1 3/4\" Pipe (3 in One)", actualPrice: "1350", offerPrice: "270" },
+      { title: "Snake Tablet (10 box)", actualPrice: "150", offerPrice: "30" },
+      { title: "Assorted Cartoon", actualPrice: "350", offerPrice: "70" },
+      { title: "Sky Shot Green crackling(10 pcs)", actualPrice: "1000", offerPrice: "200" },
+      { title: "Water Falls Pencil", actualPrice: "1250", offerPrice: "250" },
+    ]
   }
 ];
 
