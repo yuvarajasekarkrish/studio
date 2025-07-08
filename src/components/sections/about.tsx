@@ -19,12 +19,12 @@ export default function About() {
           <div className="order-1 md:order-2">
             <div className="rounded-lg overflow-hidden shadow-2xl">
                 <Image
-                    src="https://placehold.co/600x450.png"
-                    alt="The Maharaj Pyropark team"
+                    src="https://maharajpyropark.in/static/media/diwali-sale.8e9a7ea214bcd57de1f9.png"
+                    alt="Diwali sale banner for Maharaj Pyropark"
                     width={600}
                     height={450}
                     className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-500"
-                    data-ai-hint="team portrait"
+                    data-ai-hint="fireworks sale"
                 />
             </div>
           </div>
