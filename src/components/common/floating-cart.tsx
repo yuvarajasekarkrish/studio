@@ -63,6 +63,7 @@ export default function FloatingCart() {
     const handleDownload = () => {
         const input = orderSummaryRef.current;
         if (input) {
+            input.scrollTop = 0;
             html2canvas(input, { scale: 2, useCORS: true, windowHeight: input.scrollHeight }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
