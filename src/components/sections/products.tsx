@@ -1,33 +1,57 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Rocket, Sparkles, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const products = [
+const productData = [
   {
-    icon: <Rocket className="w-10 h-10 text-primary" />,
-    title: "Skyblazer Rockets (Pack of 12)",
-    description: "Our best-selling rockets, perfect for adding a high-flying spectacle to any celebration.",
-    price: "$49.99",
+    category: "One Sound Crackers",
+    icon: <Rocket className="w-8 h-8 text-primary" />,
+    items: [
+      { title: "2 3/4\" Kuruvi Crackers", actualPrice: "75", offerPrice: "15" },
+      { title: "3 1/2\" Lakshmi Crackers", actualPrice: "120", offerPrice: "24" },
+      { title: "4\" Lakshmi special Crackers", actualPrice: "150", offerPrice: "30" },
+      { title: "4\" Lakshmi Deluxe Crackers", actualPrice: "195", offerPrice: "39" },
+      { title: "4\"Gold Lakshmi Crackers", actualPrice: "220", offerPrice: "44" },
+      { title: "2 Sound Crackers", actualPrice: "215", offerPrice: "43" },
+      { title: "3 Sound Crackers", actualPrice: "300", offerPrice: "60" },
+      { title: "Lion Gun", actualPrice: "475", offerPrice: "95" },
+    ],
   },
   {
-    icon: <Sparkles className="w-10 h-10 text-primary" />,
-    title: "Grand Finale Assortment",
-    description: "A complete show in a box. Everything you need for a jaw-dropping 5-minute finale.",
-    price: "$199.99",
+    category: "Chakkar",
+    icon: <Sparkles className="w-8 h-8 text-primary" />,
+    items: [
+      { title: "Chakkaram Big", actualPrice: "300", offerPrice: "60" },
+      { title: "Chakkaram Special", actualPrice: "590", offerPrice: "118" },
+      { title: "Chakkaram Deluxe", actualPrice: "1000", offerPrice: "200" },
+      { title: "Hot Wheel", actualPrice: "450", offerPrice: "90" },
+      { title: "Spin Master Mini", actualPrice: "540", offerPrice: "108" },
+    ],
   },
   {
-    icon: <Star className="w-10 h-10 text-primary" />,
-    title: "Sparkler Bonanza (50 pieces)",
-    description: "Safe and fun for all ages. Bright, long-lasting golden sparklers for everyone to enjoy.",
-    price: "$24.99",
+    category: "Flower Pots",
+    icon: <Star className="w-8 h-8 text-primary" />,
+    items: [
+      { title: "Flower Pots Bomb", actualPrice: "500", offerPrice: "100" },
+      { title: "Flower Pots Big", actualPrice: "600", offerPrice: "120" },
+      { title: "Flower Pots Special", actualPrice: "875", offerPrice: "175" },
+      { title: "Flower Pots Giant", actualPrice: "1315", offerPrice: "263" },
+      { title: "Flower Pots Super (5 pcs)", actualPrice: "1570", offerPrice: "314" },
+      { title: "Colour Koti Special", actualPrice: "1115", offerPrice: "223" },
+      { title: "Colour Koti", actualPrice: "1970", offerPrice: "394" },
+      { title: "Colour Koti Deluxe", actualPrice: "2920", offerPrice: "584" },
+      { title: "Flower Pots Asoka", actualPrice: "860", offerPrice: "172" },
+    ],
   },
   {
-    icon: <Zap className="w-10 h-10 text-primary" />,
-    title: "ColorBurst Fountains (Set of 3)",
-    description: "Create a vibrant ground-level display with these long-lasting, multi-color fountains.",
-    price: "$79.99",
+    category: "Bomb",
+    icon: <Zap className="w-8 h-8 text-primary" />,
+    items: [
+      { title: "Bullet Bomb", actualPrice: "155", offerPrice: "31" },
+    ],
   },
 ];
+
 
 export default function Products() {
   return (
@@ -38,30 +62,40 @@ export default function Products() {
             Our Products
           </h2>
           <p className="max-w-2xl mx-auto text-lg">
-            Bring the excitement home with our premium selection of consumer fireworks.
+            Bring the excitement home with our premium selection of consumer fireworks. All prices are inclusive of taxes. Enjoy an 80% discount on all items!
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
-            <Card key={index} className="flex flex-col text-center bg-card border-border/60 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-              <CardContent className="pt-8 flex flex-col items-center gap-4 flex-grow">
-                <div className="bg-primary/10 p-4 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  {product.icon}
-                </div>
-                <CardHeader className="p-0">
-                  <CardTitle className="font-headline text-xl">{product.title}</CardTitle>
-                </CardHeader>
-                <CardDescription className="text-base px-4">
-                  {product.description}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="flex flex-col items-center justify-end pt-4">
-                  <p className="text-2xl font-bold text-primary mb-4">{product.price}</p>
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Add to Cart
-                  </Button>
-              </CardFooter>
-            </Card>
+        
+        <div className="space-y-12">
+          {productData.map((category, index) => (
+            <div key={index}>
+              <div className="flex items-center gap-4 mb-8">
+                {category.icon}
+                <h3 className="text-2xl md:text-3xl font-headline font-bold">{category.category}</h3>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {category.items.map((product, pIndex) => (
+                  <Card key={pIndex} className="flex flex-col text-center bg-card border-border/60 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
+                    <CardHeader className="pt-6 pb-2">
+                      <CardTitle className="font-headline text-xl h-12 flex items-center justify-center">{product.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-center gap-2 flex-grow justify-center">
+                      <p className="text-muted-foreground text-lg line-through">
+                        MRP: ₹{product.actualPrice}
+                      </p>
+                      <p className="text-3xl font-bold text-primary">
+                        Offer: ₹{product.offerPrice}
+                      </p>
+                    </CardContent>
+                    <CardFooter className="flex flex-col items-center justify-end pt-4 pb-6">
+                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                            Add to Cart
+                        </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
