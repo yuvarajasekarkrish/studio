@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download } from "lucide-react";
 
 const productData = [
@@ -223,6 +225,9 @@ export default function ProductsPage() {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const orderSummaryRef = useRef<HTMLDivElement>(null);
+    const [customerName, setCustomerName] = useState('');
+    const [customerPhone, setCustomerPhone] = useState('');
+    const [customerAddress, setCustomerAddress] = useState('');
 
     const handleQuantityChange = (title: string, quantity: number) => {
         setQuantities(prev => ({
@@ -349,11 +354,50 @@ export default function ProductsPage() {
                 <Dialog open={isCheckoutOpen} onOpenChange={setIsCheckoutOpen}>
                     <DialogContent className="sm:max-w-3xl bg-card">
                         <DialogHeader>
-                            <DialogTitle className="text-primary font-headline">Order Summary</DialogTitle>
+                            <DialogTitle className="text-primary font-headline">Checkout</DialogTitle>
                             <DialogDescription>
-                                Review your order below. You can download a copy for your records.
+                                Please provide your delivery details and review your order.
                             </DialogDescription>
                         </DialogHeader>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="customer-name">Full Name</Label>
+                                <Input
+                                    id="customer-name"
+                                    value={customerName}
+                                    onChange={(e) => setCustomerName(e.target.value)}
+                                    placeholder="John Doe"
+                                    className="bg-input"
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="customer-phone">Phone Number</Label>
+                                <Input
+                                    id="customer-phone"
+                                    type="tel"
+                                    value={customerPhone}
+                                    onChange={(e) => setCustomerPhone(e.target.value)}
+                                    placeholder="(+91) 98765 43210"
+                                    className="bg-input"
+                                    required
+                                />
+                            </div>
+                            <div className="md:col-span-2 space-y-2">
+                                <Label htmlFor="customer-address">Delivery Address</Label>
+                                <Textarea
+                                    id="customer-address"
+                                    value={customerAddress}
+                                    onChange={(e) => setCustomerAddress(e.target.value)}
+                                    placeholder="Your full delivery address"
+                                    rows={3}
+                                    className="bg-input"
+                                    required
+                                />
+                            </div>
+                        </div>
+
                         <div ref={orderSummaryRef} className="p-6 bg-background rounded-md border">
                             <div className="flex justify-between items-center mb-6 pb-4 border-b">
                                 <div className="flex items-center gap-3">
@@ -362,6 +406,17 @@ export default function ProductsPage() {
                                 </div>
                                 <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-GB')}</p>
                             </div>
+                            
+                            <div className="mb-6">
+                                <h3 className="font-bold text-lg font-headline mb-2 text-primary">Delivery Details</h3>
+                                <div className="text-sm space-y-1 text-foreground">
+                                    <p><span className="font-semibold">Name:</span> {customerName || ' '}</p>
+                                    <p><span className="font-semibold">Phone:</span> {customerPhone || ' '}</p>
+                                    <p className="font-semibold">Address:</p>
+                                    <p className="whitespace-pre-wrap">{customerAddress || ' '}</p>
+                                </div>
+                            </div>
+
                             <Table>
                                 <TableHeader>
                                     <TableRow className="hover:bg-transparent border-b-primary/20">
@@ -391,7 +446,11 @@ export default function ProductsPage() {
                         </div>
                         <DialogFooter className="mt-4">
                             <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Continue Shopping</Button>
-                            <Button onClick={handleDownload} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                            <Button 
+                                onClick={handleDownload} 
+                                className="bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary/50"
+                                disabled={!customerName || !customerPhone || !customerAddress}
+                            >
                                 <Download className="mr-2 h-4 w-4" /> Download as Image
                             </Button>
                         </DialogFooter>
