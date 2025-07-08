@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Menu, X, Mail } from 'lucide-react';
+import { Sparkles, Menu, X, Mail, Truck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
@@ -26,6 +26,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="bg-secondary/50 py-1 border-b border-border/40">
         <div className="container max-w-7xl mx-auto flex justify-center md:justify-end items-center gap-4 md:gap-6 text-sm px-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <Truck className="w-4 h-4" />
+                <span className="hidden sm:inline">All India Delivery</span>
+            </div>
             <a href="https://wa.me/919843529357" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <WhatsAppBrandIcon className="w-4 h-4 text-green-500" />
                 <span className="hidden sm:inline">(+91) 9843529357</span>

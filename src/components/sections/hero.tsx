@@ -18,7 +18,7 @@ export default function Hero() {
               src="https://maharajpyropark.in/static/media/home_banner_1.b18b8819e09fbecbff12.jpg"
               alt="Diwali fireworks sale banner"
               fill
-              className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
+              className="object-cover w-full h-full"
               priority
             />
            </Link>
@@ -29,9 +29,6 @@ export default function Hero() {
                 Shop Now & Light Up Your Celebration!
               </Button>
             </Link>
-            <p className="mt-4 text-lg font-semibold text-muted-foreground">
-                Delivery available all over INDIA
-            </p>
         </div>
       </div>
     </section>
