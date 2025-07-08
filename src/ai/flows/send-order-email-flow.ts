@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A flow to handle sending an order confirmation email.
@@ -17,6 +18,8 @@ const SendOrderEmailInputSchema = z.object({
   customerCity: z.string().describe('The city of the customer.'),
   customerPincode: z.string().describe("The pincode of the customer's address."),
   cartItemsText: z.string().describe('A formatted string of all items in the cart.'),
+  subtotal: z.string().describe('The subtotal of the order before additional costs.'),
+  packagingCost: z.string().describe('The fixed packaging cost for the order.'),
   grandTotal: z.string().describe('The grand total of the order.'),
   orderDate: z.string().describe('The date and time the order was placed.'),
 });
@@ -42,6 +45,8 @@ Delivery Address: {{customerAddress1}}{{#if customerAddress2}}, {{customerAddres
 Order Items:
 {{{cartItemsText}}}
 
+Subtotal: {{subtotal}}
+Packaging Cost: {{packagingCost}}
 Grand Total: {{grandTotal}}
 
 Order placed on: {{orderDate}}

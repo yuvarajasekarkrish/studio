@@ -227,6 +227,7 @@ const productData = [
 
 
 export default function ProductsPage() {
+    const PACKAGING_COST = 200;
     const { toast } = useToast();
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -278,7 +279,7 @@ export default function ProductsPage() {
         return (parseFloat(offerPrice) * (quantity || 0)).toFixed(2);
     };
 
-    const calculateGrandTotal = () => {
+    const calculateSubtotal = () => {
         let total = 0;
         for (const category of productData) {
             for (const product of category.items) {
@@ -286,8 +287,11 @@ export default function ProductsPage() {
                 total += parseFloat(product.offerPrice) * quantity;
             }
         }
-        return total.toFixed(2);
+        return total;
     };
+
+    const subtotal = calculateSubtotal();
+    const grandTotal = subtotal > 0 ? subtotal + PACKAGING_COST : subtotal;
 
     const itemsInCart = productData
         .flatMap(c => c.items)
@@ -351,6 +355,8 @@ export default function ProductsPage() {
             const placedOnDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
             setOrderDate(placedOnDate);
 
+            const packagingCostString = subtotal > 0 ? `₹${PACKAGING_COST.toFixed(2)}` : '₹0.00';
+
             await sendOrderEmail({
                 customerName,
                 customerPhone,
@@ -359,7 +365,9 @@ export default function ProductsPage() {
                 customerCity,
                 customerPincode,
                 cartItemsText,
-                grandTotal: `₹${calculateGrandTotal()}`,
+                subtotal: `₹${subtotal.toFixed(2)}`,
+                packagingCost: packagingCostString,
+                grandTotal: `₹${grandTotal.toFixed(2)}`,
                 orderDate: placedOnDate,
             });
             
@@ -384,6 +392,12 @@ export default function ProductsPage() {
         
         const address_line_2 = customerAddress2 ? `\n${customerAddress2}` : '';
         
+        let financialDetails = `*Subtotal: ₹${subtotal.toFixed(2)}*`;
+        if (subtotal > 0) {
+            financialDetails += `\n*Packaging Cost: ₹${PACKAGING_COST.toFixed(2)}*`;
+        }
+        financialDetails += `\n*Grand Total: ₹${grandTotal.toFixed(2)}*`;
+        
         const message = `
 🎉 *New Order from Maharaj Pyropark* 🎉
 
@@ -400,7 +414,7 @@ ${cartItemsText}
 
 ---
 
-*Grand Total: ₹${calculateGrandTotal()}*
+${financialDetails}
 
 Order placed on: ${orderDate}
         `.trim().replace(/\n\n+/g, '\n\n');
@@ -478,9 +492,19 @@ Order placed on: ${orderDate}
                             </TableBody>
                         ))}
                          <TableFooter>
+                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
+                                <TableCell colSpan={4} className="text-right font-semibold text-primary border">Subtotal</TableCell>
+                                <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
+                            </TableRow>
+                            {subtotal > 0 && (
+                                <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
+                                    <TableCell colSpan={4} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
+                                    <TableCell className="text-right font-semibold text-primary border">₹{PACKAGING_COST.toFixed(2)}</TableCell>
+                                </TableRow>
+                            )}
                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                 <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
-                                <TableCell className="text-right font-bold text-xl text-primary border">₹{calculateGrandTotal()}</TableCell>
+                                <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                             </TableRow>
                         </TableFooter>
                     </Table>
@@ -580,9 +604,19 @@ Order placed on: ${orderDate}
                                                 ))}
                                             </TableBody>
                                             <TableFooter>
+                                                <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
+                                                    <TableCell colSpan={2} className="text-right font-semibold text-primary border">Subtotal</TableCell>
+                                                    <TableCell className="text-right font-semibold text-primary border" colSpan={2}>₹{subtotal.toFixed(2)}</TableCell>
+                                                </TableRow>
+                                                {subtotal > 0 && (
+                                                    <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
+                                                        <TableCell colSpan={2} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
+                                                        <TableCell className="text-right font-semibold text-primary border" colSpan={2}>₹{PACKAGING_COST.toFixed(2)}</TableCell>
+                                                    </TableRow>
+                                                )}
                                                 <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                                     <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
-                                                    <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{calculateGrandTotal()}</TableCell>
+                                                    <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{grandTotal.toFixed(2)}</TableCell>
                                                 </TableRow>
                                             </TableFooter>
                                         </Table>
@@ -741,9 +775,19 @@ Order placed on: ${orderDate}
                                             ))}
                                         </TableBody>
                                         <TableFooter>
-                                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
+                                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base border-t-2 border-primary/20">
+                                                <TableCell colSpan={3} className="text-right font-semibold text-primary border">Subtotal</TableCell>
+                                                <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
+                                            </TableRow>
+                                            {subtotal > 0 && (
+                                                <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
+                                                    <TableCell colSpan={3} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
+                                                    <TableCell className="text-right font-semibold text-primary border">₹{PACKAGING_COST.toFixed(2)}</TableCell>
+                                                </TableRow>
+                                            )}
+                                            <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                                 <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
-                                                <TableCell className="text-right font-bold text-xl text-primary border">₹{calculateGrandTotal()}</TableCell>
+                                                <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                                             </TableRow>
                                         </TableFooter>
                                     </Table>
