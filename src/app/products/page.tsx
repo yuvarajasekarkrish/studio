@@ -10,7 +10,6 @@ import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download } from "lucide-react";
 
 const productData = [
@@ -227,7 +226,10 @@ export default function ProductsPage() {
     const orderSummaryRef = useRef<HTMLDivElement>(null);
     const [customerName, setCustomerName] = useState('');
     const [customerPhone, setCustomerPhone] = useState('');
-    const [customerAddress, setCustomerAddress] = useState('');
+    const [customerAddress1, setCustomerAddress1] = useState('');
+    const [customerAddress2, setCustomerAddress2] = useState('');
+    const [customerCity, setCustomerCity] = useState('');
+    const [customerPincode, setCustomerPincode] = useState('');
 
     const handleQuantityChange = (title: string, quantity: number) => {
         setQuantities(prev => ({
@@ -385,13 +387,44 @@ export default function ProductsPage() {
                                 />
                             </div>
                             <div className="md:col-span-2 space-y-2">
-                                <Label htmlFor="customer-address">Delivery Address</Label>
-                                <Textarea
-                                    id="customer-address"
-                                    value={customerAddress}
-                                    onChange={(e) => setCustomerAddress(e.target.value)}
-                                    placeholder="Your full delivery address"
-                                    rows={3}
+                                <Label htmlFor="address-line1">Address Line 1</Label>
+                                <Input
+                                    id="address-line1"
+                                    value={customerAddress1}
+                                    onChange={(e) => setCustomerAddress1(e.target.value)}
+                                    placeholder="House No, Street Name"
+                                    className="bg-input"
+                                    required
+                                />
+                            </div>
+                            <div className="md:col-span-2 space-y-2">
+                                <Label htmlFor="address-line2">Address Line 2 (Optional)</Label>
+                                <Input
+                                    id="address-line2"
+                                    value={customerAddress2}
+                                    onChange={(e) => setCustomerAddress2(e.target.value)}
+                                    placeholder="Apartment, suite, etc."
+                                    className="bg-input"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="city">City</Label>
+                                <Input
+                                    id="city"
+                                    value={customerCity}
+                                    onChange={(e) => setCustomerCity(e.target.value)}
+                                    placeholder="Sivakasi"
+                                    className="bg-input"
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="pincode">Pincode</Label>
+                                <Input
+                                    id="pincode"
+                                    value={customerPincode}
+                                    onChange={(e) => setCustomerPincode(e.target.value)}
+                                    placeholder="626123"
                                     className="bg-input"
                                     required
                                 />
@@ -413,7 +446,11 @@ export default function ProductsPage() {
                                     <p><span className="font-semibold">Name:</span> {customerName || ' '}</p>
                                     <p><span className="font-semibold">Phone:</span> {customerPhone || ' '}</p>
                                     <p className="font-semibold">Address:</p>
-                                    <p className="whitespace-pre-wrap">{customerAddress || ' '}</p>
+                                    <p>{customerAddress1 || ' '}</p>
+                                    {customerAddress2 && <p>{customerAddress2}</p>}
+                                    {(customerCity || customerPincode) && (
+                                        <p>{customerCity}{customerCity && customerPincode ? ', ' : ''}{customerPincode}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -449,7 +486,7 @@ export default function ProductsPage() {
                             <Button 
                                 onClick={handleDownload} 
                                 className="bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary/50"
-                                disabled={!customerName || !customerPhone || !customerAddress}
+                                disabled={!customerName || !customerPhone || !customerAddress1 || !customerCity || !customerPincode}
                             >
                                 <Download className="mr-2 h-4 w-4" /> Download as Image
                             </Button>
