@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from '@/components/ui/label';
 import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download, ShoppingCart, Trash2 } from "lucide-react";
 
@@ -232,12 +233,39 @@ export default function ProductsPage() {
     const [customerAddress2, setCustomerAddress2] = useState('');
     const [customerCity, setCustomerCity] = useState('');
     const [customerPincode, setCustomerPincode] = useState('');
+    const [isRemoveConfirmOpen, setIsRemoveConfirmOpen] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState<string | null>(null);
+
+    const confirmRemoveItem = () => {
+        if (itemToRemove) {
+            setQuantities(prev => ({
+                ...prev,
+                [itemToRemove]: 0,
+            }));
+        }
+        setIsRemoveConfirmOpen(false);
+        setItemToRemove(null);
+    };
+
+    const cancelRemoveItem = () => {
+        setIsRemoveConfirmOpen(false);
+        setItemToRemove(null);
+    };
 
     const handleQuantityChange = (title: string, quantity: number) => {
-        setQuantities(prev => ({
-            ...prev,
-            [title]: Math.max(0, quantity || 0)
-        }));
+        // quantity can be NaN if input is cleared
+        if ((isNaN(quantity) || quantity <= 0)) {
+            // Only show confirmation if item is actually in cart
+            if ((quantities[title] || 0) > 0) {
+                setItemToRemove(title);
+                setIsRemoveConfirmOpen(true);
+            }
+        } else {
+            setQuantities(prev => ({
+                ...prev,
+                [title]: quantity
+            }));
+        }
     };
 
     const calculateRowTotal = (offerPrice: string, quantity: number) => {
@@ -382,6 +410,22 @@ export default function ProductsPage() {
                         </Button>
                     </div>
                 </div>
+                
+                <AlertDialog open={isRemoveConfirmOpen} onOpenChange={setIsRemoveConfirmOpen}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action will remove "{itemToRemove}" from your cart. Do you want to proceed?
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel onClick={cancelRemoveItem}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={confirmRemoveItem} className="bg-destructive hover:bg-destructive/90">Remove</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
 
                 <Dialog open={isCheckoutOpen} onOpenChange={(open) => {
                     if (!open) {
@@ -419,7 +463,7 @@ export default function ProductsPage() {
                                                         <TableCell>
                                                             <Input
                                                                 type="number"
-                                                                min="1"
+                                                                min="0"
                                                                 value={quantities[product.title] || ''}
                                                                 onChange={(e) => handleQuantityChange(product.title, parseInt(e.target.value))}
                                                                 className="w-20 h-9 text-center mx-auto bg-input"
