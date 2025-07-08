@@ -12,7 +12,10 @@ import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from '@/components/ui/label';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Send, ShoppingCart, Trash2, Download } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Send, ShoppingCart, Trash2, Download, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
+import { sendOrderEmail } from '@/ai/flows/send-order-email-flow';
 
 const productData = [
   {
@@ -223,6 +226,7 @@ const productData = [
 
 
 export default function ProductsPage() {
+    const { toast } = useToast();
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const [checkoutStep, setCheckoutStep] = useState<'cart' | 'details' | 'review'>('cart');
@@ -236,6 +240,7 @@ export default function ProductsPage() {
     const [isRemoveConfirmOpen, setIsRemoveConfirmOpen] = useState(false);
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
     const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
     const confirmRemoveItem = () => {
         if (itemToRemove) {
@@ -254,9 +259,7 @@ export default function ProductsPage() {
     };
 
     const handleQuantityChange = (title: string, quantity: number) => {
-        // quantity can be NaN if input is cleared
         if ((isNaN(quantity) || quantity <= 0)) {
-            // Only show confirmation if item is actually in cart
             if ((quantities[title] || 0) > 0) {
                 setItemToRemove(title);
                 setIsRemoveConfirmOpen(true);
@@ -307,7 +310,6 @@ export default function ProductsPage() {
         }
     }
 
-
     const handleDownload = () => {
         const input = orderSummaryRef.current;
         if (input) {
@@ -337,9 +339,36 @@ export default function ProductsPage() {
         }
     };
     
-    const handlePlaceOrderAndDownload = () => {
-        handleDownload();
-        setIsWhatsAppConfirmOpen(true);
+    const handlePlaceOrder = async () => {
+        setIsPlacingOrder(true);
+        try {
+            const cartItemsText = itemsInCart
+                .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
+                .join('\n');
+    
+            await sendOrderEmail({
+                customerName,
+                customerPhone,
+                customerAddress1,
+                customerAddress2,
+                customerCity,
+                customerPincode,
+                cartItemsText,
+                grandTotal: calculateGrandTotal(),
+            });
+            
+            setIsWhatsAppConfirmOpen(true);
+    
+        } catch (error) {
+            console.error("Failed to place order:", error);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Failed to place order. Please try again.",
+            });
+        } finally {
+            setIsPlacingOrder(false);
+        }
     };
 
     const handleSendWhatsAppConfirmation = () => {
@@ -385,9 +414,9 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
         setIsWhatsAppConfirmOpen(false);
     };
 
-
     return (
         <div className="flex flex-col min-h-screen bg-background">
+            <Toaster />
             <Header />
             <main className="flex-grow container max-w-7xl mx-auto px-4 py-16 md:py-24">
                 <div className="text-center mb-12">
@@ -478,20 +507,20 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
                 <AlertDialog open={isWhatsAppConfirmOpen} onOpenChange={setIsWhatsAppConfirmOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Order PDF Downloaded</AlertDialogTitle>
+                            <AlertDialogTitle>Order Placed!</AlertDialogTitle>
                             <AlertDialogDescription>
-                                Your order has been saved as a PDF. Would you like to send a confirmation via WhatsApp?
+                                The order has been recorded. You can now download the order PDF or send a confirmation to the customer via WhatsApp.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel onClick={() => setIsWhatsAppConfirmOpen(false)}>No, Thanks</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleSendWhatsAppConfirmation}>
+                             <AlertDialogCancel onClick={() => setIsWhatsAppConfirmOpen(false)}>Close</AlertDialogCancel>
+                             <Button variant="outline" onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download PDF</Button>
+                             <AlertDialogAction onClick={handleSendWhatsAppConfirmation}>
                                 <Send className="mr-2 h-4 w-4" /> Send WhatsApp
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-
 
                 <Dialog open={isCheckoutOpen} onOpenChange={(open) => {
                     if (!open) {
@@ -718,10 +747,12 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
                                 <DialogFooter className="mt-4">
                                     <Button variant="outline" onClick={() => setCheckoutStep('details')}>Back to Details</Button>
                                     <Button 
-                                        onClick={handlePlaceOrderAndDownload} 
+                                        onClick={handlePlaceOrder} 
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                                        disabled={isPlacingOrder}
                                     >
-                                        <Download className="mr-2 h-4 w-4" /> Place Order & Download PDF
+                                        {isPlacingOrder ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                        {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
                                     </Button>
                                 </DialogFooter>
                             </>
