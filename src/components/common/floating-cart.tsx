@@ -60,40 +60,71 @@ export default function FloatingCart() {
         }
     }
 
-    const handleDownload = () => {
+    const handleDownload = async () => {
         const input = orderSummaryRef.current;
-        if (input) {
-            html2canvas(input, {
-                scale: 2,
+        if (!input) return;
+
+        // Store original styles
+        const originalStyles = {
+            maxHeight: input.style.maxHeight,
+            overflowY: input.style.overflowY,
+        };
+
+        // Temporarily override styles to ensure full content is rendered for capture
+        input.style.maxHeight = 'none';
+        input.style.overflowY = 'visible';
+
+        try {
+            const canvas = await html2canvas(input, {
+                scale: 2, // Higher scale for better quality
                 useCORS: true,
-                scrollY: -window.scrollY,
-                windowHeight: input.scrollHeight,
-                windowWidth: input.scrollWidth,
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
+                logging: false,
+            });
+            
+            // Restore styles immediately after capture
+            input.style.maxHeight = originalStyles.maxHeight;
+            input.style.overflowY = originalStyles.overflowY;
 
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height;
-                
-                const imgHeight = canvasHeight * pdfWidth / canvasWidth;
-                let heightLeft = imgHeight;
-                let position = 0;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
 
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+
+            // Calculate the height of the image in the PDF's units
+            const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
+            
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            // Add the first page
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+            heightLeft -= pdfHeight;
+
+            // Add new pages if the content is taller than one page
+            while (heightLeft > 0) {
+                position = position - pdfHeight;
+                pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
                 heightLeft -= pdfHeight;
+            }
+            
+            pdf.save('maharaj-pyropark-order.pdf');
 
-                while (heightLeft > 0) {
-                    position = position - pdfHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                    heightLeft -= pdfHeight;
-                }
-                
-                pdf.save('maharaj-pyropark-order.pdf');
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            toast({
+                variant: "destructive",
+                title: "PDF Generation Failed",
+                description: "There was an error creating the PDF file. Please try again.",
             });
+        } finally {
+            // Ensure styles are restored even on error
+            input.style.maxHeight = originalStyles.maxHeight;
+            input.style.overflowY = originalStyles.overflowY;
         }
     };
     
