@@ -1,13 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download } from "lucide-react";
 
 const productData = [
   {
@@ -219,6 +221,8 @@ const productData = [
 
 export default function ProductsPage() {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const orderSummaryRef = useRef<HTMLDivElement>(null);
 
     const handleQuantityChange = (title: string, quantity: number) => {
         setQuantities(prev => ({
@@ -241,6 +245,34 @@ export default function ProductsPage() {
         }
         return total.toFixed(2);
     };
+
+    const itemsInCart = productData
+        .flatMap(c => c.items)
+        .filter(p => (quantities[p.title] || 0) > 0);
+
+    const handleCheckout = () => {
+        if (itemsInCart.length > 0) {
+            setIsCheckoutOpen(true);
+        } else {
+            alert("Your cart is empty. Please add some products before checking out.");
+        }
+    }
+
+    const handleDownload = () => {
+        const elementToCapture = orderSummaryRef.current;
+        if (elementToCapture) {
+            html2canvas(elementToCapture, {
+                scale: 2,
+                useCORS: true,
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'maharaj-pyropark-order.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    };
+
 
     return (
         <div className="flex flex-col min-h-screen bg-background">
@@ -308,11 +340,63 @@ export default function ProductsPage() {
                         </TableFooter>
                     </Table>
                     <div className="flex justify-end mt-8">
-                        <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg">
+                        <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg" onClick={handleCheckout}>
                             Proceed to Checkout
                         </Button>
                     </div>
                 </div>
+
+                <Dialog open={isCheckoutOpen} onOpenChange={setIsCheckoutOpen}>
+                    <DialogContent className="sm:max-w-3xl bg-card">
+                        <DialogHeader>
+                            <DialogTitle className="text-primary font-headline">Order Summary</DialogTitle>
+                            <DialogDescription>
+                                Review your order below. You can download a copy for your records.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div ref={orderSummaryRef} className="p-6 bg-background rounded-md border">
+                            <div className="flex justify-between items-center mb-6 pb-4 border-b">
+                                <div className="flex items-center gap-3">
+                                    <Sparkles className="h-8 w-8 text-primary" />
+                                    <span className="font-bold text-2xl font-headline text-primary">Maharaj Pyropark</span>
+                                </div>
+                                <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-GB')}</p>
+                            </div>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow className="hover:bg-transparent border-b-primary/20">
+                                        <TableHead className="w-3/5">Product</TableHead>
+                                        <TableHead className="text-center">Qty</TableHead>
+                                        <TableHead className="text-right">Price</TableHead>
+                                        <TableHead className="text-right">Total</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {itemsInCart.map(product => (
+                                        <TableRow key={product.title} className="hover:bg-secondary/30">
+                                            <TableCell className="font-medium">{product.title}</TableCell>
+                                            <TableCell className="text-center">{quantities[product.title]}</TableCell>
+                                            <TableCell className="text-right">₹{product.offerPrice}</TableCell>
+                                            <TableCell className="text-right font-bold">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
+                                        <TableCell colSpan={3} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
+                                        <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </div>
+                        <DialogFooter className="mt-4">
+                            <Button variant="outline" onClick={() => setIsCheckoutOpen(false)}>Continue Shopping</Button>
+                            <Button onClick={handleDownload} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                                <Download className="mr-2 h-4 w-4" /> Download as Image
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
 
             </main>
             <Footer />
