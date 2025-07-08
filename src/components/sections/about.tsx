@@ -23,7 +23,7 @@ export default function About() {
                     alt="Diwali sale banner for Maharaj Pyropark"
                     width={600}
                     height={450}
-                    className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-500"
+                    className="object-cover w-full h-full"
                     data-ai-hint="fireworks sale"
                 />
             </div>
