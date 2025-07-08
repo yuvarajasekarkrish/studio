@@ -12,7 +12,7 @@ import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from '@/components/ui/label';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Download, ShoppingCart, Trash2 } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Send, ShoppingCart, Trash2 } from "lucide-react";
 
 const productData = [
   {
@@ -335,6 +335,50 @@ export default function ProductsPage() {
             });
         }
     };
+    
+    const handleConfirmAndSend = () => {
+        handleDownload();
+
+        const cartItemsText = itemsInCart
+            .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
+            .join('\n');
+        
+        const address_line_2 = customerAddress2 ? `\n${customerAddress2}` : '';
+        
+        const message = `
+🎉 *New Order from Maharaj Pyropark* 🎉
+
+*Customer Details:*
+👤 Name: ${customerName}
+📱 Phone: ${customerPhone}
+🏠 Address: ${customerAddress1}${address_line_2}
+📍 ${customerCity}, ${customerPincode}
+
+---
+
+*Order Summary:*
+${cartItemsText}
+
+---
+
+*Grand Total: ₹${calculateGrandTotal()}*
+
+Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+        `.trim().replace(/\n\n+/g, '\n\n');
+
+        const encodedMessage = encodeURIComponent(message);
+
+        const businessPhone = '919843529357';
+        const customerPhoneSanitized = customerPhone.replace(/[^0-9]/g, '');
+
+        const businessUrl = `https://wa.me/${businessPhone}?text=${encodedMessage}`;
+        window.open(businessUrl, '_blank');
+
+        if (customerPhoneSanitized) {
+            const customerUrl = `https://wa.me/${customerPhoneSanitized}?text=${encodedMessage}`;
+            window.open(customerUrl, '_blank');
+        }
+    };
 
 
     return (
@@ -652,10 +696,10 @@ export default function ProductsPage() {
                                 <DialogFooter className="mt-4">
                                     <Button variant="outline" onClick={() => setCheckoutStep('details')}>Back to Details</Button>
                                     <Button 
-                                        onClick={handleDownload} 
+                                        onClick={handleConfirmAndSend} 
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
                                     >
-                                        <Download className="mr-2 h-4 w-4" /> Confirm & Download PDF
+                                        <Send className="mr-2 h-4 w-4" /> Confirm & Send via WhatsApp
                                     </Button>
                                 </DialogFooter>
                             </>
