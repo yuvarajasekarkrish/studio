@@ -436,48 +436,46 @@ Order placed on: ${orderDate}
 
                 <div className="bg-card p-2 sm:p-6 rounded-lg shadow-xl border overflow-x-auto">
                     <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-2/5 border">Product</TableHead>
+                                <TableHead className="text-right border">MRP</TableHead>
+                                <TableHead className="text-right text-primary font-bold border">Offer (80% Off)</TableHead>
+                                <TableHead className="text-center w-28 border">Quantity</TableHead>
+                                <TableHead className="text-right border">Total</TableHead>
+                            </TableRow>
+                        </TableHeader>
                         {productData.map((category) => (
-                            <React.Fragment key={category.category}>
-                                <TableHeader>
-                                    <TableRow className="bg-secondary/70 hover:bg-secondary/70 border-b-2 border-primary/20">
-                                        <TableHead colSpan={5} className="py-4 border">
-                                            <div className="flex items-center gap-4 text-primary text-xl md:text-2xl font-bold font-headline">
-                                                {React.cloneElement(category.icon, {className: "w-7 h-7"})}
-                                                {category.category}
-                                            </div>
-                                        </TableHead>
+                            <TableBody key={category.category}>
+                                <TableRow className="bg-secondary/70 hover:bg-secondary/70 border-b-2 border-primary/20">
+                                    <TableCell colSpan={5} className="py-4 border">
+                                        <div className="flex items-center gap-4 text-primary text-xl md:text-2xl font-bold font-headline">
+                                            {React.cloneElement(category.icon, {className: "w-7 h-7"})}
+                                            {category.category}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                                {category.items.map((product) => (
+                                    <TableRow key={product.title} className="hover:bg-secondary/50">
+                                        <TableCell className="font-medium border">{product.title}</TableCell>
+                                        <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
+                                        <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
+                                        <TableCell className="border">
+                                            <Input
+                                                type="number"
+                                                min="0"
+                                                value={quantities[product.title] || ''}
+                                                onChange={(e) => handleQuantityChange(product.title, parseInt(e.target.value))}
+                                                className="w-20 h-9 text-center mx-auto bg-input"
+                                                placeholder="0"
+                                            />
+                                        </TableCell>
+                                        <TableCell className="text-right font-bold border">
+                                            ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
+                                        </TableCell>
                                     </TableRow>
-                                    <TableRow>
-                                        <TableHead className="w-2/5 border">Product</TableHead>
-                                        <TableHead className="text-right border">MRP</TableHead>
-                                        <TableHead className="text-right text-accent-foreground font-bold border">Offer (80% Off)</TableHead>
-                                        <TableHead className="text-center w-28 border">Quantity</TableHead>
-                                        <TableHead className="text-right border">Total</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {category.items.map((product) => (
-                                        <TableRow key={product.title} className="hover:bg-secondary/50">
-                                            <TableCell className="font-medium border">{product.title}</TableCell>
-                                            <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
-                                            <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
-                                            <TableCell className="border">
-                                                <Input
-                                                    type="number"
-                                                    min="0"
-                                                    value={quantities[product.title] || ''}
-                                                    onChange={(e) => handleQuantityChange(product.title, parseInt(e.target.value))}
-                                                    className="w-20 h-9 text-center mx-auto bg-input"
-                                                    placeholder="0"
-                                                />
-                                            </TableCell>
-                                            <TableCell className="text-right font-bold border">
-                                                ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </React.Fragment>
+                                ))}
+                            </TableBody>
                         ))}
                          <TableFooter>
                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
