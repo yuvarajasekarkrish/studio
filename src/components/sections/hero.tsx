@@ -13,9 +13,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const heroImages = [
-  { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "vibrant fireworks" },
-  { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "colorful explosion" },
-  { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "night celebration" },
+  { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "vibrant rainbow fireworks" },
+  { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "exploding colors night" },
+  { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "dazzling gold blue" },
 ];
 
 export default function Hero() {
@@ -49,7 +49,7 @@ export default function Hero() {
         </div>
       </Carousel>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-10 text-white">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold drop-shadow-2xl mb-4 text-primary-foreground bg-black/30 px-6 py-2 rounded-lg">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold drop-shadow-2xl mb-4 text-foreground bg-black/30 px-6 py-2 rounded-lg">
           Diwali Fireworks Sale
         </h1>
         <p className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 drop-shadow-lg text-accent animate-pulse">
