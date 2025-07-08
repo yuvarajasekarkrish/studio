@@ -10,11 +10,12 @@ export default function Products() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="rounded-lg overflow-hidden shadow-2xl">
             <Image
-              src="https://storage.googleapis.com/aifirebase-dev-images/projects/f44b2f20-b427-449e-876a-d248b11c47ea/11d13fbe-0fbf-409b-a63e-f18703a5323a.png"
+              src="https://placehold.co/600x600.png"
               alt="80% off fireworks sale"
               width={600}
               height={600}
               className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-500"
+              data-ai-hint="fireworks sale"
             />
           </div>
           <div className="text-center md:text-left">
