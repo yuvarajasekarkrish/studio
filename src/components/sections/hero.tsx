@@ -9,10 +9,10 @@ export default function Hero() {
   return (
     <section id="home" className="w-full bg-background pt-4 md:pt-8">
       <div className="container max-w-7xl mx-auto px-4">
+        <div className="mb-4 overflow-hidden rounded-lg shadow-lg">
+            <Marquee />
+        </div>
         <div className="relative w-full aspect-[3/1] overflow-hidden rounded-lg shadow-2xl group">
-           <div className="absolute top-0 left-0 right-0 z-10">
-                <Marquee />
-           </div>
            <Link href="/products">
             <Image
               src="https://maharajpyropark.in/static/media/home_banner_1.b18b8819e09fbecbff12.jpg"
