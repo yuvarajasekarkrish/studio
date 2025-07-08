@@ -426,10 +426,10 @@ Order placed on: ${orderDate}
             <main className="flex-grow container max-w-7xl mx-auto px-4 py-16 md:py-24">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-4">
-                        Our Products
+                        The Great 80% Off Firework Sale!
                     </h1>
-                    <p className="max-w-2xl mx-auto text-lg">
-                        Select your fireworks and add them to your cart. All prices are inclusive of taxes. Enjoy an 80% discount on all items!
+                    <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
+                        Dive into our incredible selection of fireworks, all at a staggering 80% discount! From dazzling rockets to crackling sparklers, find everything you need to create a truly spectacular show. Add your favorites to the cart and let the celebration begin!
                     </p>
                 </div>
 
@@ -449,7 +449,7 @@ Order placed on: ${orderDate}
                                     <TableRow>
                                         <TableHead className="w-2/5">Product</TableHead>
                                         <TableHead className="text-right">MRP</TableHead>
-                                        <TableHead className="text-right">Offer Price</TableHead>
+                                        <TableHead className="text-right text-accent-foreground font-bold">Offer (80% Off)</TableHead>
                                         <TableHead className="text-center w-28">Quantity</TableHead>
                                         <TableHead className="text-right">Total</TableHead>
                                     </TableRow>

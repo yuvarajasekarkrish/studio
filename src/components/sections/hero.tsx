@@ -13,9 +13,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const heroImages = [
-  { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "fireworks night" },
-  { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "fireworks city" },
-  { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "golden fireworks" },
+  { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "vibrant fireworks" },
+  { src: "https://placehold.co/1600x900.png", alt: "Colorful fireworks over a city skyline", hint: "colorful explosion" },
+  { src: "https://placehold.co/1600x900.png", alt: "Golden fireworks illuminating the dark sky", hint: "night celebration" },
 ];
 
 export default function Hero() {
@@ -50,14 +50,14 @@ export default function Hero() {
       </Carousel>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
         <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold drop-shadow-2xl">
-          Lighting Up Your Special Moments
+          Huge 80% Off Firework Sale!
         </h1>
-        <p className="mt-4 max-w-2xl text-lg md:text-xl font-body drop-shadow-lg">
-          Crafting breathtaking pyrotechnic spectacles that turn any event into a lifelong memory.
+        <p className="mt-4 max-w-3xl text-lg md:text-xl font-body drop-shadow-lg">
+          Light up the sky with incredible deals! Get a massive 80% discount on all our premium fireworks. Don't miss out on our biggest sale of the year!
         </p>
          <Link href="/products">
           <Button size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary-foreground/20 hover:border-primary-foreground font-bold text-lg">
-            Explore Our Products
+            Shop the 80% Off Sale!
           </Button>
         </Link>
       </div>

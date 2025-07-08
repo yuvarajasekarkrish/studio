@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 const galleryImages = [
-  { src: "https://placehold.co/600x400.png", alt: "Wedding fireworks over a lake", hint: "wedding fireworks" },
-  { src: "https://placehold.co/600x400.png", alt: "Red and gold fireworks burst", hint: "red fireworks" },
-  { src: "https://placehold.co/600x400.png", alt: "Corporate event finale", hint: "corporate fireworks" },
-  { src: "https://placehold.co/600x400.png", alt: "Festival fireworks display", hint: "festival fireworks" },
-  { src: "https://placehold.co/600x400.png", alt: "Blue and purple fireworks", hint: "blue fireworks" },
-  { src: "https://placehold.co/600x400.png", alt: "Close-up of a vibrant firework", hint: "firework burst" },
+  { src: "https://placehold.co/600x400.png", alt: "Wedding fireworks over a lake", hint: "celebration fireworks" },
+  { src: "https://placehold.co/600x400.png", alt: "Red and gold fireworks burst", hint: "vibrant fireworks" },
+  { src: "https://placehold.co/600x400.png", alt: "Corporate event finale", hint: "event fireworks" },
+  { src: "https://placehold.co/600x400.png", alt: "Festival fireworks display", hint: "night sky fireworks" },
+  { src: "https://placehold.co/600x400.png", alt: "Blue and purple fireworks", hint: "colorful fireworks" },
+  { src: "https://placehold.co/600x400.png", alt: "Close-up of a vibrant firework", hint: "fireworks finale" },
 ];
 
 export default function Gallery() {
@@ -17,7 +17,7 @@ export default function Gallery() {
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
             Our Gallery
           </h2>
-          <p className="max-w-2xl mx-auto text-lg">
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
             A glimpse into the spectacular moments we've created.
           </p>
         </div>
