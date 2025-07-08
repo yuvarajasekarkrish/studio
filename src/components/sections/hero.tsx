@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const heroImages = [
   { src: "https://placehold.co/1600x900.png", alt: "Spectacular fireworks display at night", hint: "fireworks night" },
@@ -54,11 +55,11 @@ export default function Hero() {
         <p className="mt-4 max-w-2xl text-lg md:text-xl font-body drop-shadow-lg">
           Crafting breathtaking pyrotechnic spectacles that turn any event into a lifelong memory.
         </p>
-         <a href="#services">
+         <Link href="/products">
           <Button size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground border-2 border-primary-foreground/20 hover:border-primary-foreground font-bold text-lg">
-            Explore Our Shows
+            Explore Our Products
           </Button>
-        </a>
+        </Link>
       </div>
     </section>
   );
