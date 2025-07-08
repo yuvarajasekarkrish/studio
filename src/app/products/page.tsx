@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -439,7 +440,7 @@ Order placed on: ${orderDate}
                             <React.Fragment key={category.category}>
                                 <TableHeader>
                                     <TableRow className="bg-secondary/70 hover:bg-secondary/70 border-b-2 border-primary/20">
-                                        <TableHead colSpan={5} className="py-4">
+                                        <TableHead colSpan={5} className="py-4 border">
                                             <div className="flex items-center gap-4 text-primary text-xl md:text-2xl font-bold font-headline">
                                                 {React.cloneElement(category.icon, {className: "w-7 h-7"})}
                                                 {category.category}
@@ -447,20 +448,20 @@ Order placed on: ${orderDate}
                                         </TableHead>
                                     </TableRow>
                                     <TableRow>
-                                        <TableHead className="w-2/5">Product</TableHead>
-                                        <TableHead className="text-right">MRP</TableHead>
-                                        <TableHead className="text-right text-accent-foreground font-bold">Offer (80% Off)</TableHead>
-                                        <TableHead className="text-center w-28">Quantity</TableHead>
-                                        <TableHead className="text-right">Total</TableHead>
+                                        <TableHead className="w-2/5 border">Product</TableHead>
+                                        <TableHead className="text-right border">MRP</TableHead>
+                                        <TableHead className="text-right text-accent-foreground font-bold border">Offer (80% Off)</TableHead>
+                                        <TableHead className="text-center w-28 border">Quantity</TableHead>
+                                        <TableHead className="text-right border">Total</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {category.items.map((product) => (
                                         <TableRow key={product.title} className="hover:bg-secondary/50">
-                                            <TableCell className="font-medium">{product.title}</TableCell>
-                                            <TableCell className="text-right text-muted-foreground line-through">₹{product.actualPrice}</TableCell>
-                                            <TableCell className="text-right font-bold text-primary">₹{product.offerPrice}</TableCell>
-                                            <TableCell>
+                                            <TableCell className="font-medium border">{product.title}</TableCell>
+                                            <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
+                                            <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
+                                            <TableCell className="border">
                                                 <Input
                                                     type="number"
                                                     min="0"
@@ -470,7 +471,7 @@ Order placed on: ${orderDate}
                                                     placeholder="0"
                                                 />
                                             </TableCell>
-                                            <TableCell className="text-right font-bold">
+                                            <TableCell className="text-right font-bold border">
                                                 ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
                                             </TableCell>
                                         </TableRow>
@@ -480,8 +481,8 @@ Order placed on: ${orderDate}
                         ))}
                          <TableFooter>
                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                <TableCell colSpan={4} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                                <TableCell className="text-right font-bold text-xl text-primary border">₹{calculateGrandTotal()}</TableCell>
                             </TableRow>
                         </TableFooter>
                     </Table>
@@ -547,20 +548,20 @@ Order placed on: ${orderDate}
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
-                                                    <TableHead>Product</TableHead>
-                                                    <TableHead className="w-28 text-center">Quantity</TableHead>
-                                                    <TableHead className="text-right">Total</TableHead>
-                                                    <TableHead className="w-12"></TableHead>
+                                                    <TableHead className="border">Product</TableHead>
+                                                    <TableHead className="w-28 text-center border">Quantity</TableHead>
+                                                    <TableHead className="text-right border">Total</TableHead>
+                                                    <TableHead className="w-12 border"></TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
                                                 {itemsInCart.map(product => (
                                                     <TableRow key={product.title}>
-                                                        <TableCell className="font-medium">
+                                                        <TableCell className="font-medium border">
                                                             {product.title}
                                                             <p className="text-sm text-muted-foreground">@ ₹{product.offerPrice} each</p>
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell className="border">
                                                             <Input
                                                                 type="number"
                                                                 min="0"
@@ -569,10 +570,10 @@ Order placed on: ${orderDate}
                                                                 className="w-20 h-9 text-center mx-auto bg-input"
                                                             />
                                                         </TableCell>
-                                                        <TableCell className="text-right font-bold">
+                                                        <TableCell className="text-right font-bold border">
                                                             ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell className="border">
                                                             <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(product.title, 0)}>
                                                                 <Trash2 className="h-4 w-4 text-destructive" />
                                                             </Button>
@@ -582,8 +583,8 @@ Order placed on: ${orderDate}
                                             </TableBody>
                                             <TableFooter>
                                                 <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                                    <TableCell colSpan={2} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                                    <TableCell className="text-right font-bold text-xl text-primary" colSpan={2}>₹{calculateGrandTotal()}</TableCell>
+                                                    <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                                                    <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{calculateGrandTotal()}</TableCell>
                                                 </TableRow>
                                             </TableFooter>
                                         </Table>
@@ -725,26 +726,26 @@ Order placed on: ${orderDate}
                                     <Table>
                                         <TableHeader>
                                             <TableRow className="hover:bg-transparent border-b-primary/20">
-                                                <TableHead className="w-3/5">Product</TableHead>
-                                                <TableHead className="text-center">Qty</TableHead>
-                                                <TableHead className="text-right">Price</TableHead>
-                                                <TableHead className="text-right">Total</TableHead>
+                                                <TableHead className="w-3/5 border">Product</TableHead>
+                                                <TableHead className="text-center border">Qty</TableHead>
+                                                <TableHead className="text-right border">Price</TableHead>
+                                                <TableHead className="text-right border">Total</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
                                             {itemsInCart.map(product => (
                                                 <TableRow key={product.title} className="hover:bg-secondary/30">
-                                                    <TableCell className="font-medium">{product.title}</TableCell>
-                                                    <TableCell className="text-center">{quantities[product.title]}</TableCell>
-                                                    <TableCell className="text-right">₹{product.offerPrice}</TableCell>
-                                                    <TableCell className="text-right font-bold">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
+                                                    <TableCell className="font-medium border">{product.title}</TableCell>
+                                                    <TableCell className="text-center border">{quantities[product.title]}</TableCell>
+                                                    <TableCell className="text-right border">₹{product.offerPrice}</TableCell>
+                                                    <TableCell className="text-right font-bold border">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                         <TableFooter>
                                             <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
-                                                <TableCell colSpan={3} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                                <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                                <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                                                <TableCell className="text-right font-bold text-xl text-primary border">₹{calculateGrandTotal()}</TableCell>
                                             </TableRow>
                                         </TableFooter>
                                     </Table>
