@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
@@ -244,6 +244,27 @@ export default function ProductsPage() {
     const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     const [orderDate, setOrderDate] = useState('');
+    const isInitialMount = useRef(true);
+
+    useEffect(() => {
+        if (isInitialMount.current) {
+            try {
+                const savedCart = localStorage.getItem('maharajPyroparkCart');
+                if (savedCart) {
+                    setQuantities(JSON.parse(savedCart));
+                }
+            } catch (error) {
+                console.error('Could not load cart from localStorage', error);
+            }
+            isInitialMount.current = false;
+        } else {
+            try {
+                localStorage.setItem('maharajPyroparkCart', JSON.stringify(quantities));
+            } catch (error) {
+                console.error('Could not save cart to localStorage', error);
+            }
+        }
+    }, [quantities]);
 
     const confirmRemoveItem = () => {
         if (itemToRemove) {
