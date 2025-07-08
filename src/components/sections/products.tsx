@@ -10,13 +10,15 @@ export default function Products() {
       <div className="container max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="flex justify-center items-center">
-            <Image
-              src="https://storage.googleapis.com/aifirebase-7a2e2.appspot.com/users%2FAISB-6058%2Fuploads%2Fc21a36e9-b570-4f51-b84f-124b899ef5e0?alt=media&token=c199042b-586b-4e6f-b258-3d2319ef4a87"
-              alt="Assortment of colorful fireworks"
-              width={500}
-              height={500}
-              className="object-contain rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-500"
-            />
+            <div className="aspect-square w-full max-w-md relative">
+              <Image
+                src="https://placehold.co/600x600.png"
+                alt="Assortment of colorful fireworks"
+                fill
+                className="object-contain rounded-lg shadow-2xl"
+                data-ai-hint="fireworks sale"
+              />
+            </div>
           </div>
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
