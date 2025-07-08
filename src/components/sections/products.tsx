@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ export default function Products() {
     <section id="products" className="py-16 md:py-24 bg-secondary">
       <div className="container max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-lg overflow-hidden shadow-2xl">
+          <div className="rounded-lg overflow-hidden shadow-2xl aspect-square">
             <Image
               src="https://storage.googleapis.com/aifirebase-7a2e2.appspot.com/users%2FAISB-6058%2Fuploads%2Fc21a36e9-b570-4f51-b84f-124b899ef5e0?alt=media&token=c199042b-586b-4e6f-b258-3d2319ef4a87"
               alt="Assortment of colorful fireworks"
