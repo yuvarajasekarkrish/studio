@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -12,8 +11,8 @@ export default function Products() {
           <div className="flex justify-center items-center">
             <div className="aspect-square w-full max-w-md relative">
               <Image
-                src="https://placehold.co/600x600.png"
-                alt="Assortment of colorful fireworks"
+                src="https://maharajpyropark.in/static/media/home_banner_1.b18b8819e09fbecbff12.jpg"
+                alt="Diwali fireworks sale banner"
                 fill
                 className="object-contain rounded-lg shadow-2xl"
                 data-ai-hint="fireworks sale"
