@@ -12,7 +12,7 @@ import Footer from '@/components/common/footer';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from '@/components/ui/label';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Send, ShoppingCart, Trash2 } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame, Send, ShoppingCart, Trash2, Download } from "lucide-react";
 
 const productData = [
   {
@@ -235,6 +235,7 @@ export default function ProductsPage() {
     const [customerPincode, setCustomerPincode] = useState('');
     const [isRemoveConfirmOpen, setIsRemoveConfirmOpen] = useState(false);
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
+    const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
 
     const confirmRemoveItem = () => {
         if (itemToRemove) {
@@ -336,9 +337,12 @@ export default function ProductsPage() {
         }
     };
     
-    const handleConfirmAndSend = () => {
+    const handlePlaceOrderAndDownload = () => {
         handleDownload();
+        setIsWhatsAppConfirmOpen(true);
+    };
 
+    const handleSendWhatsAppConfirmation = () => {
         const cartItemsText = itemsInCart
             .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
             .join('\n');
@@ -378,6 +382,7 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
             const customerUrl = `https://wa.me/${customerPhoneSanitized}?text=${encodedMessage}`;
             window.open(customerUrl, '_blank');
         }
+        setIsWhatsAppConfirmOpen(false);
     };
 
 
@@ -466,6 +471,23 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
                         <AlertDialogFooter>
                             <AlertDialogCancel onClick={cancelRemoveItem}>Cancel</AlertDialogCancel>
                             <AlertDialogAction onClick={confirmRemoveItem} className="bg-destructive hover:bg-destructive/90">Remove</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
+                <AlertDialog open={isWhatsAppConfirmOpen} onOpenChange={setIsWhatsAppConfirmOpen}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Order PDF Downloaded</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Your order has been saved as a PDF. Would you like to send a confirmation via WhatsApp?
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setIsWhatsAppConfirmOpen(false)}>No, Thanks</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleSendWhatsAppConfirmation}>
+                                <Send className="mr-2 h-4 w-4" /> Send WhatsApp
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
@@ -696,10 +718,10 @@ Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', tim
                                 <DialogFooter className="mt-4">
                                     <Button variant="outline" onClick={() => setCheckoutStep('details')}>Back to Details</Button>
                                     <Button 
-                                        onClick={handleConfirmAndSend} 
+                                        onClick={handlePlaceOrderAndDownload} 
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
                                     >
-                                        <Send className="mr-2 h-4 w-4" /> Confirm & Send via WhatsApp
+                                        <Download className="mr-2 h-4 w-4" /> Place Order & Download PDF
                                     </Button>
                                 </DialogFooter>
                             </>
