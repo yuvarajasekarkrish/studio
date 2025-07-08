@@ -42,7 +42,7 @@ Delivery Address: {{customerAddress1}}{{#if customerAddress2}}, {{customerAddres
 Order Items:
 {{{cartItemsText}}}
 
-Grand Total: ₹{{grandTotal}}
+Grand Total: {{grandTotal}}
 
 Order placed on: {{orderDate}}
 

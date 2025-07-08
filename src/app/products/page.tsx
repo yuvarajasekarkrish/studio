@@ -344,7 +344,7 @@ export default function ProductsPage() {
         setIsPlacingOrder(true);
         try {
             const cartItemsText = itemsInCart
-                .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
+                .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
                 .join('\n');
     
             const placedOnDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
@@ -378,7 +378,7 @@ export default function ProductsPage() {
 
     const handleSendWhatsAppConfirmation = () => {
         const cartItemsText = itemsInCart
-            .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
+            .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
             .join('\n');
         
         const address_line_2 = customerAddress2 ? `\n${customerAddress2}` : '';
@@ -399,7 +399,7 @@ ${cartItemsText}
 
 ---
 
-*Grand Total: ₹${calculateGrandTotal()}*
+*Grand Total: ${calculateGrandTotal()}*
 
 Order placed on: ${orderDate}
         `.trim().replace(/\n\n+/g, '\n\n');
@@ -458,8 +458,8 @@ Order placed on: ${orderDate}
                                     {category.items.map((product) => (
                                         <TableRow key={product.title} className="hover:bg-secondary/50">
                                             <TableCell className="font-medium">{product.title}</TableCell>
-                                            <TableCell className="text-right text-muted-foreground line-through">₹{product.actualPrice}</TableCell>
-                                            <TableCell className="text-right font-bold text-primary">₹{product.offerPrice}</TableCell>
+                                            <TableCell className="text-right text-muted-foreground line-through">{product.actualPrice}</TableCell>
+                                            <TableCell className="text-right font-bold text-primary">{product.offerPrice}</TableCell>
                                             <TableCell>
                                                 <Input
                                                     type="number"
@@ -471,7 +471,7 @@ Order placed on: ${orderDate}
                                                 />
                                             </TableCell>
                                             <TableCell className="text-right font-bold">
-                                                ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
+                                                {calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -481,7 +481,7 @@ Order placed on: ${orderDate}
                          <TableFooter>
                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                 <TableCell colSpan={4} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                <TableCell className="text-right font-bold text-xl text-primary">{calculateGrandTotal()}</TableCell>
                             </TableRow>
                         </TableFooter>
                     </Table>
@@ -558,7 +558,7 @@ Order placed on: ${orderDate}
                                                     <TableRow key={product.title}>
                                                         <TableCell className="font-medium">
                                                             {product.title}
-                                                            <p className="text-sm text-muted-foreground">@ ₹{product.offerPrice} each</p>
+                                                            <p className="text-sm text-muted-foreground">@ {product.offerPrice} each</p>
                                                         </TableCell>
                                                         <TableCell>
                                                             <Input
@@ -570,7 +570,7 @@ Order placed on: ${orderDate}
                                                             />
                                                         </TableCell>
                                                         <TableCell className="text-right font-bold">
-                                                            ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
+                                                            {calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
                                                         </TableCell>
                                                         <TableCell>
                                                             <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(product.title, 0)}>
@@ -583,7 +583,7 @@ Order placed on: ${orderDate}
                                             <TableFooter>
                                                 <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                                     <TableCell colSpan={2} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                                    <TableCell className="text-right font-bold text-xl text-primary" colSpan={2}>₹{calculateGrandTotal()}</TableCell>
+                                                    <TableCell className="text-right font-bold text-xl text-primary" colSpan={2}>{calculateGrandTotal()}</TableCell>
                                                 </TableRow>
                                             </TableFooter>
                                         </Table>
@@ -736,15 +736,15 @@ Order placed on: ${orderDate}
                                                 <TableRow key={product.title} className="hover:bg-secondary/30">
                                                     <TableCell className="font-medium">{product.title}</TableCell>
                                                     <TableCell className="text-center">{quantities[product.title]}</TableCell>
-                                                    <TableCell className="text-right">₹{product.offerPrice}</TableCell>
-                                                    <TableCell className="text-right font-bold">₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
+                                                    <TableCell className="text-right">{product.offerPrice}</TableCell>
+                                                    <TableCell className="text-right font-bold">{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
                                         <TableFooter>
                                             <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-lg border-t-2 border-primary/20">
                                                 <TableCell colSpan={3} className="text-right font-bold text-xl text-primary">Grand Total</TableCell>
-                                                <TableCell className="text-right font-bold text-xl text-primary">₹{calculateGrandTotal()}</TableCell>
+                                                <TableCell className="text-right font-bold text-xl text-primary">{calculateGrandTotal()}</TableCell>
                                             </TableRow>
                                         </TableFooter>
                                     </Table>
