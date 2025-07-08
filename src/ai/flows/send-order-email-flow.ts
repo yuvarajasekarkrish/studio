@@ -9,7 +9,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const SendOrderEmailInputSchema = z.object({
+const SendOrderEmailInputSchema = z.object({
   customerName: z.string().describe('The name of the customer.'),
   customerPhone: z.string().describe('The phone number of the customer.'),
   customerAddress1: z.string().describe('The first line of the customer\'s address.'),
