@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { CartProvider } from '@/contexts/cart-context';
+import FloatingCart from '@/components/common/floating-cart';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Maharaj Pyropark - Premier Pyrotechnics & Firework Displays',
@@ -19,7 +22,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-body antialiased">
+        <CartProvider>
+          {children}
+          <FloatingCart />
+        </CartProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }
