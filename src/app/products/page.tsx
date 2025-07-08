@@ -11,7 +11,7 @@ import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Drop
 
 const productData = [
   {
-    category: "One Sound Crackers / ஒரு சத்தம் பட்டாசுகள்",
+    category: "One Sound Crackers",
     icon: <Rocket />,
     items: [
       { title: "2 3/4\" Kuruvi / குருவி Crackers", actualPrice: "75", offerPrice: "15" },
@@ -25,7 +25,7 @@ const productData = [
     ],
   },
   {
-    category: "Chakkar / சக்கரம்",
+    category: "Chakkar",
     icon: <Sparkles />,
     items: [
       { title: "Chakkaram Big / சக்கரம் பெரியது", actualPrice: "300", offerPrice: "60" },
@@ -36,7 +36,7 @@ const productData = [
     ],
   },
   {
-    category: "Flower Pots / பூந்தொட்டிகள்",
+    category: "Flower Pots",
     icon: <Star />,
     items: [
       { title: "Flower Pots Bomb / பூந்தொட்டி பாம்", actualPrice: "500", offerPrice: "100" },
@@ -51,7 +51,7 @@ const productData = [
     ],
   },
   {
-    category: "Bomb / வெடி",
+    category: "Bomb",
     icon: <Zap />,
     items: [
       { title: "Bullet Bomb / புல்லட் பாம்", actualPrice: "155", offerPrice: "31" },
@@ -66,7 +66,7 @@ const productData = [
     ],
   },
   {
-    category: "Pencil / பென்சில்",
+    category: "Pencil",
     icon: <Pencil />,
     items: [
       { title: "Ultra pencil / அல்ட்ரா பென்சில்", actualPrice: "460", offerPrice: "92" },
@@ -74,7 +74,7 @@ const productData = [
     ],
   },
   {
-    category: "Twinkling Star / மினுமினுக்கும் நட்சத்திரம்",
+    category: "Twinkling Star",
     icon: <Sparkles />,
     items: [
       { title: "1 1/2\" Twinkling Star / 1 1/2\" மினுமினுக்கும் நட்சத்திரம்", actualPrice: "175", offerPrice: "35" },
@@ -82,7 +82,7 @@ const productData = [
     ],
   },
   {
-    category: "Rocket / ராக்கெட்",
+    category: "Rocket",
     icon: <Rocket />,
     items: [
       { title: "Baby Rocket / பேபி ராக்கெட்", actualPrice: "245", offerPrice: "49" },
@@ -92,7 +92,7 @@ const productData = [
     ],
   },
   {
-    category: "Fancy / ஃபேன்சி",
+    category: "Fancy",
     icon: <Gift />,
     items: [
       { title: "Tri Colour / மூவர்ணம்", actualPrice: "1800", offerPrice: "360" },
@@ -110,7 +110,7 @@ const productData = [
     ],
   },
   {
-    category: "Shower / ஷவர்",
+    category: "Shower",
     icon: <CloudDrizzle />,
     items: [
       { title: "Cocktail / காக்டெய்ல்", actualPrice: "785", offerPrice: "157" },
@@ -119,7 +119,7 @@ const productData = [
     ],
   },
   {
-    category: "Fancy Novelties / ஃபேன்சி நாவல்டீஸ்",
+    category: "Fancy Novelties",
     icon: <ToyBrick />,
     items: [
       { title: "Helicopter / ஹெலிகாப்டர்", actualPrice: "575", offerPrice: "115" },
@@ -138,7 +138,7 @@ const productData = [
     ],
   },
   {
-    category: "Fountain / நீரூற்று",
+    category: "Fountain",
     icon: <Droplets />,
     items: [
       { title: "Four Square / ஃபோர் ஸ்கொயர்", actualPrice: "2020", offerPrice: "404" },
@@ -146,7 +146,7 @@ const productData = [
     ],
   },
   {
-    category: "Shot / ஷாட்",
+    category: "Shot",
     icon: <Crosshair />,
     items: [
       { title: "7 Shot / 7 ஷாட்", actualPrice: "600", offerPrice: "120" },
@@ -158,7 +158,7 @@ const productData = [
     ]
   },
   {
-    category: "Matches / தீப்பெட்டி",
+    category: "Matches",
     icon: <Flame />,
     items: [
       { title: "Dora Dora / டோரா டோரா", actualPrice: "175", offerPrice: "35" },
@@ -168,7 +168,7 @@ const productData = [
     ]
   },
   {
-    category: "Sparklers / ஸ்பார்க்லர்ஸ்",
+    category: "Sparklers",
     icon: <Sparkles />,
     items: [
       { title: "12 cm Electric Sparklers / 12 செ.மீ எலக்ட்ரிக் ஸ்பார்க்லர்ஸ்", actualPrice: "160", offerPrice: "32" },
@@ -189,7 +189,7 @@ const productData = [
     ]
   },
   {
-    category: "Chorsa / சோர்சா",
+    category: "Chorsa",
     icon: <Flame />,
     items: [
       { title: "Red Bijli (100 pcs) / சிவப்பு பிஜிலி (100 பீஸ்)", actualPrice: "300", offerPrice: "60" },
@@ -198,7 +198,7 @@ const productData = [
     ]
   },
   {
-    category: "2024 New Varieties / 2024 புதிய வகைகள்",
+    category: "2024 New Varieties",
     icon: <Gift />,
     items: [
       { title: "90 Walts / 90 வால்ட்ஸ்", actualPrice: "750", offerPrice: "150" },
