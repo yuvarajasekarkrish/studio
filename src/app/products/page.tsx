@@ -529,13 +529,6 @@ Order placed on: ${orderDate}
                             </TableRow>
                         </TableFooter>
                     </Table>
-                    <div className="flex justify-end mt-8">
-                        <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg" onClick={handleCheckout}>
-                            <ShoppingCart className="mr-2 h-5 w-5" />
-                            View Cart & Checkout
-                            {itemsInCart.length > 0 && <span className="ml-2 bg-primary-foreground text-primary rounded-full px-2 py-0.5 text-xs font-bold">{itemsInCart.length}</span>}
-                        </Button>
-                    </div>
                 </div>
                 
                 <AlertDialog open={isRemoveConfirmOpen} onOpenChange={setIsRemoveConfirmOpen}>
@@ -828,6 +821,22 @@ Order placed on: ${orderDate}
                        )}
                     </DialogContent>
                 </Dialog>
+
+                <div className="fixed bottom-8 right-8 z-50">
+                    <Button
+                        size="icon"
+                        className="relative bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-16 w-16 shadow-lg"
+                        onClick={handleCheckout}
+                        aria-label={`View cart, ${itemsInCart.length} items`}
+                    >
+                        <ShoppingCart className="h-8 w-8" />
+                        {itemsInCart.length > 0 && (
+                            <span className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground border-2 border-background">
+                                {itemsInCart.length}
+                            </span>
+                        )}
+                    </Button>
+                </div>
 
             </main>
             <Footer />
