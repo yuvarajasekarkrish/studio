@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
-import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets } from "lucide-react";
+import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame } from "lucide-react";
 
 const productData = [
   {
@@ -99,6 +99,14 @@ const productData = [
       { title: "Peacock Small", actualPrice: "900", offerPrice: "180" },
       { title: "Peacock Bada", actualPrice: "3000", offerPrice: "600" },
       { title: "Peacock Feather", actualPrice: "525", offerPrice: "105" },
+      { title: "Chotta 5 in 1", actualPrice: "2175", offerPrice: "435" },
+      { title: "2\" Single", actualPrice: "990", offerPrice: "198" },
+      { title: "2 1/2\" Single", actualPrice: "1750", offerPrice: "350" },
+      { title: "3\" Seven Wonders", actualPrice: "2350", offerPrice: "470" },
+      { title: "3\" Single", actualPrice: "2540", offerPrice: "508" },
+      { title: "3 1/2\" Single", actualPrice: "7500", offerPrice: "1500" },
+      { title: "Double Ball Mix", actualPrice: "9075", offerPrice: "1815" },
+      { title: "Chotta Single", actualPrice: "300", offerPrice: "60" },
     ],
   },
   {
@@ -123,6 +131,10 @@ const productData = [
       { title: "Photo Flash Silver", actualPrice: "300", offerPrice: "60" },
       { title: "Siren Mega (2 Pcs)", actualPrice: "1330", offerPrice: "266" },
       { title: "Smoke", actualPrice: "1155", offerPrice: "231" },
+      { title: "Money In The Bank", actualPrice: "1150", offerPrice: "230" },
+      { title: "4\" Emoji", actualPrice: "1075", offerPrice: "215" },
+      { title: "Live Show", actualPrice: "1075", offerPrice: "215" },
+      { title: "Tin", actualPrice: "900", offerPrice: "180" },
     ],
   },
   {
@@ -133,6 +145,49 @@ const productData = [
       { title: "20x20 King Of Hitler", actualPrice: "750", offerPrice: "150" },
     ],
   },
+  {
+    category: "Shot",
+    icon: <Crosshair />,
+    items: [
+      { title: "7 Shot", actualPrice: "600", offerPrice: "120" },
+      { title: "15 Shot", actualPrice: "1625", offerPrice: "325" },
+      { title: "30 Shot", actualPrice: "2400", offerPrice: "480" },
+      { title: "60 Shot", actualPrice: "4800", offerPrice: "960" },
+      { title: "120 Shot", actualPrice: "9750", offerPrice: "1950" },
+      { title: "240 Shot", actualPrice: "19250", offerPrice: "3850" },
+    ]
+  },
+  {
+    category: "Matches",
+    icon: <Flame />,
+    items: [
+      { title: "Dora Dora", actualPrice: "175", offerPrice: "35" },
+      { title: "Matches - Laptop", actualPrice: "1300", offerPrice: "260" },
+      { title: "Matches Single (10 box)", actualPrice: "350", offerPrice: "70" },
+      { title: "Smoke Stick", actualPrice: "125", offerPrice: "25" },
+    ]
+  },
+  {
+    category: "Sparklers",
+    icon: <Sparkles />,
+    items: [
+      { title: "12 cm Electric Sparklers", actualPrice: "160", offerPrice: "32" },
+      { title: "12 cm Colour Sparklers", actualPrice: "170", offerPrice: "34" },
+      { title: "15 cm Electric Sparklers", actualPrice: "285", offerPrice: "57" },
+      { title: "15 cm Colour Sparklers", actualPrice: "310", offerPrice: "62" },
+      { title: "15 cm Green Sparklers", actualPrice: "330", offerPrice: "66" },
+      { title: "15 cm Red Sparklers", actualPrice: "400", offerPrice: "80" },
+      { title: "15 cm Silver Drop Sparklers", actualPrice: "340", offerPrice: "68" },
+      { title: "30 cm Electric Sparklers", actualPrice: "285", offerPrice: "57" },
+      { title: "30 cm Colour Sparklers", actualPrice: "310", offerPrice: "62" },
+      { title: "30 cm Green Sparklers", actualPrice: "330", offerPrice: "66" },
+      { title: "30 cm Red Sparklers", actualPrice: "405", offerPrice: "81" },
+      { title: "30cm Silver Drop Sparklers", actualPrice: "340", offerPrice: "68" },
+      { title: "50 cm Electric Sparklers", actualPrice: "850", offerPrice: "170" },
+      { title: "50 cm Colour Sparklers", actualPrice: "950", offerPrice: "190" },
+      { title: "50 cm Royal Mix Sparklers", actualPrice: "1200", offerPrice: "240" },
+    ]
+  }
 ];
 
 
