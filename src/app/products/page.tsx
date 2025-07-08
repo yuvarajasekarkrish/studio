@@ -241,6 +241,7 @@ export default function ProductsPage() {
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
     const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+    const [orderDate, setOrderDate] = useState('');
 
     const confirmRemoveItem = () => {
         if (itemToRemove) {
@@ -346,6 +347,9 @@ export default function ProductsPage() {
                 .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
                 .join('\n');
     
+            const placedOnDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+            setOrderDate(placedOnDate);
+
             await sendOrderEmail({
                 customerName,
                 customerPhone,
@@ -355,6 +359,7 @@ export default function ProductsPage() {
                 customerPincode,
                 cartItemsText,
                 grandTotal: calculateGrandTotal(),
+                orderDate: placedOnDate,
             });
             
             setIsWhatsAppConfirmOpen(true);
@@ -396,7 +401,7 @@ ${cartItemsText}
 
 *Grand Total: ₹${calculateGrandTotal()}*
 
-Order placed on: ${new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+Order placed on: ${orderDate}
         `.trim().replace(/\n\n+/g, '\n\n');
 
         const encodedMessage = encodeURIComponent(message);
