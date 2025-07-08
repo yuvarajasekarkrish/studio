@@ -63,26 +63,33 @@ export default function FloatingCart() {
     const handleDownload = () => {
         const input = orderSummaryRef.current;
         if (input) {
-            input.scrollTop = 0;
-            html2canvas(input, { scale: 2, useCORS: true, windowHeight: input.scrollHeight }).then(canvas => {
+            html2canvas(input, {
+                scale: 2,
+                useCORS: true,
+                scrollY: -window.scrollY,
+                windowHeight: input.scrollHeight,
+                windowWidth: input.scrollWidth,
+            }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfPageHeight = pdf.internal.pageSize.getHeight();
-                const imgProps = pdf.getImageProperties(imgData);
-                const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                const pdfHeight = pdf.internal.pageSize.getHeight();
 
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                
+                const imgHeight = canvasHeight * pdfWidth / canvasWidth;
                 let heightLeft = imgHeight;
                 let position = 0;
-                
+
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                heightLeft -= pdfPageHeight;
-                
+                heightLeft -= pdfHeight;
+
                 while (heightLeft > 0) {
-                    position -= pdfPageHeight;
+                    position = position - pdfHeight;
                     pdf.addPage();
                     pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                    heightLeft -= pdfPageHeight;
+                    heightLeft -= pdfHeight;
                 }
                 
                 pdf.save('maharaj-pyropark-order.pdf');
