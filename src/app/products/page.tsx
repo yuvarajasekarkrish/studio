@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -280,16 +281,33 @@ export default function ProductsPage() {
 
 
     const handleDownload = () => {
-        const elementToCapture = orderSummaryRef.current;
-        if (elementToCapture) {
-            html2canvas(elementToCapture, {
-                scale: 2,
-                useCORS: true,
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'maharaj-pyropark-order.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+        const input = orderSummaryRef.current;
+        if (input) {
+            // Use the scrollHeight to make sure html2canvas captures everything
+            html2canvas(input, { scale: 2, useCORS: true, windowHeight: input.scrollHeight }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfPageHeight = pdf.internal.pageSize.getHeight();
+                const imgProps = pdf.getImageProperties(imgData);
+                const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                // Add the first page
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pdfPageHeight;
+                
+                // Add new pages if the content is long
+                while (heightLeft > 0) {
+                    position -= pdfPageHeight; // Move the image "up" on the next page
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfPageHeight;
+                }
+                
+                pdf.save('maharaj-pyropark-order.pdf');
             });
         }
     };
@@ -528,7 +546,7 @@ export default function ProductsPage() {
                                         onClick={handleDownload} 
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
                                     >
-                                        <Download className="mr-2 h-4 w-4" /> Confirm & Download Order
+                                        <Download className="mr-2 h-4 w-4" /> Confirm & Download PDF
                                     </Button>
                                 </DialogFooter>
                             </>
