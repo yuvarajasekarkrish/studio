@@ -33,6 +33,7 @@ export default function FloatingCart() {
     const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     const [orderDate, setOrderDate] = useState('');
+    const [itemToRemove, setItemToRemove] = useState<string | null>(null);
 
     const isAddressFormValid = !!(customerName && customerPhone && customerAddress1 && customerCity && customerPincode);
 
@@ -64,29 +65,26 @@ export default function FloatingCart() {
         const input = orderSummaryRef.current;
         if (!input) return;
 
-        // Store original styles and scroll position
         const originalStyles = {
             maxHeight: input.style.maxHeight,
             overflowY: input.style.overflowY,
         };
         const scrollTop = input.scrollTop;
 
-        // Temporarily override styles to ensure full content is rendered for capture
         input.style.maxHeight = 'none';
         input.style.overflowY = 'visible';
-        
-        // Ensure we are at the top before capture
         input.scrollTop = 0;
 
         try {
             const canvas = await html2canvas(input, {
-                scale: 2, // Higher scale for better quality
+                scale: 2, 
                 useCORS: true,
                 logging: false,
-                scrollY: -window.scrollY // Capture from top of the element
+                scrollY: -window.scrollY,
+                windowWidth: input.scrollWidth,
+                windowHeight: input.scrollHeight,
             });
             
-            // Restore styles and scroll position immediately after capture
             input.style.maxHeight = originalStyles.maxHeight;
             input.style.overflowY = originalStyles.overflowY;
             input.scrollTop = scrollTop;
@@ -95,27 +93,21 @@ export default function FloatingCart() {
             const pdf = new jsPDF('p', 'mm', 'a4');
 
             const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
-
-            // Calculate the height of the image in the PDF's units
             const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
             
             let heightLeft = imgHeight;
             let position = 0;
 
-            // Add the first page
             pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdfHeight;
+            heightLeft -= pdf.internal.pageSize.getHeight();
 
-            // Add new pages if the content is taller than one page
             while (heightLeft > 0) {
-                position = position - pdfHeight;
+                position = position - pdf.internal.pageSize.getHeight();
                 pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                heightLeft -= pdfHeight;
+                heightLeft -= pdf.internal.pageSize.getHeight();
             }
             
             pdf.save('maharaj-pyropark-order.pdf');
@@ -128,7 +120,6 @@ export default function FloatingCart() {
                 description: "There was an error creating the PDF file. Please try again.",
             });
         } finally {
-            // Ensure styles are restored even on error
             input.style.maxHeight = originalStyles.maxHeight;
             input.style.overflowY = originalStyles.overflowY;
             input.scrollTop = scrollTop;
@@ -226,8 +217,32 @@ Order placed on: ${orderDate}
         setIsCheckoutOpen(false);
     };
 
+    const handleConfirmRemoveItem = () => {
+        if (itemToRemove) {
+            handleQuantityChange(itemToRemove, 0);
+        }
+        setItemToRemove(null);
+    };
+
     return (
         <>
+            <AlertDialog open={!!itemToRemove} onOpenChange={(open) => !open && setItemToRemove(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action will remove "{itemToRemove?.split(' / ')[0]}" from your cart.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel onClick={() => setItemToRemove(null)}>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleConfirmRemoveItem}>
+                            Remove
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
             <AlertDialog open={isWhatsAppConfirmOpen} onOpenChange={setIsWhatsAppConfirmOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -296,7 +311,7 @@ Order placed on: ${orderDate}
                                                         ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
                                                     </TableCell>
                                                     <TableCell className="border">
-                                                        <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(product.title, 0)}>
+                                                        <Button variant="ghost" size="icon" onClick={() => setItemToRemove(product.title)}>
                                                             <Trash2 className="h-4 w-4 text-destructive" />
                                                         </Button>
                                                     </TableCell>
