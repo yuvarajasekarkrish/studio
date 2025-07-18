@@ -70,11 +70,11 @@ export default function FloatingCart() {
             overflowY: input.style.overflowY,
         };
         const scrollTop = input.scrollTop;
-
+        
         input.style.maxHeight = 'none';
         input.style.overflowY = 'visible';
         input.scrollTop = 0;
-
+        
         try {
             const canvas = await html2canvas(input, {
                 scale: 2, 
@@ -120,9 +120,11 @@ export default function FloatingCart() {
                 description: "There was an error creating the PDF file. Please try again.",
             });
         } finally {
-            input.style.maxHeight = originalStyles.maxHeight;
-            input.style.overflowY = originalStyles.overflowY;
-            input.scrollTop = scrollTop;
+            if (input) {
+                input.style.maxHeight = originalStyles.maxHeight;
+                input.style.overflowY = originalStyles.overflowY;
+                input.scrollTop = scrollTop;
+            }
         }
     };
     
@@ -224,6 +226,15 @@ Order placed on: ${orderDate}
         setItemToRemove(null);
     };
 
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: number) => {
+        if (isNaN(quantity) || quantity <= 0) {
+            setItemToRemove(title);
+        } else {
+            handleQuantityChange(title, quantity);
+        }
+    };
+
+
     return (
         <>
             <AlertDialog open={!!itemToRemove} onOpenChange={(open) => !open && setItemToRemove(null)}>
@@ -303,7 +314,7 @@ Order placed on: ${orderDate}
                                                             type="number"
                                                             min="0"
                                                             value={quantities[product.title] || ''}
-                                                            onChange={(e) => handleQuantityChange(product.title, parseInt(e.target.value))}
+                                                            onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value))}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
                                                     </TableCell>
