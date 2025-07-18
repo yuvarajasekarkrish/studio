@@ -64,26 +64,32 @@ export default function FloatingCart() {
         const input = orderSummaryRef.current;
         if (!input) return;
 
-        // Store original styles
+        // Store original styles and scroll position
         const originalStyles = {
             maxHeight: input.style.maxHeight,
             overflowY: input.style.overflowY,
         };
+        const scrollTop = input.scrollTop;
 
         // Temporarily override styles to ensure full content is rendered for capture
         input.style.maxHeight = 'none';
         input.style.overflowY = 'visible';
+        
+        // Ensure we are at the top before capture
+        input.scrollTop = 0;
 
         try {
             const canvas = await html2canvas(input, {
                 scale: 2, // Higher scale for better quality
                 useCORS: true,
                 logging: false,
+                scrollY: -window.scrollY // Capture from top of the element
             });
             
-            // Restore styles immediately after capture
+            // Restore styles and scroll position immediately after capture
             input.style.maxHeight = originalStyles.maxHeight;
             input.style.overflowY = originalStyles.overflowY;
+            input.scrollTop = scrollTop;
 
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
@@ -125,6 +131,7 @@ export default function FloatingCart() {
             // Ensure styles are restored even on error
             input.style.maxHeight = originalStyles.maxHeight;
             input.style.overflowY = originalStyles.overflowY;
+            input.scrollTop = scrollTop;
         }
     };
     
@@ -314,7 +321,11 @@ Order placed on: ${orderDate}
                                         </TableFooter>
                                     </Table>
                                 ) : (
-                                    <p className="text-center text-muted-foreground py-8">Your cart is empty.</p>
+                                    <div className="flex flex-col items-center justify-center py-16 text-center">
+                                        <ShoppingCart className="w-16 h-16 mb-4 text-muted-foreground" />
+                                        <h3 className="text-2xl font-bold font-headline text-primary">Your Cart is Empty</h3>
+                                        <p className="mt-2 text-muted-foreground">Looks like you haven't added any fireworks yet.</p>
+                                    </div>
                                 )}
                             </div>
                             <DialogFooter className="mt-4">
