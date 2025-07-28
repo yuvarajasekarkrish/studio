@@ -9,9 +9,12 @@ export default function Footer() {
             <Sparkles className="h-6 w-6 text-primary" />
             <span className="font-bold text-lg font-headline">Maharaj Pyropark</span>
           </div>
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Maharaj Pyropark. All rights reserved.
-          </p>
+          <div className="text-center text-sm text-muted-foreground">
+            <p>&copy; {new Date().getFullYear()} Maharaj Pyropark. All rights reserved.</p>
+            <p>
+              Designed by <a href="https://your-portfolio.com" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Your Name</a>
+            </p>
+          </div>
           <div className="flex gap-4">
             <a href="#" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors">
               <Twitter className="w-5 h-5" />
