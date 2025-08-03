@@ -43,8 +43,18 @@ const emailGenerationPrompt = ai.definePrompt({
   input: { schema: SendOrderEmailInputSchema },
   output: { schema: z.object({ subject: z.string(), body: z.string() }) },
   prompt: `You are an order processing agent for a company named "Maharaj Pyrotech".
-Your task is to generate a professional HTML email body and a subject line for a new order notification.
+Your task is to generate a professional HTML email and a subject line for a new order notification.
 The email should be sent to the business owner to inform them of a new order.
+
+Generate a concise subject line like "New Order Received from [Customer Name]".
+
+For the email body, generate a well-formatted HTML document. It should include:
+- A main heading "New Order Received".
+- A section with the customer's delivery details (Name, Email, Phone, Address).
+- An HTML table for the "Order Summary". The table should have columns for "Item", "Quantity", and "Price".
+- The order items should be parsed from the 'cartItemsText' and populated into the table rows.
+- Below the table, display the Subtotal, Packaging Cost, and Grand Total.
+- The email should be styled professionally with some basic CSS for readability (e.g., borders for the table, bold headings).
 
 Use the following customer and order details:
 Customer Name: {{customerName}}
@@ -52,7 +62,7 @@ Customer Email: {{customerEmail}}
 Customer Phone: {{customerPhone}}
 Delivery Address: {{customerAddress1}}{{#if customerAddress2}}, {{customerAddress2}}{{/if}}, {{customerCity}}, {{customerPincode}}
 
-Order Items:
+Order Items (raw text):
 {{{cartItemsText}}}
 
 Subtotal: {{subtotal}}
@@ -60,9 +70,6 @@ Packaging Cost: {{packagingCost}}
 Grand Total: {{grandTotal}}
 
 Order placed on: {{orderDate}}
-
-Generate a concise subject line like "New Order Received from [Customer Name]".
-Generate a clear and well-formatted HTML email body containing all the provided details in a structured way.
 `,
 });
 
@@ -103,7 +110,7 @@ const sendOrderEmailFlow = ai.defineFlow(
        to: 'yuvarajasekarkrish@gmail.com',
         replyTo: input.customerEmail,
         subject: subject,
-        html: body.replace(/\n/g, '<br>'),
+        html: body,
     };
 
     try {
