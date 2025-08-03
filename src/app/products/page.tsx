@@ -5,7 +5,7 @@ import Footer from '@/components/common/footer';
 import ProductList from '@/components/sections/product-list';
 
 export const metadata: Metadata = {
-    title: 'Products - 80% Off Firework Sale | Maharaj Pyropark',
+    title: 'Products - 80% Off Firework Sale | Maharaj Pyrotech',
     description: 'Browse our huge selection of fireworks, all at an 80% discount. Find rockets, sparklers, crackers, and more for your perfect celebration.',
 };
 

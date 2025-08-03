@@ -36,7 +36,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (isInitialMount.current) {
             try {
-                const savedCart = localStorage.getItem('maharajPyroparkCart');
+                const savedCart = localStorage.getItem('maharajPyrotechCart');
                 if (savedCart) {
                     setQuantities(JSON.parse(savedCart));
                 }
@@ -46,7 +46,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             isInitialMount.current = false;
         } else {
             try {
-                localStorage.setItem('maharajPyroparkCart', JSON.stringify(quantities));
+                localStorage.setItem('maharajPyrotechCart', JSON.stringify(quantities));
             } catch (error) {
                 console.error('Could not save cart to localStorage', error);
             }

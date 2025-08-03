@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -34,16 +35,16 @@ export default function Header() {
                 <WhatsAppBrandIcon className="w-4 h-4 text-green-500" />
                 <span className="hidden sm:inline">(+91) 9843529357</span>
             </a>
-            <a href="mailto:maharajpyropark@gmail.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <a href="mailto:maharajpyrotech@gmail.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
-                <span className="hidden sm:inline">maharajpyropark@gmail.com</span>
+                <span className="hidden sm:inline">maharajpyrotech@gmail.com</span>
             </a>
         </div>
       </div>
       <div className="container flex h-16 max-w-7xl items-center justify-between">
         <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
           <Sparkles className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg font-headline">Maharaj Pyropark</span>
+          <span className="font-bold text-lg font-headline">Maharaj Pyrotech</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">

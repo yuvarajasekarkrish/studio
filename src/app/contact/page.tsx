@@ -6,8 +6,8 @@ import type { Metadata } from 'next';
 import ContactForm from '@/components/sections/contact-form';
 
 export const metadata: Metadata = {
-    title: 'Contact Us | Maharaj Pyropark',
-    description: 'Get in touch with Maharaj Pyropark for a free consultation on your event. Contact us via phone, email, or visit our location in Sivakasi.',
+    title: 'Contact Us | Maharaj Pyrotech',
+    description: 'Get in touch with Maharaj Pyrotech for a free consultation on your event. Contact us via phone, email, or visit our location in Sivakasi.',
 };
 
 export default function ContactPage() {
@@ -56,7 +56,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg font-headline">Email Us</h3>
-                    <p className="text-muted-foreground">maharajpyropark@gmail.com</p>
+                    <p className="text-muted-foreground">maharajpyrotech@gmail.com</p>
                   </div>
                 </div>
               </div>

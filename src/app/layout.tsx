@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/contexts/cart-context';
@@ -5,9 +6,9 @@ import FloatingCart from '@/components/common/floating-cart';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Maharaj Pyropark - Premier Pyrotechnics & Firework Displays',
-  description: 'Maharaj Pyropark specializes in creating unforgettable firework displays for weddings, corporate events, and public celebrations. Experience the magic of pyrotechnics with our expert team.',
-  keywords: 'fireworks, pyrotechnics, wedding fireworks, corporate events, firework displays, Maharaj Pyropark',
+  title: 'Maharaj Pyrotech - Premier Pyrotechnics & Firework Displays',
+  description: 'Maharaj Pyrotech specializes in creating unforgettable firework displays for weddings, corporate events, and public celebrations. Experience the magic of pyrotechnics with our expert team.',
+  keywords: 'fireworks, pyrotechnics, wedding fireworks, corporate events, firework displays, Maharaj Pyrotech',
 };
 
 export default function RootLayout({

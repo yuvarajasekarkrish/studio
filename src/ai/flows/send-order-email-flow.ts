@@ -42,7 +42,7 @@ const emailGenerationPrompt = ai.definePrompt({
   name: 'orderEmailPrompt',
   input: { schema: SendOrderEmailInputSchema },
   output: { schema: z.object({ subject: z.string(), body: z.string() }) },
-  prompt: `You are an order processing agent for a company named "Maharaj Pyropark".
+  prompt: `You are an order processing agent for a company named "Maharaj Pyrotech".
 Your task is to generate a professional HTML email body and a subject line for a new order notification.
 The email should be sent to the business owner to inform them of a new order.
 
@@ -99,7 +99,7 @@ const sendOrderEmailFlow = ai.defineFlow(
     });
 
     const mailOptions = {
-       from: `Maharaj Pyropark <${process.env.EMAIL_SERVER_USER}>`,
+       from: `Maharaj Pyrotech <${process.env.EMAIL_SERVER_USER}>`,
        to: 'yuvarajasekarkrish@gmail.com',
         replyTo: input.customerEmail,
         subject: subject,

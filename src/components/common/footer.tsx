@@ -1,3 +1,4 @@
+
 import { Sparkles, Twitter, Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
@@ -7,10 +8,10 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg font-headline">Maharaj Pyropark</span>
+            <span className="font-bold text-lg font-headline">Maharaj Pyrotech</span>
           </div>
           <div className="text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Maharaj Pyropark. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Maharaj Pyrotech. All rights reserved.</p>
             <p>
               Designed by <a href="https://your-portfolio.com" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Your Name</a>
             </p>

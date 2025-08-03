@@ -120,7 +120,7 @@ export default function FloatingCart() {
                 heightLeft -= pdf.internal.pageSize.getHeight();
             }
             
-            pdf.save('maharaj-pyropark-order.pdf');
+            pdf.save('maharaj-pyrotech-order.pdf');
 
         } catch (error) {
             console.error("Error generating PDF:", error);
@@ -154,7 +154,7 @@ export default function FloatingCart() {
             const addressParts = [customerAddress1, customerAddress2, customerCity, customerPincode].filter(Boolean);
             const fullAddress = addressParts.join(', ');
 
-            const waMessage = `*New Order from Maharaj Pyropark!*
+            const waMessage = `*New Order from Maharaj Pyrotech!*
 
 *Customer:* ${customerName}
 *Phone:* ${customerPhone}
@@ -466,7 +466,7 @@ ${cartItemsText}
                                 <div className="flex justify-between items-center mb-6 pb-4 border-b">
                                     <div className="flex items-center gap-3">
                                         <Sparkles className="h-8 w-8 text-primary" />
-                                        <span className="font-bold text-2xl font-headline text-primary">Maharaj Pyropark</span>
+                                        <span className="font-bold text-2xl font-headline text-primary">Maharaj Pyrotech</span>
                                     </div>
                                     <p className="text-sm text-muted-foreground">{new Date().toLocaleDateString('en-GB')}</p>
                                 </div>
