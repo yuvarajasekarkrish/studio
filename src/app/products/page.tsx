@@ -86,10 +86,12 @@ export default function ProductsPage() {
                                     {category.items.map((product) => (
                                         <TableRow key={product.title} className="hover:bg-secondary/50">
                                             <TableCell className="font-medium border">
-                                                {product.title}
-                                                {product.stock === 0 && (
-                                                    <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
-                                                )}
+                                                <div>
+                                                    {product.title}
+                                                    {product.stock === 0 && (
+                                                        <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
+                                                    )}
+                                                </div>
                                             </TableCell>
                                             <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
                                             <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
