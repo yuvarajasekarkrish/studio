@@ -74,9 +74,11 @@ const sendOrderEmailFlow = ai.defineFlow(
     const { subject, body } = output;
 
     console.log('--- SIMULATING ORDER EMAIL ---');
+    console.log('NOTE: This is a simulation. In a production app, an email service would send this.');
     console.log('To: yuvarajasekarkrish@gmail.com');
     console.log(`Subject: ${subject}`);
     console.log('Body:\n', body);
+    console.log('------------------------------');
     
     // In a real application, you would integrate an email service here to send the actual email.
     // For example, using a service like Nodemailer or an API from SendGrid, Mailgun, etc.
