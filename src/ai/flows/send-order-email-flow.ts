@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import nodemailer from 'nodemailer';
 
 const SendOrderEmailInputSchema = z.object({
   customerName: z.string().describe('The name of the customer.'),
@@ -73,15 +74,35 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     const { subject, body } = output;
 
-    console.log('--- SIMULATING ORDER EMAIL ---');
-    console.log('NOTE: This is a simulation. In a production app, an email service would send this.');
-    console.log('To: yuvarajasekarkrish@gmail.com');
-    console.log(`Subject: ${subject}`);
-    console.log('Body:\n', body);
-    console.log('------------------------------');
-    
-    // In a real application, you would integrate an email service here to send the actual email.
-    // For example, using a service like Nodemailer or an API from SendGrid, Mailgun, etc.
-    // Since I cannot handle API keys or external services, this log simulates sending the email to your specified Gmail account.
+    // Configure Nodemailer
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_SERVER_USER,
+            pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+    });
+
+    const mailOptions = {
+        from: `"Maharaj Pyropark" <${process.env.EMAIL_SERVER_USER}>`,
+        to: process.env.EMAIL_TO_ADDRESS,
+        subject: subject,
+        text: body, // For plain text email
+        html: `<pre>${body}</pre>`, // For HTML email, using <pre> to preserve formatting
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(`Order email sent successfully to ${process.env.EMAIL_TO_ADDRESS}`);
+    } catch (error) {
+        console.error("Failed to send email:", error);
+        // Fallback to logging if email fails, so the order isn't lost.
+        console.log('--- FALLBACK: LOGGING ORDER EMAIL ---');
+        console.log(`To: ${process.env.EMAIL_TO_ADDRESS}`);
+        console.log(`Subject: ${subject}`);
+        console.log('Body:\n', body);
+        console.log('------------------------------------');
+        throw new Error("Failed to send the order email via the provider. Please check server logs.");
+    }
   }
 );
