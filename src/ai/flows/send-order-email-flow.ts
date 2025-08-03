@@ -78,8 +78,8 @@ const sendOrderEmailFlow = ai.defineFlow(
     console.log(`Subject: ${subject}`);
     console.log('Body:\n', body);
     
-    // In a real application, you would integrate an email service here.
+    // In a real application, you would integrate an email service here to send the actual email.
     // For example, using a service like Nodemailer or an API from SendGrid, Mailgun, etc.
-    // Since I cannot handle API keys or external services, I am logging this to the console.
+    // Since I cannot handle API keys or external services, this log simulates sending the email to your specified Gmail account.
   }
 );
