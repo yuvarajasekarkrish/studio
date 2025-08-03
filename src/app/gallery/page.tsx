@@ -1,6 +1,12 @@
 import Header from '@/components/common/header';
 import Footer from '@/components/common/footer';
 import Image from "next/image";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Gallery - Spectacular Firework Displays | Maharaj Pyropark',
+    description: 'A glimpse into the spectacular moments and unforgettable firework displays we have created for weddings, corporate events, and celebrations.',
+};
 
 const galleryImages = [
   { src: "https://placehold.co/600x400.png", alt: "Wedding fireworks over a lake", hint: "celebration fireworks" },

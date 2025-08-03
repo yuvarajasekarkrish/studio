@@ -7,6 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Contact Us | Maharaj Pyropark',
+    description: 'Get in touch with Maharaj Pyropark for a free consultation on your event. Contact us via phone, email, or visit our location in Sivakasi.',
+};
 
 export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {

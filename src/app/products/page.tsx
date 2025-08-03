@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import { useState } from 'react';
+import type { Metadata } from 'next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import Header from '@/components/common/header';
@@ -11,6 +12,12 @@ import { useCart } from '@/contexts/cart-context';
 import { productData, PACKAGING_COST } from '@/lib/products';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
+
+export const metadata: Metadata = {
+    title: 'Products - 80% Off Firework Sale | Maharaj Pyropark',
+    description: 'Browse our huge selection of fireworks, all at an 80% discount. Find rockets, sparklers, crackers, and more for your perfect celebration.',
+};
+
 
 export default function ProductsPage() {
     const { quantities, handleQuantityChange, calculateRowTotal, subtotal, grandTotal } = useCart();
