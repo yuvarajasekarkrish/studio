@@ -1,16 +1,15 @@
 
 'use server';
 /**
- * @fileOverview A flow to handle sending an order confirmation email.
+ * @fileOverview A flow to handle generating an order confirmation email.
  *
- * - sendOrderEmail - A function that handles sending the order email.
+ * - sendOrderEmail - A function that generates the email content.
  * - SendOrderEmailInput - The input type for the sendOrderEmail function.
+ * - SendOrderEmailOutput - The output type for the sendOrderEmail function.
  */
-
+import 'dotenv/config';
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import nodemailer from 'nodemailer';
-import 'dotenv/config';
 
 const SendOrderEmailInputSchema = z.object({
   customerName: z.string().describe('The name of the customer.'),
@@ -27,14 +26,21 @@ const SendOrderEmailInputSchema = z.object({
 });
 export type SendOrderEmailInput = z.infer<typeof SendOrderEmailInputSchema>;
 
-export async function sendOrderEmail(input: SendOrderEmailInput): Promise<void> {
-  await sendOrderEmailFlow(input);
+const SendOrderEmailOutputSchema = z.object({
+  subject: z.string(),
+  body: z.string(),
+});
+export type SendOrderEmailOutput = z.infer<typeof SendOrderEmailOutputSchema>;
+
+
+export async function sendOrderEmail(input: SendOrderEmailInput): Promise<SendOrderEmailOutput> {
+  return await sendOrderEmailFlow(input);
 }
 
 const emailGenerationPrompt = ai.definePrompt({
   name: 'orderEmailPrompt',
   input: { schema: SendOrderEmailInputSchema },
-  output: { schema: z.object({ subject: z.string(), body: z.string() }) },
+  output: { schema: SendOrderEmailOutputSchema },
   prompt: `You are an order processing agent for a company named "Maharaj Pyropark".
 Your task is to generate a professional email subject and body for a new order notification.
 The email should be sent to the business owner to inform them of a new order.
@@ -63,48 +69,16 @@ const sendOrderEmailFlow = ai.defineFlow(
   {
     name: 'sendOrderEmailFlow',
     inputSchema: SendOrderEmailInputSchema,
-    outputSchema: z.void(),
+    outputSchema: SendOrderEmailOutputSchema,
   },
   async (input) => {
     const { output } = await emailGenerationPrompt(input);
     
     if (!output) {
         console.error("Failed to generate email content.");
-        throw new Error("AI could not generate the order email. Please try again.");
+        throw new Error("AI could not generate the order email content. Please try again.");
     }
 
-    const { subject, body } = output;
-    const recipientEmail = 'yuvarajasekarkrish@gmail.com';
-
-    // Configure Nodemailer
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_SERVER_USER,
-            pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-    });
-
-    const mailOptions = {
-        from: `"Maharaj Pyropark" <${process.env.EMAIL_SERVER_USER}>`,
-        to: recipientEmail,
-        subject: subject,
-        text: body, // For plain text email
-        html: `<pre>${body}</pre>`, // For HTML email, using <pre> to preserve formatting
-    };
-
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`Order email sent successfully to ${recipientEmail}`);
-    } catch (error) {
-        console.error("Failed to send email:", error);
-        // Fallback to logging if email fails, so the order isn't lost.
-        console.log('--- FALLBACK: LOGGING ORDER EMAIL ---');
-        console.log(`To: ${recipientEmail}`);
-        console.log(`Subject: ${subject}`);
-        console.log('Body:\n', body);
-        console.log('------------------------------------');
-        throw new Error("Failed to send the order email via the provider. Please check server logs and ensure your .env file is configured correctly.");
-    }
+    return output;
   }
 );

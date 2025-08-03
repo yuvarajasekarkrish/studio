@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from '@/components/ui/label';
-import { Sparkles, Download, Loader2, Send, ShoppingCart, Trash2 } from "lucide-react";
+import { Sparkles, Download, Loader2, Send, ShoppingCart, Trash2, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sendOrderEmail } from '@/ai/flows/send-order-email-flow';
 import { useCart } from '@/contexts/cart-context';
@@ -30,10 +30,12 @@ export default function FloatingCart() {
     const [customerAddress2, setCustomerAddress2] = useState('');
     const [customerCity, setCustomerCity] = useState('');
     const [customerPincode, setCustomerPincode] = useState('');
-    const [isWhatsAppConfirmOpen, setIsWhatsAppConfirmOpen] = useState(false);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     const [orderDate, setOrderDate] = useState('');
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
+    const [emailBody, setEmailBody] = useState('');
+    const [emailSubject, setEmailSubject] = useState('');
 
     const isAddressFormValid = !!(customerName && customerPhone && customerAddress1 && customerCity && customerPincode);
 
@@ -140,7 +142,7 @@ export default function FloatingCart() {
 
             const packagingCostString = subtotal > 0 ? `₹${PACKAGING_COST.toFixed(2)}` : '₹0.00';
 
-            await sendOrderEmail({
+            const { subject, body } = await sendOrderEmail({
                 customerName,
                 customerPhone,
                 customerAddress1,
@@ -154,69 +156,26 @@ export default function FloatingCart() {
                 orderDate: placedOnDate,
             });
             
-            setIsWhatsAppConfirmOpen(true);
+            setEmailSubject(subject);
+            setEmailBody(body);
+            setIsConfirmOpen(true);
     
         } catch (error) {
             console.error("Failed to place order:", error);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Failed to place order. Please try again.",
+                description: "Failed to process order. Please try again.",
             });
         } finally {
             setIsPlacingOrder(false);
         }
     };
 
-    const handleSendWhatsAppConfirmation = () => {
-        const cartItemsText = itemsInCart
-            .map(p => `- ${p.title.split(' / ')[0]} (Qty: ${quantities[p.title]}) -> ₹${calculateRowTotal(p.offerPrice, quantities[p.title] || 0)}`)
-            .join('\n');
-        
-        const address_line_2 = customerAddress2 ? `\n${customerAddress2}` : '';
-        
-        let financialDetails = `*Subtotal: ₹${subtotal.toFixed(2)}*`;
-        if (subtotal > 0) {
-            financialDetails += `\n*Packaging Cost: ₹${PACKAGING_COST.toFixed(2)}*`;
-        }
-        financialDetails += `\n*Grand Total: ₹${grandTotal.toFixed(2)}*`;
-        
-        const message = `
-🎉 *New Order from Maharaj Pyropark* 🎉
-
-*Customer Details:*
-👤 Name: ${customerName}
-📱 Phone: ${customerPhone}
-🏠 Address: ${customerAddress1}${address_line_2}
-📍 ${customerCity}, ${customerPincode}
-
----
-
-*Order Summary:*
-${cartItemsText}
-
----
-
-${financialDetails}
-
-Order placed on: ${orderDate}
-        `.trim().replace(/\n\n+/g, '\n\n');
-
-        const encodedMessage = encodeURIComponent(message);
-
-        const businessPhone = '919843529357';
-        const customerPhoneSanitized = customerPhone.replace(/[^0-9]/g, '');
-
-        const businessUrl = `https://wa.me/${businessPhone}?text=${encodedMessage}`;
-        window.open(businessUrl, '_blank');
-
-        if (customerPhoneSanitized) {
-            const customerUrl = `https://wa.me/${customerPhoneSanitized}?text=${encodedMessage}`;
-            window.open(customerUrl, '_blank');
-        }
-        setIsWhatsAppConfirmOpen(false);
-        clearCart();
-        setIsCheckoutOpen(false);
+    const handleSendEmail = () => {
+        const recipient = 'yuvarajasekarkrish@gmail.com';
+        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        window.open(mailtoLink, '_blank');
     };
 
     const handleConfirmRemoveItem = () => {
@@ -254,23 +213,23 @@ Order placed on: ${orderDate}
                 </AlertDialogContent>
             </AlertDialog>
 
-            <AlertDialog open={isWhatsAppConfirmOpen} onOpenChange={setIsWhatsAppConfirmOpen}>
+            <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Order Placed!</AlertDialogTitle>
                         <AlertDialogDescription>
-                            The order has been recorded. You can now download the order PDF or send a confirmation to the customer via WhatsApp.
+                           The order has been processed. You can now send the confirmation email from your default mail app or download the order as a PDF.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                          <AlertDialogCancel onClick={() => {
-                            setIsWhatsAppConfirmOpen(false);
+                            setIsConfirmOpen(false);
                             clearCart();
                             setIsCheckoutOpen(false);
                          }}>Close</AlertDialogCancel>
                          <Button variant="outline" onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download PDF</Button>
-                         <AlertDialogAction onClick={handleSendWhatsAppConfirmation}>
-                            <Send className="mr-2 h-4 w-4" /> Send WhatsApp
+                         <AlertDialogAction onClick={handleSendEmail}>
+                            <Mail className="mr-2 h-4 w-4" /> Send Order via Email
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -530,7 +489,7 @@ Order placed on: ${orderDate}
                                     disabled={isPlacingOrder}
                                 >
                                     {isPlacingOrder ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                                    {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
+                                    {isPlacingOrder ? 'Processing Order...' : 'Confirm Order'}
                                 </Button>
                             </DialogFooter>
                         </>
