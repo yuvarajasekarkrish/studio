@@ -74,7 +74,7 @@ const sendOrderEmailFlow = ai.defineFlow(
     const { subject, body } = output;
 
     console.log('--- SIMULATING ORDER EMAIL ---');
-    console.log('To: yuvarajasekar.kg@gmail.com');
+    console.log('To: yuvarajasekarkrish@gmail.com');
     console.log(`Subject: ${subject}`);
     console.log('Body:\n', body);
     
