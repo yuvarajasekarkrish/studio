@@ -57,19 +57,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const product = productMap.get(title);
         if (!product) return;
 
-        const availableStock = product.stock;
-
-        if (quantity > availableStock) {
-            toast({
-                variant: "destructive",
-                title: "Stock Limit Reached",
-                description: `You can only order up to ${availableStock} of "${product.title.split('/')[0].trim()}".`,
-            });
-            // Revert to max stock if user tries to exceed
-            setQuantities(prev => ({...prev, [title]: availableStock}));
-            return;
-        }
-
         setQuantities(prev => {
             const newQuantities = { ...prev };
             if (isNaN(quantity) || quantity <= 0) {
@@ -79,7 +66,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
             return newQuantities;
         });
-    }, [toast]);
+    }, []);
 
     const clearCart = useCallback(() => {
         setQuantities({});
