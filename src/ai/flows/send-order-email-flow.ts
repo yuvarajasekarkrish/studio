@@ -97,8 +97,8 @@ const sendOrderEmailFlow = ai.defineFlow(
     });
 
     const mailOptions = {
-        from: `Maharaj Pyropark <${process.env.EMAIL_SERVER_USER}>`,
-        to: 'yuvarajasekarkrish@gmail.com',
+       from: `Maharaj Pyropark <${process.env.EMAIL_SERVER_USER}>`,
+       to: 'yuvarajasekarkrish@gmail.com',
         replyTo: input.customerEmail,
         subject: subject,
         html: body.replace(/\n/g, '<br>'),
