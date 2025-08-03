@@ -4,11 +4,13 @@
 import * as React from 'react';
 import { useState, useEffect, createContext, useContext, useMemo, useCallback, useRef } from 'react';
 import { productData, PACKAGING_COST } from '@/lib/products';
+import { useToast } from "@/hooks/use-toast";
 
 type Product = {
     title: string;
     actualPrice: string;
     offerPrice: string;
+    stock: number;
 };
 
 type CartContextType = {
@@ -23,9 +25,13 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const allProducts = productData.flatMap(category => category.items);
+const productMap = new Map(allProducts.map(p => [p.title, p]));
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const isInitialMount = useRef(true);
+    const { toast } = useToast();
 
     useEffect(() => {
         if (isInitialMount.current) {
@@ -48,6 +54,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, [quantities]);
 
     const handleQuantityChange = useCallback((title: string, quantity: number) => {
+        const product = productMap.get(title);
+        if (!product) return;
+
+        const availableStock = product.stock;
+
+        if (quantity > availableStock) {
+            toast({
+                variant: "destructive",
+                title: "Stock Limit Reached",
+                description: `You can only order up to ${availableStock} of "${product.title.split('/')[0].trim()}".`,
+            });
+            // Revert to max stock if user tries to exceed
+            setQuantities(prev => ({...prev, [title]: availableStock}));
+            return;
+        }
+
         setQuantities(prev => {
             const newQuantities = { ...prev };
             if (isNaN(quantity) || quantity <= 0) {
@@ -57,7 +79,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
             return newQuantities;
         });
-    }, []);
+    }, [toast]);
 
     const clearCart = useCallback(() => {
         setQuantities({});
@@ -65,9 +87,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const subtotal = useMemo(() => {
         let total = 0;
-        for (const category of productData) {
-            for (const product of category.items) {
-                const quantity = quantities[product.title] || 0;
+        for (const title in quantities) {
+            const product = productMap.get(title);
+            if (product) {
+                const quantity = quantities[title] || 0;
                 total += parseFloat(product.offerPrice) * quantity;
             }
         }
@@ -79,8 +102,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, [subtotal]);
 
     const itemsInCart = useMemo(() => {
-        return productData
-            .flatMap(c => c.items)
+        return allProducts
             .filter(p => (quantities[p.title] || 0) > 0);
     }, [quantities]);
 

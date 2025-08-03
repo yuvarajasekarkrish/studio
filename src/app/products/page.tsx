@@ -10,6 +10,7 @@ import Footer from '@/components/common/footer';
 import { useCart } from '@/contexts/cart-context';
 import { productData, PACKAGING_COST } from '@/lib/products';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Badge } from '@/components/ui/badge';
 
 export default function ProductsPage() {
     const { quantities, handleQuantityChange, calculateRowTotal, subtotal, grandTotal } = useCart();
@@ -22,7 +23,7 @@ export default function ProductsPage() {
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: number) => {
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: number, stock: number) => {
         if (isNaN(quantity) || quantity <= 0) {
             setItemToRemove(title);
         } else {
@@ -84,7 +85,12 @@ export default function ProductsPage() {
                                     </TableRow>
                                     {category.items.map((product) => (
                                         <TableRow key={product.title} className="hover:bg-secondary/50">
-                                            <TableCell className="font-medium border">{product.title}</TableCell>
+                                            <TableCell className="font-medium border">
+                                                {product.title}
+                                                {product.stock === 0 && (
+                                                    <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
                                             <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
                                             <TableCell className="border">
@@ -92,9 +98,10 @@ export default function ProductsPage() {
                                                     type="number"
                                                     min="0"
                                                     value={quantities[product.title] || ''}
-                                                    onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value))}
+                                                    onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
                                                     className="w-20 h-9 text-center mx-auto bg-input"
                                                     placeholder="0"
+                                                    disabled={product.stock === 0}
                                                 />
                                             </TableCell>
                                             <TableCell className="text-right font-bold border">
