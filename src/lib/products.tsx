@@ -146,7 +146,7 @@ export const productData = [
     items: [
       { title: "7 Shot / 7 ஷாட்", actualPrice: "600", offerPrice: "120", stock: 100 },
       { title: "15 Shot / 15 ஷாட்", actualPrice: "1625", offerPrice: "325", stock: 100 },
-      { title: "30 Shot / 30 ஷாட்", actualPrice: "2400", offerPrice: "480", stock: 0 },
+      { title: "30 Shot / 30 ஷாட்", actualPrice: "2400", offerPrice: "480", stock: 100 },
       { title: "60 Shot / 60 ஷாட்", actualPrice: "4800", offerPrice: "960", stock: 100 },
       { title: "120 Shot / 120 ஷாட்", actualPrice: "9750", offerPrice: "1950", stock: 100 },
       { title: "240 Shot / 240 ஷாட்", actualPrice: "19250", offerPrice: "3850", stock: 100 },
