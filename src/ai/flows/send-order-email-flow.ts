@@ -85,7 +85,7 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     const mailOptions = {
         from: `"Maharaj Pyropark" <${process.env.EMAIL_SERVER_USER}>`,
-        to: process.env.EMAIL_TO_ADDRESS,
+        to: 'yuvarajasekarkrish@gmail.com',
         subject: subject,
         text: body, // For plain text email
         html: `<pre>${body}</pre>`, // For HTML email, using <pre> to preserve formatting
