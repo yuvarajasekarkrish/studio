@@ -34,8 +34,6 @@ export default function FloatingCart() {
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     const [orderDate, setOrderDate] = useState('');
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
-    const [emailBody, setEmailBody] = useState('');
-    const [emailSubject, setEmailSubject] = useState('');
 
     const isAddressFormValid = !!(customerName && customerPhone && customerAddress1 && customerCity && customerPincode);
 
@@ -142,7 +140,7 @@ export default function FloatingCart() {
 
             const packagingCostString = subtotal > 0 ? `₹${PACKAGING_COST.toFixed(2)}` : '₹0.00';
 
-            const { subject, body } = await sendOrderEmail({
+            await sendOrderEmail({
                 customerName,
                 customerPhone,
                 customerAddress1,
@@ -156,26 +154,19 @@ export default function FloatingCart() {
                 orderDate: placedOnDate,
             });
             
-            setEmailSubject(subject);
-            setEmailBody(body);
             setIsConfirmOpen(true);
     
         } catch (error) {
             console.error("Failed to place order:", error);
+            const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
             toast({
                 variant: "destructive",
-                title: "Error",
-                description: "Failed to process order. Please try again.",
+                title: "Error Placing Order",
+                description: errorMessage,
             });
         } finally {
             setIsPlacingOrder(false);
         }
-    };
-
-    const handleSendEmail = () => {
-        const recipient = 'yuvarajasekarkrish@gmail.com';
-        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        window.open(mailtoLink, '_blank');
     };
 
     const handleConfirmRemoveItem = () => {
@@ -216,9 +207,9 @@ export default function FloatingCart() {
             <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Order Placed!</AlertDialogTitle>
+                        <AlertDialogTitle>Order Placed Successfully!</AlertDialogTitle>
                         <AlertDialogDescription>
-                           The order has been processed. You can now send the confirmation email from your default mail app or download the order as a PDF.
+                           An order confirmation has been sent to your email. You can also download the order as a PDF.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -228,9 +219,6 @@ export default function FloatingCart() {
                             setIsCheckoutOpen(false);
                          }}>Close</AlertDialogCancel>
                          <Button variant="outline" onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download PDF</Button>
-                         <AlertDialogAction onClick={handleSendEmail}>
-                            <Mail className="mr-2 h-4 w-4" /> Send Order via Email
-                        </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
