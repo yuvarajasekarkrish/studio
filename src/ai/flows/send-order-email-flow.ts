@@ -1,6 +1,6 @@
 
 'use server';
-import 'dotenv/config';
+// Note: dotenv/config is loaded in the dev server (src/ai/dev.ts)
 /**
  * @fileOverview A flow to handle generating and sending an order confirmation email.
  *
@@ -74,6 +74,12 @@ const sendOrderEmailFlow = ai.defineFlow(
     outputSchema: SendOrderEmailOutputSchema,
   },
   async (input) => {
+    if (!process.env.EMAIL_SERVER_USER || !process.env.EMAIL_SERVER_PASSWORD) {
+        const errorMsg = "Email server credentials (EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD) are not configured in the .env file.";
+        console.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+    
     const { output } = await emailGenerationPrompt(input);
     
     if (!output) {
@@ -104,7 +110,9 @@ const sendOrderEmailFlow = ai.defineFlow(
         return { messageId: info.messageId };
     } catch (error) {
         console.error('Error sending email:', error);
-        throw new Error("Failed to send the order email via the provider. Please check server logs and ensure your .env file is configured correctly.");
+        // Provide a more specific error message.
+        const specificError = error instanceof Error ? error.message : "An unknown error occurred";
+        throw new Error(`Failed to send email via provider: ${specificError}. Please check server logs and ensure your .env credentials are correct and you've enabled 'less secure app access' or are using an 'App Password' for Gmail.`);
     }
   }
 );
