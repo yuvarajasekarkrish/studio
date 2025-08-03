@@ -112,7 +112,7 @@ const sendOrderEmailFlow = ai.defineFlow(
         console.error('Error sending email:', error);
         // Provide a more specific error message.
         const specificError = error instanceof Error ? error.message : "An unknown error occurred";
-        throw new Error(`Failed to send email via provider: ${specificError}. Please check server logs and ensure your .env credentials are correct and you've enabled 'less secure app access' or are using an 'App Password' for Gmail.`);
+        throw new Error(`Failed to send email. The provider said: ${specificError}. This is likely due to an invalid username or password. Please ensure you have generated and are using a 16-digit Google App Password in your .env file.`);
     }
   }
 );
