@@ -10,6 +10,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import nodemailer from 'nodemailer';
+import 'dotenv/config';
 
 const SendOrderEmailInputSchema = z.object({
   customerName: z.string().describe('The name of the customer.'),
@@ -73,6 +74,7 @@ const sendOrderEmailFlow = ai.defineFlow(
     }
 
     const { subject, body } = output;
+    const recipientEmail = 'yuvarajasekarkrish@gmail.com';
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
@@ -85,7 +87,7 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     const mailOptions = {
         from: `"Maharaj Pyropark" <${process.env.EMAIL_SERVER_USER}>`,
-        to: 'yuvarajasekarkrish@gmail.com',
+        to: recipientEmail,
         subject: subject,
         text: body, // For plain text email
         html: `<pre>${body}</pre>`, // For HTML email, using <pre> to preserve formatting
@@ -93,16 +95,16 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Order email sent successfully to ${process.env.EMAIL_TO_ADDRESS}`);
+        console.log(`Order email sent successfully to ${recipientEmail}`);
     } catch (error) {
         console.error("Failed to send email:", error);
         // Fallback to logging if email fails, so the order isn't lost.
         console.log('--- FALLBACK: LOGGING ORDER EMAIL ---');
-        console.log(`To: ${process.env.EMAIL_TO_ADDRESS}`);
+        console.log(`To: ${recipientEmail}`);
         console.log(`Subject: ${subject}`);
         console.log('Body:\n', body);
         console.log('------------------------------------');
-        throw new Error("Failed to send the order email via the provider. Please check server logs.");
+        throw new Error("Failed to send the order email via the provider. Please check server logs and ensure your .env file is configured correctly.");
     }
   }
 );
