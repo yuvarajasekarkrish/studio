@@ -25,6 +25,7 @@ export default function FloatingCart() {
     const [checkoutStep, setCheckoutStep] = useState<'cart' | 'details' | 'review'>('cart');
     const orderSummaryRef = useRef<HTMLDivElement>(null);
     const [customerName, setCustomerName] = useState('');
+    const [customerEmail, setCustomerEmail] = useState('');
     const [customerPhone, setCustomerPhone] = useState('');
     const [customerAddress1, setCustomerAddress1] = useState('');
     const [customerAddress2, setCustomerAddress2] = useState('');
@@ -35,7 +36,7 @@ export default function FloatingCart() {
     const [orderDate, setOrderDate] = useState('');
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
 
-    const isAddressFormValid = !!(customerName && customerPhone && customerAddress1 && customerCity && customerPincode);
+    const isAddressFormValid = !!(customerName && customerEmail && customerPhone && customerAddress1 && customerCity && customerPincode);
 
     const handleCheckout = () => {
         if (itemsInCart.length > 0) {
@@ -142,6 +143,7 @@ export default function FloatingCart() {
 
             await sendOrderEmail({
                 customerName,
+                customerEmail,
                 customerPhone,
                 customerAddress1,
                 customerAddress2,
@@ -209,7 +211,7 @@ export default function FloatingCart() {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Order Placed Successfully!</AlertDialogTitle>
                         <AlertDialogDescription>
-                           An order confirmation has been sent to your email. You can also download the order as a PDF.
+                           An order confirmation has been sent to the business owner. You can also download the order as a PDF.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -334,6 +336,18 @@ export default function FloatingCart() {
                                     />
                                 </div>
                                 <div className="space-y-2">
+                                    <Label htmlFor="customer-email">Email Address</Label>
+                                    <Input
+                                        id="customer-email"
+                                        type="email"
+                                        value={customerEmail}
+                                        onChange={(e) => setCustomerEmail(e.target.value)}
+                                        placeholder="you@example.com"
+                                        className="bg-input"
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
                                     <Label htmlFor="customer-phone">Phone Number</Label>
                                     <Input
                                         id="customer-phone"
@@ -345,7 +359,7 @@ export default function FloatingCart() {
                                         required
                                     />
                                 </div>
-                                <div className="md:col-span-2 space-y-2">
+                                <div className="space-y-2">
                                     <Label htmlFor="address-line1">Address Line 1</Label>
                                     <Input
                                         id="address-line1"
@@ -422,6 +436,7 @@ export default function FloatingCart() {
                                     <h3 className="font-bold text-lg font-headline mb-2 text-primary">Delivery Details</h3>
                                     <div className="text-sm space-y-1 text-foreground">
                                         <p><span className="font-semibold">Name:</span> {customerName || ' '}</p>
+                                        <p><span className="font-semibold">Email:</span> {customerEmail || ' '}</p>
                                         <p><span className="font-semibold">Phone:</span> {customerPhone || ' '}</p>
                                         <p className="font-semibold">Address:</p>
                                         <p>{customerAddress1 || ' '}</p>

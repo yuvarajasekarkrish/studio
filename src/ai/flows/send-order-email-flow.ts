@@ -14,6 +14,7 @@ import * as nodemailer from 'nodemailer';
 
 const SendOrderEmailInputSchema = z.object({
   customerName: z.string().describe('The name of the customer.'),
+  customerEmail: z.string().describe("The email address of the customer."),
   customerPhone: z.string().describe('The phone number of the customer.'),
   customerAddress1: z.string().describe("The first line of the customer's address."),
   customerAddress2: z.string().optional().describe("The second line of the customer's address."),
@@ -47,6 +48,7 @@ The email should be sent to the business owner to inform them of a new order.
 
 Use the following customer and order details:
 Customer Name: {{customerName}}
+Customer Email: {{customerEmail}}
 Customer Phone: {{customerPhone}}
 Delivery Address: {{customerAddress1}}{{#if customerAddress2}}, {{customerAddress2}}{{/if}}, {{customerCity}}, {{customerPincode}}
 
@@ -89,8 +91,9 @@ const sendOrderEmailFlow = ai.defineFlow(
     });
 
     const mailOptions = {
-        from: process.env.EMAIL_SERVER_USER,
+        from: `Maharaj Pyropark <${process.env.EMAIL_SERVER_USER}>`,
         to: 'yuvarajasekarkrish@gmail.com',
+        replyTo: input.customerEmail,
         subject: subject,
         html: body.replace(/\n/g, '<br>'),
     };
