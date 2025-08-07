@@ -88,7 +88,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const product = productMap.get(title);
         if (!product) return;
     
-        // Ensure quantity is a number. If input is cleared, it becomes NaN.
         let validatedQuantity = isNaN(quantity) ? 0 : quantity;
     
         if (validatedQuantity > stock) {
@@ -129,7 +128,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, [quantities]);
 
     const grandTotal = useMemo(() => {
-        return subtotal > 0 ? subtotal * 1.03 : subtotal;
+        const fee = subtotal > 0 ? subtotal * 0.03 : 0;
+        return subtotal + fee;
     }, [subtotal]);
 
     const itemsInCart = useMemo(() => {
