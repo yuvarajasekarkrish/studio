@@ -91,8 +91,34 @@ export const getProducts = () => [
         ]
     },
     {
-        category: "Fancy Novelties / பேன்சி நாவல்டிஸ்",
+        category: "Fancy / பேன்சி",
         icon: <Gift />,
+        items: [
+            { title: "Tri Colour / ட்ரை கலர்", actualPrice: "1600", offerPrice: "320", stock: 100 },
+            { title: "Peacock Small / பீக்காக் சிறியது", actualPrice: "750", offerPrice: "150", stock: 100 },
+            { title: "Peacock Bada / பீக்காக் படா", actualPrice: "2200", offerPrice: "440", stock: 100 },
+            { title: "Peacock Feather / பீக்காக் பெதர்", actualPrice: "525", offerPrice: "105", stock: 100 },
+        ]
+    },
+    {
+        category: "Shower / ஷவர்",
+        icon: <CloudDrizzle />,
+        items: [
+            { title: "Cocktail / காக்டெய்ல்", actualPrice: "785", offerPrice: "157", stock: 100 },
+            { title: "Ashrafi Shower (5pcs) / அஸ்ரபி ஷவர்", actualPrice: "960", offerPrice: "192", stock: 100 },
+            { title: "Coco Loco / கோகோ லாகோ", actualPrice: "800", offerPrice: "160", stock: 100 },
+            { title: "Oreo / ஓரியோ", actualPrice: "785", offerPrice: "157", stock: 100 },
+            { title: "3\" Shower (5 IN 1) / 3\" ஷவர் (5 in 1)", actualPrice: "600", offerPrice: "120", stock: 100 },
+            { title: "Fly BEE (Spl Fountain) / ஃப்ளை பீ (SPL fountain)", actualPrice: "1110", offerPrice: "222", stock: 100 },
+            { title: "Super Hero / சூப்பர் ஹீரோ", actualPrice: "1110", offerPrice: "222", stock: 100 },
+            { title: "Mad angle / மேட் ஆங்கிள்", actualPrice: "1350", offerPrice: "270", stock: 100 },
+            { title: "Popcorn / பாப்கார்ன்", actualPrice: "1520", offerPrice: "304", stock: 100 },
+            { title: "What's App Mimes / வாட்சப் மைன்ஸ்", actualPrice: "1400", offerPrice: "280", stock: 100 },
+        ]
+    },
+    {
+        category: "Fancy Novelties / பேன்சி நாவல்டிஸ்",
+        icon: <ToyBrick />,
         items: [
             { title: "Cricket Bat / கிரிக்கெட் பேட்", actualPrice: "650", offerPrice: "130", stock: 100 },
             { title: "Helicopter / ஹெலிகாப்டர்", actualPrice: "400", offerPrice: "80", stock: 100 },
@@ -108,7 +134,7 @@ export const getProducts = () => [
     },
     {
         category: "Fountain / ஃபவுண்டைன்",
-        icon: <CloudDrizzle />,
+        icon: <Droplets />,
         items: [
             { title: "Four Square / ஃபோர் ஸ்கொயர்", actualPrice: "1750", offerPrice: "350", stock: 100 },
             { title: "Mumbo Jumbo / மும்போ ஜம்போ", actualPrice: "1520", offerPrice: "304", stock: 100 },
@@ -118,7 +144,7 @@ export const getProducts = () => [
         ]
     },
     {
-        category: "Fancy Single shot / பேன்சி சிங்கிள் ஷாட்",
+        category: "Fancy single shot / பேன்சி சிங்கிள் ஷாட்",
         icon: <Star />,
         items: [
             { title: "2\" Single (3Pcs) / 2\" சிங்கிள் (3 pcs)", actualPrice: "1250", offerPrice: "250", stock: 100 },
@@ -149,22 +175,6 @@ export const getProducts = () => [
             { title: "Dora Dora / டோரா டோரா", actualPrice: "175", offerPrice: "35", stock: 100 },
             { title: "Matches - Laptop / மேட்சஸ் - லேப்டாப்", actualPrice: "1050", offerPrice: "210", stock: 100 },
             { title: "Matches Single (10 box) / மேட்சஸ் சிங்கிள் (10 box)", actualPrice: "350", offerPrice: "70", stock: 100 },
-        ]
-    },
-    {
-        category: "Shower / ஷவர்",
-        icon: <CloudDrizzle />,
-        items: [
-            { title: "Cocktail / காக்டெய்ல்", actualPrice: "785", offerPrice: "157", stock: 100 },
-            { title: "Ashrafi Shower (5pcs) / அஸ்ரபி ஷவர்", actualPrice: "960", offerPrice: "192", stock: 100 },
-            { title: "Coco Loco / கோகோ லாகோ", actualPrice: "800", offerPrice: "160", stock: 100 },
-            { title: "Oreo / ஓரியோ", actualPrice: "785", offerPrice: "157", stock: 100 },
-            { title: "3\" Shower (5 IN 1) / 3\" ஷவர் (5 in 1)", actualPrice: "600", offerPrice: "120", stock: 100 },
-            { title: "Fly BEE (Spl Fountain) / ஃப்ளை பீ (SPL fountain)", actualPrice: "1110", offerPrice: "222", stock: 100 },
-            { title: "Super Hero / சூப்பர் ஹீரோ", actualPrice: "1110", offerPrice: "222", stock: 100 },
-            { title: "Mad angle / மேட் ஆங்கிள்", actualPrice: "1350", offerPrice: "270", stock: 100 },
-            { title: "Popcorn / பாப்கார்ன்", actualPrice: "1520", offerPrice: "304", stock: 100 },
-            { title: "What's App Mimes / வாட்சப் மைன்ஸ்", actualPrice: "1400", offerPrice: "280", stock: 100 },
         ]
     }
 ];
