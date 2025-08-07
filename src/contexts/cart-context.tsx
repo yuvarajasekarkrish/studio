@@ -28,24 +28,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const allProducts = getProducts().flatMap(category => category.items);
 const productMap = new Map(allProducts.map(p => [p.title, p]));
 
-// Custom hook for debouncing
-function useDebounce(value: any, delay: number) {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [value, delay]);
-
-    return debouncedValue;
-}
-
-
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const { toast } = useToast();
@@ -71,40 +53,37 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    // Debounce the quantities state
-    const debouncedQuantities = useDebounce(quantities, 300);
-
-    // Save to localStorage only when the debounced value changes
+    // Save to localStorage whenever quantities change
     useEffect(() => {
         if (typeof window === 'undefined') return;
         try {
-            localStorage.setItem('maharajPyrotechCart', JSON.stringify(debouncedQuantities));
+            localStorage.setItem('maharajPyrotechCart', JSON.stringify(quantities));
         } catch (error) {
             console.error('Could not save cart to localStorage', error);
         }
-    }, [debouncedQuantities]);
+    }, [quantities]);
 
     const handleQuantityChange = useCallback((title: string, quantity: number, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
-    
-        let finalQuantity = isNaN(quantity) ? 0 : quantity;
-    
-        if (finalQuantity > stock) {
+
+        let validatedQuantity = isNaN(quantity) ? 0 : quantity;
+
+        if (validatedQuantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            finalQuantity = stock;
+            validatedQuantity = stock;
         }
-    
+
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
-            if (finalQuantity <= 0) {
+            if (validatedQuantity <= 0) {
                 delete newQuantities[title];
             } else {
-                newQuantities[title] = finalQuantity;
+                newQuantities[title] = validatedQuantity;
             }
             return newQuantities;
         });
@@ -116,15 +95,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const subtotal = useMemo(() => {
-        let total = 0;
-        for (const title in quantities) {
+        return Object.entries(quantities).reduce((total, [title, quantity]) => {
             const product = productMap.get(title);
             if (product) {
-                const quantity = quantities[title] || 0;
-                total += parseFloat(product.offerPrice) * quantity;
+                return total + (parseFloat(product.offerPrice) * quantity);
             }
-        }
-        return total;
+            return total;
+        }, 0);
     }, [quantities]);
 
     const grandTotal = useMemo(() => {

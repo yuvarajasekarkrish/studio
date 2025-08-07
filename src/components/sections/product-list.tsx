@@ -19,7 +19,8 @@ export default function ProductList() {
     const handleConfirmRemoveItem = () => {
         if (itemToRemove) {
             // Passing a stock value of 0 to ensure it gets removed
-            handleQuantityChange(itemToRemove, 0, 0);
+            const product = getProducts().flatMap(c => c.items).find(p => p.title === itemToRemove);
+            handleQuantityChange(itemToRemove, 0, product?.stock ?? 0);
         }
         setItemToRemove(null);
     };
