@@ -15,7 +15,6 @@ import { Sparkles, Download, Loader2, Send, ShoppingCart, Trash2, Mail } from "l
 import { useToast } from "@/hooks/use-toast";
 import { sendOrderEmail } from '@/ai/flows/send-order-email-flow';
 import { useCart } from '@/contexts/cart-context';
-import { PACKAGING_COST } from '@/lib/products';
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" {...props}>
@@ -148,8 +147,6 @@ export default function FloatingCart() {
             const placedOnDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
             setOrderDate(placedOnDate);
 
-            const packagingCostString = subtotal > 0 ? `₹${PACKAGING_COST.toFixed(2)}` : '₹0.00';
-
             // Prepare WhatsApp message
             const addressParts = [customerAddress1, customerAddress2, customerCity, customerPincode].filter(Boolean);
             const fullAddress = addressParts.join(', ');
@@ -164,8 +161,7 @@ export default function FloatingCart() {
 ${cartItemsText}
 
 *Subtotal:* ₹${subtotal.toFixed(2)}
-*Packaging Cost:* ${packagingCostString}
-*Grand Total:* *₹${grandTotal.toFixed(2)}*
+*Grand Total (incl. 3% fee):* *₹${grandTotal.toFixed(2)}*
 
 *Order Date:* ${placedOnDate}`;
             
@@ -181,7 +177,6 @@ ${cartItemsText}
                 customerPincode,
                 cartItemsText,
                 subtotal: `₹${subtotal.toFixed(2)}`,
-                packagingCost: packagingCostString,
                 grandTotal: `₹${grandTotal.toFixed(2)}`,
                 orderDate: placedOnDate,
             });
@@ -322,14 +317,8 @@ ${cartItemsText}
                                                 <TableCell colSpan={2} className="text-right font-semibold text-primary border">Subtotal</TableCell>
                                                 <TableCell className="text-right font-semibold text-primary border" colSpan={2}>₹{subtotal.toFixed(2)}</TableCell>
                                             </TableRow>
-                                            {subtotal > 0 && (
-                                                <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
-                                                    <TableCell colSpan={2} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
-                                                    <TableCell className="text-right font-semibold text-primary border" colSpan={2}>₹{PACKAGING_COST.toFixed(2)}</TableCell>
-                                                </TableRow>
-                                            )}
                                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
                                                 <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{grandTotal.toFixed(2)}</TableCell>
                                             </TableRow>
                                         </TableFooter>
@@ -510,14 +499,8 @@ ${cartItemsText}
                                             <TableCell colSpan={3} className="text-right font-semibold text-primary border">Subtotal</TableCell>
                                             <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
                                         </TableRow>
-                                        {subtotal > 0 && (
-                                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
-                                                <TableCell colSpan={3} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
-                                                <TableCell className="text-right font-semibold text-primary border">₹{PACKAGING_COST.toFixed(2)}</TableCell>
-                                            </TableRow>
-                                        )}
                                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
                                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                                         </TableRow>
                                     </TableFooter>

@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useState, useEffect, createContext, useContext, useMemo, useCallback, useRef } from 'react';
-import { getProducts, PACKAGING_COST } from '@/lib/products';
+import { getProducts } from '@/lib/products';
 import { useToast } from "@/hooks/use-toast";
 
 type Product = {
@@ -96,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, [quantities]);
 
     const grandTotal = useMemo(() => {
-        return subtotal > 0 ? subtotal + PACKAGING_COST : subtotal;
+        return subtotal > 0 ? subtotal * 1.03 : subtotal;
     }, [subtotal]);
 
     const itemsInCart = useMemo(() => {
@@ -128,5 +128,3 @@ export function useCart() {
     }
     return context;
 }
-
-    

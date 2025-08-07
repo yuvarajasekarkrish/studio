@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Droplets, Crosshair, Flame } from "lucide-react";
 
-export const PACKAGING_COST = 200;
-
 export const getProducts = () => [
     {
         category: "One Sound Crackers / ஒற்றை வெடிபொருட்கள்",
@@ -120,6 +118,10 @@ export const getProducts = () => [
             { title: "Photo Flash Silver / போட்டா ஃபிளாஷ் சில்வர்", actualPrice: "300", offerPrice: "60", stock: 100 },
             { title: "Siren Mega (2 Pcs) / சைரன் மெகா (2பீஸ்)", actualPrice: "1250", offerPrice: "250", stock: 100 },
             { title: "Smoke / ஸ்மோக்", actualPrice: "700", offerPrice: "140", stock: 100 },
+            { title: "Tri Colour / ட்ரை கலர்", actualPrice: "1600", offerPrice: "320", stock: 100 },
+            { title: "Peacock Small / பீக்காக் சிறியது", actualPrice: "750", offerPrice: "150", stock: 100 },
+            { title: "Peacock Bada / பீக்காக் படா", actualPrice: "2200", offerPrice: "440", stock: 100 },
+            { title: "Peacock Feather / பீக்காக் பெதர்", actualPrice: "525", offerPrice: "105", stock: 100 },
         ]
     },
     {
@@ -144,16 +146,6 @@ export const getProducts = () => [
             { title: "3 1/2\" Single (2 Pcs) / 3 1/2 சிங்கிள் (2 Pcs)", actualPrice: "7500", offerPrice: "1500", stock: 100 },
             { title: "Double Ball Mix (2 Pcs) / டபுள் பால் மிக்ஸ் (2 Pcs)", actualPrice: "9075", offerPrice: "1815", stock: 100 },
             { title: "Chotta Single / சோட்டா சிங்கிள்", actualPrice: "200", offerPrice: "40", stock: 100 },
-        ]
-    },
-     {
-        category: "Fancy / பேன்சி",
-        icon: <Gift />,
-        items: [
-            { title: "Tri Colour / ட்ரை கலர்", actualPrice: "1600", offerPrice: "320", stock: 100 },
-            { title: "Peacock Small / பீக்காக் சிறியது", actualPrice: "750", offerPrice: "150", stock: 100 },
-            { title: "Peacock Bada / பீக்காக் படா", actualPrice: "2200", offerPrice: "440", stock: 100 },
-            { title: "Peacock Feather / பீக்காக் பெதர்", actualPrice: "525", offerPrice: "105", stock: 100 },
         ]
     },
     {

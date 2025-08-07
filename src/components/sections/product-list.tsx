@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { useCart } from '@/contexts/cart-context';
-import { getProducts, PACKAGING_COST } from '@/lib/products';
+import { getProducts } from '@/lib/products';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
 
@@ -108,14 +108,8 @@ export default function ProductList() {
                             <TableCell colSpan={4} className="text-right font-semibold text-primary border">Subtotal</TableCell>
                             <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
                         </TableRow>
-                        {subtotal > 0 && (
-                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
-                                <TableCell colSpan={4} className="text-right font-semibold text-primary border">Packaging Cost</TableCell>
-                                <TableCell className="text-right font-semibold text-primary border">₹{PACKAGING_COST.toFixed(2)}</TableCell>
-                            </TableRow>
-                        )}
                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
+                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                         </TableRow>
                     </TableFooter>

@@ -22,7 +22,6 @@ const SendOrderEmailInputSchema = z.object({
   customerPincode: z.string().describe("The pincode of the customer's address."),
   cartItemsText: z.string().describe('A formatted string of all items in the cart.'),
   subtotal: z.string().describe('The subtotal of the order before additional costs.'),
-  packagingCost: z.string().describe('The fixed packaging cost for the order.'),
   grandTotal: z.string().describe('The grand total of the order.'),
   orderDate: z.string().describe('The date and time the order was placed.'),
 });
@@ -53,7 +52,7 @@ For the email body, generate a well-formatted HTML document. It should include:
 - A section with the customer's delivery details (Name, Email, Phone, Address).
 - An HTML table for the "Order Summary". The table should have columns for "Item", "Quantity", and "Price".
 - The order items should be parsed from the 'cartItemsText' and populated into the table rows.
-- Below the table, display the Subtotal, Packaging Cost, and Grand Total.
+- Below the table, display the Subtotal and the Grand Total (which includes a 3% fee).
 - The email should be styled professionally with some basic CSS for readability (e.g., borders for the table, bold headings).
 
 Use the following customer and order details:
@@ -66,8 +65,7 @@ Order Items (raw text):
 {{{cartItemsText}}}
 
 Subtotal: {{subtotal}}
-Packaging Cost: {{packagingCost}}
-Grand Total: {{grandTotal}}
+Grand Total (incl. 3% fee): {{grandTotal}}
 
 Order placed on: {{orderDate}}
 `,
