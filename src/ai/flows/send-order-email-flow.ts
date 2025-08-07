@@ -105,7 +105,7 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     const mailOptions = {
        from: `Maharaj Pyrotech <${process.env.EMAIL_SERVER_USER}>`,
-       to: 'yuvarajasekarkrish@gmail.com',
+       to: 'maharajpyropark@gmail.com',
         replyTo: input.customerEmail,
         subject: subject,
         html: body,
@@ -113,7 +113,7 @@ const sendOrderEmailFlow = ai.defineFlow(
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent successfully to yuvarajasekarkrish@gmail.com. Message ID:', info.messageId);
+        console.log('Email sent successfully to maharajpyropark@gmail.com. Message ID:', info.messageId);
         return { messageId: info.messageId };
     } catch (error) {
         console.error('Error sending email:', error);
