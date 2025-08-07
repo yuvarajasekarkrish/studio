@@ -313,12 +313,8 @@ ${cartItemsText}
                                             ))}
                                         </TableBody>
                                         <TableFooter>
-                                            <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
-                                                <TableCell colSpan={2} className="text-right font-semibold text-primary border">Subtotal</TableCell>
-                                                <TableCell className="text-right font-semibold text-primary border" colSpan={2}>₹{subtotal.toFixed(2)}</TableCell>
-                                            </TableRow>
                                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
+                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
                                                 <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{grandTotal.toFixed(2)}</TableCell>
                                             </TableRow>
                                         </TableFooter>
@@ -495,12 +491,8 @@ ${cartItemsText}
                                         ))}
                                     </TableBody>
                                     <TableFooter>
-                                        <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base border-t-2 border-primary/20">
-                                            <TableCell colSpan={3} className="text-right font-semibold text-primary border">Subtotal</TableCell>
-                                            <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
-                                        </TableRow>
                                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
+                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
                                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                                         </TableRow>
                                     </TableFooter>

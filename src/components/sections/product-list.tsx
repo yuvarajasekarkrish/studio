@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 const productData = getProducts();
 
 export default function ProductList() {
-    const { quantities, handleQuantityChange, calculateRowTotal, subtotal, grandTotal } = useCart();
+    const { quantities, handleQuantityChange, calculateRowTotal, grandTotal } = useCart();
     const [itemToRemove, setItemToRemove] = useState<string | null>(null);
 
     const handleConfirmRemoveItem = () => {
@@ -104,12 +104,8 @@ export default function ProductList() {
                         ))}
                     </TableBody>
                     <TableFooter>
-                        <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
-                            <TableCell colSpan={4} className="text-right font-semibold text-primary border">Subtotal</TableCell>
-                            <TableCell className="text-right font-semibold text-primary border">₹{subtotal.toFixed(2)}</TableCell>
-                        </TableRow>
                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total (incl. 3% fee)</TableCell>
+                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                         </TableRow>
                     </TableFooter>
