@@ -61,46 +61,48 @@ export default function ProductList() {
                             <TableHead className="text-right border">Total</TableHead>
                         </TableRow>
                     </TableHeader>
-                    {productData.map((category) => (
-                        <TableBody key={category.category}>
-                            <TableRow className="bg-secondary/70 hover:bg-secondary/70 border-b-2 border-primary/20">
-                                <TableCell colSpan={5} className="py-4 border">
-                                    <div className="flex items-center gap-4 text-primary text-xl md:text-2xl font-bold font-headline">
-                                        {React.cloneElement(category.icon, {className: "w-7 h-7"})}
-                                        {category.category}
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                            {category.items.map((product) => (
-                                <TableRow key={product.title} className="hover:bg-secondary/50">
-                                    <TableCell className="font-medium border">
-                                        <div>
-                                            {product.title}
-                                            {product.stock === 0 && (
-                                                <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
-                                            )}
+                    <TableBody>
+                        {productData.map((category) => (
+                            <React.Fragment key={category.category}>
+                                <TableRow className="bg-secondary/70 hover:bg-secondary/70 border-b-2 border-primary/20">
+                                    <TableCell colSpan={5} className="py-4 border">
+                                        <div className="flex items-center gap-4 text-primary text-xl md:text-2xl font-bold font-headline">
+                                            {React.cloneElement(category.icon, {className: "w-7 h-7"})}
+                                            {category.category}
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
-                                    <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
-                                    <TableCell className="border">
-                                        <Input
-                                            type="number"
-                                            min="0"
-                                            value={quantities[product.title] || ''}
-                                            onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
-                                            className="w-20 h-9 text-center mx-auto bg-input"
-                                            placeholder="0"
-                                            disabled={product.stock === 0}
-                                        />
-                                    </TableCell>
-                                    <TableCell className="text-right font-bold border">
-                                        ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
-                                    </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    ))}
+                                {category.items.map((product) => (
+                                    <TableRow key={product.title} className="hover:bg-secondary/50">
+                                        <TableCell className="font-medium border">
+                                            <div>
+                                                {product.title}
+                                                {product.stock === 0 && (
+                                                    <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
+                                        <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
+                                        <TableCell className="border">
+                                            <Input
+                                                type="number"
+                                                min="0"
+                                                value={quantities[product.title] || ''}
+                                                onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
+                                                className="w-20 h-9 text-center mx-auto bg-input"
+                                                placeholder="0"
+                                                disabled={product.stock === 0}
+                                            />
+                                        </TableCell>
+                                        <TableCell className="text-right font-bold border">
+                                            ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </React.Fragment>
+                        ))}
+                    </TableBody>
                     <TableFooter>
                         <TableRow className="bg-secondary/50 hover:bg-secondary/50 text-base">
                             <TableCell colSpan={4} className="text-right font-semibold text-primary border">Subtotal</TableCell>
@@ -122,5 +124,3 @@ export default function ProductList() {
         </>
     );
 }
-
-    
