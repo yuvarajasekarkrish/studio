@@ -121,7 +121,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 const bIndex = allProducts.findIndex(p => p.title === b.title);
                 return aIndex - bIndex;
             });
-    }, [quantities, allProducts]);
+    }, [quantities]);
 
     const calculateRowTotal = useCallback((offerPrice: string, quantity: number) => {
         return (parseFloat(offerPrice) * (quantity || 0)).toFixed(2);
