@@ -91,13 +91,64 @@ export const getProducts = () => [
         ]
     },
     {
-        category: "Fancy / பேன்சி",
+        category: "Fancy Novelties / பேன்சி நாவல்டிஸ்",
         icon: <Gift />,
         items: [
-            { title: "Tri Colour / ட்ரை கலர்", actualPrice: "1600", offerPrice: "320", stock: 100 },
-            { title: "Peacock Small / பீக்காக் சிறியது", actualPrice: "750", offerPrice: "150", stock: 100 },
-            { title: "Peacock Bada / பீக்காக் படா", actualPrice: "2200", offerPrice: "440", stock: 100 },
-            { title: "Peacock Feather / பீக்காக் பெதர்", actualPrice: "525", offerPrice: "105", stock: 100 },
+            { title: "Cricket Bat / கிரிக்கெட் பேட்", actualPrice: "650", offerPrice: "130", stock: 100 },
+            { title: "Helicopter / ஹெலிகாப்டர்", actualPrice: "400", offerPrice: "80", stock: 100 },
+            { title: "Drone / ட்ரோன்", actualPrice: "600", offerPrice: "120", stock: 100 },
+            { title: "Butterfly / பட்டர்பிளை", actualPrice: "430", offerPrice: "86", stock: 100 },
+            { title: "Bambaram & Googly Red / பம்பரம் & கூகுளி சிகப்பு", actualPrice: "570", offerPrice: "114", stock: 100 },
+            { title: "Photo Flash / போட்டா ஃபிளாஷ்", actualPrice: "750", offerPrice: "150", stock: 100 },
+            { title: "Photo Flash Red / போட்டா ஃபிளாஷ் சிகப்பு", actualPrice: "750", offerPrice: "150", stock: 100 },
+            { title: "Photo Flash Silver / போட்டா ஃபிளாஷ் சில்வர்", actualPrice: "300", offerPrice: "60", stock: 100 },
+            { title: "Siren Mega (2 Pcs) / சைரன் மெகா (2பீஸ்)", actualPrice: "1250", offerPrice: "250", stock: 100 },
+            { title: "Smoke / ஸ்மோக்", actualPrice: "700", offerPrice: "140", stock: 100 },
+        ]
+    },
+    {
+        category: "Fountain / ஃபவுண்டைன்",
+        icon: <CloudDrizzle />,
+        items: [
+            { title: "Four Square / ஃபோர் ஸ்கொயர்", actualPrice: "1750", offerPrice: "350", stock: 100 },
+            { title: "Mumbo Jumbo / மும்போ ஜம்போ", actualPrice: "1520", offerPrice: "304", stock: 100 },
+            { title: "Money In The Bank / மணி பேங்க்", actualPrice: "1100", offerPrice: "220", stock: 100 },
+            { title: "4\" Emoji / 4\" எமோஜி", actualPrice: "1075", offerPrice: "215", stock: 100 },
+            { title: "Live Show / லைவ் ஸோ", actualPrice: "1075", offerPrice: "215", stock: 100 },
+        ]
+    },
+    {
+        category: "Fancy Single shot / பேன்சி சிங்கிள் ஷாட்",
+        icon: <Star />,
+        items: [
+            { title: "2\" Single (3Pcs) / 2\" சிங்கிள் (3 pcs)", actualPrice: "1250", offerPrice: "250", stock: 100 },
+            { title: "2\" Single / 2\" சிங்கிள்", actualPrice: "1010", offerPrice: "202", stock: 100 },
+            { title: "2 1/2\" Single / 2 1/2\" சிங்கிள்", actualPrice: "1750", offerPrice: "350", stock: 100 },
+            { title: "3\" Single / 3\" சிங்கிள்", actualPrice: "2540", offerPrice: "508", stock: 100 },
+            { title: "3 1/2\" Single (2 Pcs) / 3 1/2 சிங்கிள் (2 Pcs)", actualPrice: "7500", offerPrice: "1500", stock: 100 },
+            { title: "Double Ball Mix (2 Pcs) / டபுள் பால் மிக்ஸ் (2 Pcs)", actualPrice: "9075", offerPrice: "1815", stock: 100 },
+            { title: "Chotta Single / சோட்டா சிங்கிள்", actualPrice: "200", offerPrice: "40", stock: 100 },
+        ]
+    },
+    {
+        category: "Shot / ஷாட்",
+        icon: <Zap />,
+        items: [
+            { title: "7 Shot / 7 ஷாட்", actualPrice: "450", offerPrice: "90", stock: 100 },
+            { title: "15 Shot / 15 ஷாட்", actualPrice: "1750", offerPrice: "350", stock: 100 },
+            { title: "30 Shot / 30 ஷாட்", actualPrice: "2400", offerPrice: "480", stock: 100 },
+            { title: "60 Shot / 60 ஷாட்", actualPrice: "4800", offerPrice: "960", stock: 100 },
+            { title: "120 Shot / 120 ஷாட்", actualPrice: "9750", offerPrice: "1950", stock: 100 },
+            { title: "240 Shot / 240 ஷாட்", actualPrice: "19250", offerPrice: "3850", stock: 100 },
+        ]
+    },
+    {
+        category: "Matches / மேட்சஸ்",
+        icon: <Flame />,
+        items: [
+            { title: "Dora Dora / டோரா டோரா", actualPrice: "175", offerPrice: "35", stock: 100 },
+            { title: "Matches - Laptop / மேட்சஸ் - லேப்டாப்", actualPrice: "1050", offerPrice: "210", stock: 100 },
+            { title: "Matches Single (10 box) / மேட்சஸ் சிங்கிள் (10 box)", actualPrice: "350", offerPrice: "70", stock: 100 },
         ]
     },
     {
