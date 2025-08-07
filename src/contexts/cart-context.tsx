@@ -15,7 +15,7 @@ type Product = {
 
 type CartContextType = {
     quantities: Record<string, number>;
-    handleQuantityChange: (title: string, quantity: number | string, stock: number) => void;
+    handleQuantityChange: (title: string, quantity: number) => void;
     itemsInCart: Product[];
     subtotal: number;
     grandTotal: number;
@@ -29,11 +29,10 @@ const allProducts = getProducts().flatMap(category => category.items);
 const productMap = new Map(allProducts.map(p => [p.title, p]));
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-    const [quantities, setQuantities] = useState<Record<string, number>>({});
     const { toast } = useToast();
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
         try {
             const savedCart = localStorage.getItem('maharajPyrotechCart');
             if (savedCart) {
@@ -53,7 +52,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
         try {
             localStorage.setItem('maharajPyrotechCart', JSON.stringify(quantities));
         } catch (error) {
@@ -61,29 +59,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, [quantities]);
     
-    const handleQuantityChange = useCallback((title: string, value: string | number, stock: number) => {
+    const handleQuantityChange = useCallback((title: string, quantity: number) => {
         const product = productMap.get(title);
         if (!product) return;
 
-        let numQuantity = typeof value === 'string' ? parseInt(value, 10) : value;
+        let validatedQuantity = quantity;
 
-        if (isNaN(numQuantity) || numQuantity < 0) {
-            numQuantity = 0;
+        if (isNaN(validatedQuantity) || validatedQuantity < 0) {
+            validatedQuantity = 0;
         }
-        
-        let validatedQuantity = numQuantity;
 
-        if (stock > 0 && numQuantity > stock) {
+        if (product.stock > 0 && validatedQuantity > product.stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
-                description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
+                description: `You can only order up to ${product.stock} of "${product.title.split(' / ')[0]}".`,
             });
-            validatedQuantity = stock;
+            validatedQuantity = product.stock;
         }
 
-        setQuantities(prevQuantities => {
-            const newQuantities = { ...prevQuantities };
+        setQuantities(prev => {
+            const newQuantities = { ...prev };
             if (validatedQuantity > 0) {
                 newQuantities[title] = validatedQuantity;
             } else {
@@ -114,14 +110,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, [subtotal]);
 
     const itemsInCart = useMemo(() => {
-        return allProducts
-            .filter(p => (quantities[p.title] || 0) > 0)
-            .sort((a,b) => {
-                const aIndex = allProducts.findIndex(p => p.title === a.title);
-                const bIndex = allProducts.findIndex(p => p.title === b.title);
-                return aIndex - bIndex;
-            });
-    }, [quantities]);
+        const sortedItems = allProducts
+            .filter(p => (quantities[p.title] || 0) > 0);
+        
+        // This sort ensures the order is maintained based on the original product list
+        sortedItems.sort((a,b) => {
+            const aIndex = allProducts.findIndex(p => p.title === a.title);
+            const bIndex = allProducts.findIndex(p => p.title === b.title);
+            return aIndex - bIndex;
+        });
+
+        return sortedItems;
+    }, [quantities, allProducts]);
 
     const calculateRowTotal = useCallback((offerPrice: string, quantity: number) => {
         return (parseFloat(offerPrice) * (quantity || 0)).toFixed(2);

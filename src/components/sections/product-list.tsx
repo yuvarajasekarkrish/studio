@@ -9,23 +9,24 @@ import { getProducts } from '@/lib/products';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
 import { Trash2 } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 const productData = getProducts();
 
 export default function ProductList() {
     const { quantities, handleQuantityChange, calculateRowTotal, grandTotal } = useCart();
     
-    const onQuantityChange = (title: string, value: string, stock: number) => {
+    const onQuantityChange = (title: string, value: string) => {
         const quantity = parseInt(value, 10);
-        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity, stock);
+        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity);
     };
-
-    const handleQuantityBlur = (title: string, value: string, stock: number) => {
+    
+    const handleQuantityBlur = (title: string, value: string) => {
         if (value === '') {
-            handleQuantityChange(title, 0, stock);
+            handleQuantityChange(title, 0);
         }
     };
-
+    
     return (
         <>
             <div className="bg-card p-2 sm:p-6 rounded-lg shadow-xl border overflow-x-auto">
@@ -71,16 +72,34 @@ export default function ProductList() {
                                                     type="number"
                                                     min="0"
                                                     value={quantities[product.title] || ''}
-                                                    onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
-                                                    onChange={(e) => onQuantityChange(product.title, e.target.value, product.stock)}
+                                                    onBlur={(e) => handleQuantityBlur(product.title, e.target.value)}
+                                                    onChange={(e) => onQuantityChange(product.title, e.target.value)}
                                                     className="w-20 h-9 text-center bg-input"
                                                     placeholder="0"
                                                     disabled={product.stock === 0}
                                                 />
                                                 {(quantities[product.title] || 0) > 0 && (
-                                                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleQuantityChange(product.title, 0, product.stock)}>
-                                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                                    </Button>
+                                                     <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                                                                <Trash2 className="h-4 w-4 text-destructive" />
+                                                            </Button>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader>
+                                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                                <AlertDialogDescription>
+                                                                    This action will remove "{product.title.split(' / ')[0]}" from your cart.
+                                                                </AlertDialogDescription>
+                                                            </AlertDialogHeader>
+                                                            <AlertDialogFooter>
+                                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                <AlertDialogAction onClick={() => handleQuantityChange(product.title, 0)}>
+                                                                    Remove
+                                                                </AlertDialogAction>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialog>
                                                 )}
                                             </div>
                                         </TableCell>

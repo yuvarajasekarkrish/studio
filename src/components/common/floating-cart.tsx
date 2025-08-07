@@ -204,20 +204,19 @@ ${cartItemsText}
 
     const handleConfirmRemoveItem = () => {
         if (itemToRemove) {
-            const product = itemsInCart.find(p => p.title === itemToRemove);
-            handleQuantityChange(itemToRemove, 0, product?.stock ?? 0);
+            handleQuantityChange(itemToRemove, 0);
         }
         setItemToRemove(null);
     };
 
-    const onCartQuantityChange = (title: string, value: string, stock: number) => {
+    const onCartQuantityChange = (title: string, value: string) => {
         const quantity = parseInt(value, 10);
-        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity, stock);
+        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity);
     };
 
-    const handleQuantityBlur = (title: string, quantity: string, stock: number) => {
+    const handleQuantityBlur = (title: string, quantity: string) => {
         if (quantity === '') {
-            handleQuantityChange(title, 0, stock);
+            handleQuantityChange(title, 0);
         }
     };
 
@@ -291,7 +290,7 @@ ${cartItemsText}
                                         </TableHeader>
                                         <TableBody>
                                             {itemsInCart.map(product => (
-                                                <TableRow key={product.title}>
+                                                <TableRow key={`${product.title}-cart`}>
                                                     <TableCell className="font-medium border">
                                                         {product.title}
                                                         <p className="text-sm text-muted-foreground">@ ₹{product.offerPrice} each</p>
@@ -301,8 +300,8 @@ ${cartItemsText}
                                                             type="number"
                                                             min="0"
                                                             value={quantities[product.title] || ''}
-                                                            onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
-                                                            onChange={(e) => onCartQuantityChange(product.title, e.target.value, product.stock)}
+                                                            onBlur={(e) => handleQuantityBlur(product.title, e.target.value)}
+                                                            onChange={(e) => onCartQuantityChange(product.title, e.target.value)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
                                                     </TableCell>
@@ -487,7 +486,7 @@ ${cartItemsText}
                                     </TableHeader>
                                     <TableBody>
                                         {itemsInCart.map(product => (
-                                            <TableRow key={product.title} className="hover:bg-secondary/30">
+                                            <TableRow key={`${product.title}-review`} className="hover:bg-secondary/30">
                                                 <TableCell className="font-medium border">{product.title}</TableCell>
                                                 <TableCell className="text-center border">{quantities[product.title]}</TableCell>
                                                 <TableCell className="text-right border">₹{product.offerPrice}</TableCell>
@@ -496,14 +495,6 @@ ${cartItemsText}
                                         ))}
                                     </TableBody>
                                     <TableFooter>
-                                        <TableRow>
-                                            <TableCell colSpan={3} className="text-right font-bold border">Subtotal</TableCell>
-                                            <TableCell className="text-right font-bold border">₹{subtotal.toFixed(2)}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell colSpan={3} className="text-right font-bold border">Packaging & Forwarding (3%)</TableCell>
-                                            <TableCell className="text-right font-bold border">₹{(subtotal * 0.03).toFixed(2)}</TableCell>
-                                        </TableRow>
                                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
                                             <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
                                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>

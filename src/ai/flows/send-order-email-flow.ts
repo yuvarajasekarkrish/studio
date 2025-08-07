@@ -52,7 +52,7 @@ For the email body, generate a well-formatted HTML document. It should include:
 - A section with the customer's delivery details (Name, Email, Phone, Address).
 - An HTML table for the "Order Summary". The table should have columns for "Item", "Quantity", and "Price".
 - The order items should be parsed from the 'cartItemsText' and populated into the table rows.
-- Below the table, display the Subtotal and the Grand Total (which includes a 3% fee).
+- Below the table, display the Subtotal and the Grand Total. The Grand Total includes a 3% packaging and forwarding fee. Clearly label both.
 - The email should be styled professionally with some basic CSS for readability (e.g., borders for the table, bold headings).
 
 Use the following customer and order details:
