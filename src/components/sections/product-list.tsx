@@ -15,6 +15,11 @@ const productData = getProducts();
 export default function ProductList() {
     const { quantities, handleQuantityChange, calculateRowTotal, grandTotal } = useCart();
     
+    const onQuantityChange = (title: string, value: string, stock: number) => {
+        const quantity = parseInt(value, 10);
+        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity, stock);
+    };
+
     const handleQuantityBlur = (title: string, value: string, stock: number) => {
         if (value === '') {
             handleQuantityChange(title, 0, stock);
@@ -67,7 +72,7 @@ export default function ProductList() {
                                                     min="0"
                                                     value={quantities[product.title] || ''}
                                                     onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
-                                                    onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
+                                                    onChange={(e) => onQuantityChange(product.title, e.target.value, product.stock)}
                                                     className="w-20 h-9 text-center bg-input"
                                                     placeholder="0"
                                                     disabled={product.stock === 0}

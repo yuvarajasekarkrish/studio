@@ -210,6 +210,11 @@ ${cartItemsText}
         setItemToRemove(null);
     };
 
+    const onCartQuantityChange = (title: string, value: string, stock: number) => {
+        const quantity = parseInt(value, 10);
+        handleQuantityChange(title, isNaN(quantity) ? 0 : quantity, stock);
+    };
+
     const handleQuantityBlur = (title: string, quantity: string, stock: number) => {
         if (quantity === '') {
             handleQuantityChange(title, 0, stock);
@@ -297,7 +302,7 @@ ${cartItemsText}
                                                             min="0"
                                                             value={quantities[product.title] || ''}
                                                             onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
-                                                            onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
+                                                            onChange={(e) => onCartQuantityChange(product.title, e.target.value, product.stock)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
                                                     </TableCell>
