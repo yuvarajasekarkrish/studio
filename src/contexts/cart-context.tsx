@@ -32,7 +32,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const [quantities, setQuantities] = useState<Record<string, number>>({});
     const { toast } = useToast();
 
-    // Load cart from localStorage only on initial mount
     useEffect(() => {
         if (typeof window === 'undefined') return;
         try {
@@ -53,7 +52,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    // Save to localStorage whenever quantities change
     useEffect(() => {
         if (typeof window === 'undefined') return;
         try {
