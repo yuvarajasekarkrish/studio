@@ -3,8 +3,6 @@
 
 import * as React from 'react';
 import { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -74,6 +72,12 @@ export default function FloatingCart() {
         const input = orderSummaryRef.current;
         if (!input) return;
 
+        // Dynamically import the libraries
+        const [html2canvas, { default: jsPDF }] = await Promise.all([
+            import('html2canvas'),
+            import('jspdf')
+        ]);
+        
         const originalStyles = {
             maxHeight: input.style.maxHeight,
             overflowY: input.style.overflowY,
@@ -85,7 +89,7 @@ export default function FloatingCart() {
         input.scrollTop = 0;
         
         try {
-            const canvas = await html2canvas(input, {
+            const canvas = await html2canvas.default(input, {
                 scale: 2, 
                 useCORS: true,
                 logging: false,
