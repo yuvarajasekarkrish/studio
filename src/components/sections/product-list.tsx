@@ -75,7 +75,7 @@ export default function ProductList() {
                                     </TableCell>
                                 </TableRow>
                                 {category.items.map((product) => (
-                                    <TableRow key={product.title} className="hover:bg-secondary/50">
+                                    <TableRow key={`${category.category}-${product.title}`} className="hover:bg-secondary/50">
                                         <TableCell className="font-medium border">
                                             <div>
                                                 {product.title}
