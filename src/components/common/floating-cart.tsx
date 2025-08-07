@@ -198,7 +198,7 @@ ${cartItemsText}
 
     const handleShareToWhatsApp = () => {
         const encodedMessage = encodeURIComponent(whatsAppMessage);
-        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+        const whatsappUrl = `https://wa.me/919843529357?text=${encodedMessage}`;
         window.open(whatsappUrl, '_blank');
     };
 
@@ -297,7 +297,7 @@ ${cartItemsText}
                                                         <Input
                                                             type="number"
                                                             min="0"
-                                                            value={quantities[product.title] || ''}
+                                                            value={quantities[product.title] || 0}
                                                             onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
