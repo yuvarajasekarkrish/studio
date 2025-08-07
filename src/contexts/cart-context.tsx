@@ -67,6 +67,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const handleQuantityChange = useCallback((title: string, quantity: number) => {
         const product = productMap.get(title);
         if (!product) return;
+        
+        if (quantity > product.stock) {
+            toast({
+                variant: "destructive",
+                title: "Stock Limit Exceeded",
+                description: `You can only order up to ${product.stock} of "${product.title.split(' / ')[0]}".`,
+            });
+            setQuantities(prev => ({...prev, [title]: product.stock}));
+            return;
+        }
 
         setQuantities(prev => {
             const newQuantities = { ...prev };
@@ -77,7 +87,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
             return newQuantities;
         });
-    }, []);
+    }, [toast]);
 
     const clearCart = useCallback(() => {
         setQuantities({});
