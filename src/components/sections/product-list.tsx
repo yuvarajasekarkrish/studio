@@ -89,7 +89,7 @@ export default function ProductList() {
                                             <Input
                                                 type="number"
                                                 min="0"
-                                                value={quantities[product.title] || 0}
+                                                value={quantities[product.title] || ''}
                                                 onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
                                                 className="w-20 h-9 text-center mx-auto bg-input"
                                                 placeholder="0"

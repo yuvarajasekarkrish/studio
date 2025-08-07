@@ -87,21 +87,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const handleQuantityChange = useCallback((title: string, quantity: number, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
-
-        let validatedQuantity = quantity;
-
+    
+        // Ensure quantity is a number. If input is cleared, it becomes NaN.
+        let validatedQuantity = isNaN(quantity) ? 0 : quantity;
+    
         if (validatedQuantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            validatedQuantity = stock; // Correctly cap the quantity at the stock limit
+            validatedQuantity = stock;
         }
-
+    
         setQuantities(prev => {
             const newQuantities = { ...prev };
-            if (isNaN(validatedQuantity) || validatedQuantity <= 0) {
+            if (validatedQuantity <= 0) {
                 delete newQuantities[title];
             } else {
                 newQuantities[title] = validatedQuantity;
