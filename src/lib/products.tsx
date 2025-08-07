@@ -178,56 +178,6 @@ export const productData = [
         { title: "15 cm Colour Sparklers / 15 cm கலர் கம்பி", actualPrice: "310", offerPrice: "62", stock: 100 },
         { title: "15 cm Green Sparklers / 15 cm பச்சை கம்பி", actualPrice: "330", offerPrice: "66", stock: 100 },
         { title: "15 cm Red Sparklers / 15 cm சிகப்பு கம்பி", actualPrice: "400", offerPrice: "80", stock: 100 },
-        { title: "30 cm Electric Sparklers / 30 cm சாதா கம்பி", actualPrice: "285", offerPrice: "57", stock: 100 },
-        { title: "30 cm Colour Sparklers / 30 cm கலர் கம்பி", actualPrice: "310", offerPrice: "62", stock: 100 },
-        { title: "30 cm Green Sparklers / 30 cm பச்சை கம்பி", actualPrice: "330", offerPrice: "66", stock: 100 },
-        { title: "30 cm Red Sparklers / 30 cm சிகப்பு கம்பி", actualPrice: "405", offerPrice: "81", stock: 100 },
-        { title: "30cm Rotating Sparklers / 30 cm சுற்றும் கம்பி", actualPrice: "1000", offerPrice: "200", stock: 100 },
-        { title: "50 cm Electric Sparklers / 50 cm சாதா கம்பி", actualPrice: "850", offerPrice: "170", stock: 100 },
-        { title: "50 cm Colour Sparklers / 50 cm கலர் கம்பி", actualPrice: "950", offerPrice: "190", stock: 100 },
-        { title: "50 cm Royal Mix Sparklers / 50 cm ராயல் மிக்ஸ் கம்பி", actualPrice: "1200", offerPrice: "240", stock: 100 },
     ]
-  },
-  {
-    category: "Chorsa",
-    icon: <Flame />,
-    items: [
-      { title: "Red Bijli (100 pcs) / சிகப்பு பிஜிலி (100 pcs)", actualPrice: "230", offerPrice: "46", stock: 100 },
-      { title: "Stripped Bijli (100 pcs) / ஸ்டிரிப்ட் பிஜிலி (100 பீஸ்)", actualPrice: "325", offerPrice: "65", stock: 100 },
-      { title: "Red Bijli (50 pcs) / சிவப்பு பிஜிலி (50 பீஸ்)", actualPrice: "210", offerPrice: "42", stock: 100 },
-    ]
-  },
-  {
-    category: "2024 New Varieties",
-    icon: <Gift />,
-    items: [
-      { title: "90 Walts / 90 வால்ட்ஸ்", actualPrice: "750", offerPrice: "150", stock: 100 },
-      { title: "Shin Chan / ஷின் சான்", actualPrice: "475", offerPrice: "95", stock: 100 },
-      { title: "Top Gun / டாப் கன்", actualPrice: "900", offerPrice: "180", stock: 100 },
-      { title: "12 Shot Rider (Long) / 12 ஷாட் ரைடர் (நீண்ட)", actualPrice: "700", offerPrice: "140", stock: 100 },
-      { title: "25 Shot Rider / 25 ஷாட் ரைடர்", actualPrice: "1100", offerPrice: "220", stock: 100 },
-      { title: "50 Shot Rider / 50 ஷாட் ரைடர்", actualPrice: "2200", offerPrice: "440", stock: 100 },
-      { title: "1 3/4\" Pipe (3 in One) / 1 3/4\" பைப் (3 இன் ஒன்)", actualPrice: "1250", offerPrice: "270", stock: 100 },
-      { title: "Snake Tablet (10 box) / பாம்பு மாத்திரை (10 பெட்டி)", actualPrice: "150", offerPrice: "30", stock: 100 },
-      { title: "Assorted Cartoon / அசார்டட் கார்ட்டூன்", actualPrice: "350", offerPrice: "70", stock: 100 },
-      { title: "Sky Shot Green crackling(10 pcs) / ஸ்கை ஷாட் கிரீன் (10 pcs)", actualPrice: "1000", offerPrice: "200", stock: 100 },
-      { title: "Water Falls Pencil / வாட்டர் ஃபால்ஸ் பென்சில்", actualPrice: "1250", offerPrice: "250", stock: 100 },
-      { title: "Water Queen / வாட்டர் குயின்", actualPrice: "650", offerPrice: "130", stock: 100 },
-      { title: "Old is Gold / ஓல்ட் இஸ் கோல்ட்", actualPrice: "750", offerPrice: "150", stock: 100 },
-    ]
-  },
-  {
-      category: "Garlands",
-      icon: <Zap />,
-      items: [
-          { title: "24 Deluxe / 24 டீலக்ஸ்", actualPrice: "300", offerPrice: "60", stock: 100 },
-          { title: "50 Deluxe / 50 டீலக்ஸ்", actualPrice: "800", offerPrice: "160", stock: 100 },
-          { title: "100 Deluxe / 100 டீலக்ஸ்", actualPrice: "1500", offerPrice: "300", stock: 100 },
-          { title: "100 wala / 100 சரம்", actualPrice: "200", offerPrice: "40", stock: 100 },
-          { title: "1k", actualPrice: "1800", offerPrice: "360", stock: 100 },
-          { title: "2k", actualPrice: "3600", offerPrice: "720", stock: 100 },
-          { title: "5k", actualPrice: "9000", offerPrice: "1800", stock: 100 },
-          { title: "10k", actualPrice: "18000", offerPrice: "3600", stock: 100 },
-      ]
   }
 ];
