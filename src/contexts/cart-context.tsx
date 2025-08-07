@@ -38,7 +38,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             try {
                 const savedCart = localStorage.getItem('maharajPyrotechCart');
                 if (savedCart) {
-                    setQuantities(JSON.parse(savedCart));
+                    const savedQuantities = JSON.parse(savedCart);
+                    const validQuantities: Record<string, number> = {};
+                    // Filter out any items from localStorage that no longer exist in our product list
+                    for (const title in savedQuantities) {
+                        if (productMap.has(title)) {
+                            validQuantities[title] = savedQuantities[title];
+                        }
+                    }
+                    setQuantities(validQuantities);
                 }
             } catch (error) {
                 console.error('Could not load cart from localStorage', error);
