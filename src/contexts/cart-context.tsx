@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useState, useEffect, createContext, useContext, useMemo, useCallback, useRef } from 'react';
-import { productData, PACKAGING_COST } from '@/lib/products';
+import { getProducts, PACKAGING_COST } from '@/lib/products';
 import { useToast } from "@/hooks/use-toast";
 
 type Product = {
@@ -25,7 +25,7 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const allProducts = productData.flatMap(category => category.items);
+const allProducts = getProducts().flatMap(category => category.items);
 const productMap = new Map(allProducts.map(p => [p.title, p]));
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -34,6 +34,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         if (isInitialMount.current) {
             try {
                 const savedCart = localStorage.getItem('maharajPyrotechCart');
@@ -50,6 +52,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 }
             } catch (error) {
                 console.error('Could not load cart from localStorage', error);
+                localStorage.removeItem('maharajPyrotechCart'); // Clear corrupted cart data
             }
             isInitialMount.current = false;
         } else {
@@ -125,3 +128,5 @@ export function useCart() {
     }
     return context;
 }
+
+    

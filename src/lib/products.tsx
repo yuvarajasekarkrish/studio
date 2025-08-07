@@ -4,7 +4,7 @@ import { Rocket, Sparkles, Star, Zap, Pencil, Gift, CloudDrizzle, ToyBrick, Drop
 
 export const PACKAGING_COST = 200;
 
-export const productData = [
+export const getProducts = () => [
   {
     category: "One Sound Crackers",
     icon: <Rocket />,
@@ -28,7 +28,6 @@ export const productData = [
       { title: "Chakkaram Deluxe / தரைச்சக்கரம் டீலக்ஸ்", actualPrice: "800", offerPrice: "160", stock: 100 },
       { title: "Hot Wheel / ஹாட் வீல்", actualPrice: "450", offerPrice: "90", stock: 100 },
       { title: "Dancing wheel / டான்சிங் வீல்", actualPrice: "500", offerPrice: "100", stock: 100 },
-      { title: "Spin Master Mini / ஸ்பின் மாஸ்டர் மினி", actualPrice: "540", offerPrice: "108", stock: 100 },
       { title: "4 x 4 Wheel (Spl Wheel) / 4x4 வீல்", actualPrice: "700", offerPrice: "140", stock: 100 },
       { title: "Lotus Wheel / லோட்டஸ் வீல்", actualPrice: "810", offerPrice: "162", stock: 100 },
     ],
@@ -181,3 +180,5 @@ export const productData = [
     ]
   }
 ];
+
+    

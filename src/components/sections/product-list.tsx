@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { useCart } from '@/contexts/cart-context';
-import { productData, PACKAGING_COST } from '@/lib/products';
+import { getProducts, PACKAGING_COST } from '@/lib/products';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
+
+const productData = getProducts();
 
 export default function ProductList() {
     const { quantities, handleQuantityChange, calculateRowTotal, subtotal, grandTotal } = useCart();
@@ -120,3 +122,5 @@ export default function ProductList() {
         </>
     );
 }
+
+    
