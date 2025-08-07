@@ -18,15 +18,15 @@ export default function ProductList() {
 
     const handleConfirmRemoveItem = () => {
         if (itemToRemove) {
-            // Passing a stock value of 0 to ensure it gets removed
             const product = getProducts().flatMap(c => c.items).find(p => p.title === itemToRemove);
             handleQuantityChange(itemToRemove, 0, product?.stock ?? 0);
         }
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: number, stock: number) => {
-        if (isNaN(quantity) || quantity <= 0) {
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: string, stock: number) => {
+        const numQuantity = parseInt(quantity, 10);
+        if (quantity === '' || (!isNaN(numQuantity) && numQuantity <= 0)) {
             setItemToRemove(title);
         } else {
             handleQuantityChange(title, quantity, stock);
@@ -90,8 +90,13 @@ export default function ProductList() {
                                             <Input
                                                 type="number"
                                                 min="0"
-                                                value={quantities[product.title] || 0}
-                                                onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
+                                                value={quantities[product.title] || ''}
+                                                onBlur={(e) => {
+                                                    if (e.target.value === '') {
+                                                        handleQuantityChangeWithConfirmation(product.title, '0', product.stock);
+                                                    }
+                                                }}
+                                                onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
                                                 className="w-20 h-9 text-center mx-auto bg-input"
                                                 placeholder="0"
                                                 disabled={product.stock === 0}

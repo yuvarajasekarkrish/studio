@@ -15,7 +15,7 @@ type Product = {
 
 type CartContextType = {
     quantities: Record<string, number>;
-    handleQuantityChange: (title: string, quantity: number, stock: number) => void;
+    handleQuantityChange: (title: string, quantity: number | string, stock: number) => void;
     itemsInCart: Product[];
     subtotal: number;
     grandTotal: number;
@@ -63,27 +63,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, [quantities]);
 
-    const handleQuantityChange = useCallback((title: string, quantity: number, stock: number) => {
+    const handleQuantityChange = useCallback((title: string, quantity: number | string, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
 
-        let validatedQuantity = isNaN(quantity) ? 0 : quantity;
-        
-        if (validatedQuantity > stock) {
+        let numQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
+        if (isNaN(numQuantity)) {
+            numQuantity = 0;
+        }
+
+        if (numQuantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            validatedQuantity = stock;
+            numQuantity = stock;
         }
 
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
-            if (validatedQuantity <= 0) {
+            if (numQuantity <= 0) {
                 delete newQuantities[title];
             } else {
-                newQuantities[title] = validatedQuantity;
+                newQuantities[title] = numQuantity;
             }
             return newQuantities;
         });

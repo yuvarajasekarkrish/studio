@@ -210,8 +210,9 @@ ${cartItemsText}
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: number, stock: number) => {
-        if (isNaN(quantity) || quantity <= 0) {
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: string, stock: number) => {
+        const numQuantity = parseInt(quantity, 10);
+        if (quantity === '' || (!isNaN(numQuantity) && numQuantity <= 0)) {
             setItemToRemove(title);
         } else {
             handleQuantityChange(title, quantity, stock);
@@ -297,8 +298,13 @@ ${cartItemsText}
                                                         <Input
                                                             type="number"
                                                             min="0"
-                                                            value={quantities[product.title] || 0}
-                                                            onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
+                                                            value={quantities[product.title] || ''}
+                                                            onBlur={(e) => {
+                                                                if (e.target.value === '') {
+                                                                    handleQuantityChangeWithConfirmation(product.title, '0', product.stock);
+                                                                }
+                                                            }}
+                                                            onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
                                                     </TableCell>
