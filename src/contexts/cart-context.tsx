@@ -72,6 +72,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (isNaN(numQuantity) || numQuantity < 0) {
             numQuantity = 0;
         }
+        
+        let validatedQuantity = numQuantity;
 
         if (numQuantity > stock) {
             toast({
@@ -79,13 +81,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            numQuantity = stock;
+            validatedQuantity = stock;
         }
 
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
-            if (numQuantity > 0) {
-                newQuantities[title] = numQuantity;
+            if (validatedQuantity > 0) {
+                newQuantities[title] = validatedQuantity;
             } else {
                 delete newQuantities[title];
             }
