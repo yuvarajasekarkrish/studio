@@ -314,7 +314,7 @@ ${cartItemsText}
                                         </TableBody>
                                         <TableFooter>
                                             <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
+                                                <TableCell colSpan={2} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
                                                 <TableCell className="text-right font-bold text-xl text-primary border" colSpan={2}>₹{grandTotal.toFixed(2)}</TableCell>
                                             </TableRow>
                                         </TableFooter>
@@ -491,8 +491,16 @@ ${cartItemsText}
                                         ))}
                                     </TableBody>
                                     <TableFooter>
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="text-right font-bold border">Subtotal</TableCell>
+                                            <TableCell className="text-right font-bold border">₹{subtotal.toFixed(2)}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="text-right font-bold border">Packaging & Forwarding (3%)</TableCell>
+                                            <TableCell className="text-right font-bold border">₹{(subtotal * 0.03).toFixed(2)}</TableCell>
+                                        </TableRow>
                                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
+                                            <TableCell colSpan={3} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
                                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                                         </TableRow>
                                     </TableFooter>

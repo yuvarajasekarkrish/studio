@@ -2,12 +2,10 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { useCart } from '@/contexts/cart-context';
 import { getProducts } from '@/lib/products';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '../ui/button';
 import { Trash2 } from 'lucide-react';
@@ -91,7 +89,7 @@ export default function ProductList() {
                     </TableBody>
                     <TableFooter>
                         <TableRow className="bg-secondary hover:bg-secondary text-lg">
-                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Subtotal</TableCell>
+                            <TableCell colSpan={4} className="text-right font-bold text-xl text-primary border">Grand Total</TableCell>
                             <TableCell className="text-right font-bold text-xl text-primary border">₹{grandTotal.toFixed(2)}</TableCell>
                         </TableRow>
                     </TableFooter>

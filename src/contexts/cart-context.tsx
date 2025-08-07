@@ -73,7 +73,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         
         let validatedQuantity = numQuantity;
 
-        if (numQuantity > stock) {
+        if (stock > 0 && numQuantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
@@ -121,7 +121,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 const bIndex = allProducts.findIndex(p => p.title === b.title);
                 return aIndex - bIndex;
             });
-    }, [quantities]);
+    }, [quantities, allProducts]);
 
     const calculateRowTotal = useCallback((offerPrice: string, quantity: number) => {
         return (parseFloat(offerPrice) * (quantity || 0)).toFixed(2);
