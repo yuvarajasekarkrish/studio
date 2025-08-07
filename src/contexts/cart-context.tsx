@@ -68,7 +68,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (!product) return;
 
         let validatedQuantity = isNaN(quantity) ? 0 : quantity;
-
+        
         if (validatedQuantity > stock) {
             toast({
                 variant: "destructive",
