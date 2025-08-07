@@ -204,16 +204,17 @@ ${cartItemsText}
 
     const handleConfirmRemoveItem = () => {
         if (itemToRemove) {
-            handleQuantityChange(itemToRemove, 0);
+            const product = itemsInCart.find(p => p.title === itemToRemove);
+            handleQuantityChange(itemToRemove, 0, product?.stock ?? 0);
         }
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: number) => {
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: number, stock: number) => {
         if (isNaN(quantity) || quantity <= 0) {
             setItemToRemove(title);
         } else {
-            handleQuantityChange(title, quantity);
+            handleQuantityChange(title, quantity, stock);
         }
     };
 
@@ -297,7 +298,7 @@ ${cartItemsText}
                                                             type="number"
                                                             min="0"
                                                             value={quantities[product.title] || ''}
-                                                            onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value))}
+                                                            onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"
                                                         />
                                                     </TableCell>

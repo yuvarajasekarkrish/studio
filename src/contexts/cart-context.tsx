@@ -15,7 +15,7 @@ type Product = {
 
 type CartContextType = {
     quantities: Record<string, number>;
-    handleQuantityChange: (title: string, quantity: number) => void;
+    handleQuantityChange: (title: string, quantity: number, stock: number) => void;
     itemsInCart: Product[];
     subtotal: number;
     grandTotal: number;
@@ -64,17 +64,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, [quantities]);
 
-    const handleQuantityChange = useCallback((title: string, quantity: number) => {
+    const handleQuantityChange = useCallback((title: string, quantity: number, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
-        
-        if (quantity > product.stock) {
+
+        if (quantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
-                description: `You can only order up to ${product.stock} of "${product.title.split(' / ')[0]}".`,
+                description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            setQuantities(prev => ({...prev, [title]: product.stock}));
+            setQuantities(prev => ({ ...prev, [title]: stock }));
             return;
         }
 
@@ -88,6 +88,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             return newQuantities;
         });
     }, [toast]);
+
 
     const clearCart = useCallback(() => {
         setQuantities({});
@@ -111,7 +112,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const itemsInCart = useMemo(() => {
         return allProducts
-            .filter(p => (quantities[p.title] || 0) > 0);
+            .filter(p => (quantities[p.title] || 0) > 0)
+            .sort((a,b) => {
+                const aIndex = allProducts.findIndex(p => p.title === a.title);
+                const bIndex = allProducts.findIndex(p => p.title === b.title);
+                return aIndex - bIndex;
+            });
     }, [quantities]);
 
     const calculateRowTotal = useCallback((offerPrice: string, quantity: number) => {
