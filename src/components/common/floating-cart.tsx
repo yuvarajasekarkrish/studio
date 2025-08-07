@@ -295,7 +295,7 @@ ${cartItemsText}
                                                         <Input
                                                             type="number"
                                                             min="0"
-                                                            value={quantities[product.title] || 0}
+                                                            value={quantities[product.title] || ''}
                                                             onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
                                                             onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
                                                             className="w-20 h-9 text-center mx-auto bg-input"

@@ -62,15 +62,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             console.error('Could not save cart to localStorage', error);
         }
     }, [quantities]);
-
-    const handleQuantityChange = useCallback((title: string, quantity: string | number, stock: number) => {
+    
+    const handleQuantityChange = useCallback((title: string, value: string | number, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
 
-        let numQuantity = parseInt(String(quantity), 10);
+        let numQuantity = Number(String(value));
+
         if (isNaN(numQuantity) || numQuantity < 0) {
             numQuantity = 0;
         }
+        
+        numQuantity = Math.floor(numQuantity);
 
         if (numQuantity > stock) {
             toast({
