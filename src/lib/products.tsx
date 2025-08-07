@@ -30,6 +30,7 @@ export const getProducts = () => [
       { title: "Dancing wheel / டான்சிங் வீல்", actualPrice: "500", offerPrice: "100", stock: 100 },
       { title: "4 x 4 Wheel (Spl Wheel) / 4x4 வீல்", actualPrice: "700", offerPrice: "140", stock: 100 },
       { title: "Lotus Wheel / லோட்டஸ் வீல்", actualPrice: "810", offerPrice: "162", stock: 100 },
+      { title: "Spin Master Mini", actualPrice: "540", offerPrice: "108", stock: 100 },
     ],
   },
   {
