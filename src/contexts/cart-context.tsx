@@ -63,12 +63,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     }, [quantities]);
 
-    const handleQuantityChange = useCallback((title: string, quantity: number | string, stock: number) => {
+    const handleQuantityChange = useCallback((title: string, quantity: string | number, stock: number) => {
         const product = productMap.get(title);
         if (!product) return;
 
-        let numQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
-        if (isNaN(numQuantity)) {
+        let numQuantity = parseInt(String(quantity), 10);
+        if (isNaN(numQuantity) || numQuantity < 0) {
             numQuantity = 0;
         }
 
@@ -83,10 +83,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
-            if (numQuantity <= 0) {
-                delete newQuantities[title];
-            } else {
+            if (numQuantity > 0) {
                 newQuantities[title] = numQuantity;
+            } else {
+                delete newQuantities[title];
             }
             return newQuantities;
         });

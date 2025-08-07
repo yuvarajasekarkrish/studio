@@ -24,12 +24,9 @@ export default function ProductList() {
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: string, stock: number) => {
-        const numQuantity = parseInt(quantity, 10);
-        if (quantity === '' || (!isNaN(numQuantity) && numQuantity <= 0)) {
-            setItemToRemove(title);
-        } else {
-            handleQuantityChange(title, quantity, stock);
+    const handleQuantityBlur = (title: string, quantity: string, stock: number) => {
+        if (quantity === '') {
+            handleQuantityChange(title, 0, stock);
         }
     };
 
@@ -90,12 +87,8 @@ export default function ProductList() {
                                             <Input
                                                 type="number"
                                                 min="0"
-                                                value={quantities[product.title] || ''}
-                                                onBlur={(e) => {
-                                                    if (e.target.value === '') {
-                                                        handleQuantityChangeWithConfirmation(product.title, '0', product.stock);
-                                                    }
-                                                }}
+                                                value={quantities[product.title] || 0}
+                                                onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
                                                 onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
                                                 className="w-20 h-9 text-center mx-auto bg-input"
                                                 placeholder="0"
