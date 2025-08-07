@@ -88,23 +88,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const product = productMap.get(title);
         if (!product) return;
     
-        let validatedQuantity = isNaN(quantity) ? 0 : quantity;
+        let finalQuantity = isNaN(quantity) ? 0 : quantity;
     
-        if (validatedQuantity > stock) {
+        if (finalQuantity > stock) {
             toast({
                 variant: "destructive",
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            validatedQuantity = stock;
+            finalQuantity = stock;
         }
     
-        setQuantities(prev => {
-            const newQuantities = { ...prev };
-            if (validatedQuantity <= 0) {
+        setQuantities(prevQuantities => {
+            const newQuantities = { ...prevQuantities };
+            if (finalQuantity <= 0) {
                 delete newQuantities[title];
             } else {
-                newQuantities[title] = validatedQuantity;
+                newQuantities[title] = finalQuantity;
             }
             return newQuantities;
         });
