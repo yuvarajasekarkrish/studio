@@ -9,46 +9,22 @@ import { useCart } from '@/contexts/cart-context';
 import { getProducts } from '@/lib/products';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from '@/components/ui/badge';
+import { Button } from '../ui/button';
+import { Trash2 } from 'lucide-react';
 
 const productData = getProducts();
 
 export default function ProductList() {
     const { quantities, handleQuantityChange, calculateRowTotal, grandTotal } = useCart();
-    const [itemToRemove, setItemToRemove] = useState<string | null>(null);
-
-    const handleConfirmRemoveItem = () => {
-        if (itemToRemove) {
-            const product = getProducts().flatMap(c => c.items).find(p => p.title === itemToRemove);
-            handleQuantityChange(itemToRemove, 0, product?.stock ?? 0);
-        }
-        setItemToRemove(null);
-    };
-
-    const handleQuantityBlur = (title: string, quantity: string, stock: number) => {
-        if (quantity === '') {
+    
+    const handleQuantityBlur = (title: string, value: string, stock: number) => {
+        if (value === '') {
             handleQuantityChange(title, 0, stock);
         }
     };
 
-
     return (
         <>
-            <AlertDialog open={!!itemToRemove} onOpenChange={(open) => !open && setItemToRemove(null)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action will remove "{itemToRemove?.split(' / ')[0]}" from your cart.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel onClick={() => setItemToRemove(null)}>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleConfirmRemoveItem}>
-                            Remove
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
             <div className="bg-card p-2 sm:p-6 rounded-lg shadow-xl border overflow-x-auto">
                 <Table>
                     <TableHeader>
@@ -56,7 +32,7 @@ export default function ProductList() {
                             <TableHead className="w-2/5 border">Product</TableHead>
                             <TableHead className="text-right border">MRP</TableHead>
                             <TableHead className="text-right text-primary font-bold border">Offer (80% Off)</TableHead>
-                            <TableHead className="text-center w-28 border">Quantity</TableHead>
+                            <TableHead className="text-center w-32 border">Quantity</TableHead>
                             <TableHead className="text-right border">Total</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -76,6 +52,9 @@ export default function ProductList() {
                                         <TableCell className="font-medium border">
                                             <div>
                                                 {product.title}
+                                                {product.stock > 0 && (quantities[product.title] || 0) >= product.stock && (
+                                                    <Badge variant="destructive" className="ml-2 animate-pulse">Stock Limit Reached</Badge>
+                                                )}
                                                 {product.stock === 0 && (
                                                     <Badge variant="destructive" className="ml-2">Out of Stock</Badge>
                                                 )}
@@ -84,16 +63,23 @@ export default function ProductList() {
                                         <TableCell className="text-right text-muted-foreground line-through border">₹{product.actualPrice}</TableCell>
                                         <TableCell className="text-right font-bold text-primary border">₹{product.offerPrice}</TableCell>
                                         <TableCell className="border">
-                                            <Input
-                                                type="number"
-                                                min="0"
-                                                value={quantities[product.title] || ''}
-                                                onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
-                                                onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
-                                                className="w-20 h-9 text-center mx-auto bg-input"
-                                                placeholder="0"
-                                                disabled={product.stock === 0}
-                                            />
+                                            <div className="flex items-center justify-center gap-2">
+                                                <Input
+                                                    type="number"
+                                                    min="0"
+                                                    value={quantities[product.title] || ''}
+                                                    onBlur={(e) => handleQuantityBlur(product.title, e.target.value, product.stock)}
+                                                    onChange={(e) => handleQuantityChange(product.title, e.target.value, product.stock)}
+                                                    className="w-20 h-9 text-center bg-input"
+                                                    placeholder="0"
+                                                    disabled={product.stock === 0}
+                                                />
+                                                {(quantities[product.title] || 0) > 0 && (
+                                                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleQuantityChange(product.title, 0, product.stock)}>
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                )}
+                                            </div>
                                         </TableCell>
                                         <TableCell className="text-right font-bold border">
                                             ₹{calculateRowTotal(product.offerPrice, quantities[product.title] || 0)}

@@ -67,13 +67,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const product = productMap.get(title);
         if (!product) return;
 
-        let numQuantity = Number(String(value));
+        let numQuantity = typeof value === 'string' ? parseInt(value, 10) : value;
 
         if (isNaN(numQuantity) || numQuantity < 0) {
             numQuantity = 0;
         }
-        
-        numQuantity = Math.floor(numQuantity);
 
         if (numQuantity > stock) {
             toast({
