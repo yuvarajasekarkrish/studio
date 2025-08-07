@@ -74,8 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 title: "Stock Limit Exceeded",
                 description: `You can only order up to ${stock} of "${product.title.split(' / ')[0]}".`,
             });
-            setQuantities(prev => ({ ...prev, [title]: stock }));
-            return;
+            quantity = stock; // Set to max stock if exceeded
         }
 
         setQuantities(prev => {
