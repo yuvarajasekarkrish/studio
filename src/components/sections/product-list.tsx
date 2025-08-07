@@ -23,7 +23,7 @@ export default function ProductList() {
         setItemToRemove(null);
     };
 
-    const handleQuantityChangeWithConfirmation = (title: string, quantity: number, stock: number) => {
+    const handleQuantityChangeWithConfirmation = (title: string, quantity: number) => {
         if (isNaN(quantity) || quantity <= 0) {
             setItemToRemove(title);
         } else {
@@ -89,7 +89,7 @@ export default function ProductList() {
                                                 type="number"
                                                 min="0"
                                                 value={quantities[product.title] || ''}
-                                                onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value), product.stock)}
+                                                onChange={(e) => handleQuantityChangeWithConfirmation(product.title, parseInt(e.target.value))}
                                                 className="w-20 h-9 text-center mx-auto bg-input"
                                                 placeholder="0"
                                                 disabled={product.stock === 0}
